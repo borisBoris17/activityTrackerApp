@@ -24,6 +24,7 @@
 		E6DB35D62AA0BD0E001575E2 /* GoalDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DB35D52AA0BD0E001575E2 /* GoalDetailView.swift */; };
 		E6DB35F32AA0DDC1001575E2 /* SeperatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DB35F22AA0DDC1001575E2 /* SeperatorView.swift */; };
 		E6DB35F52AA0ECA0001575E2 /* AddPersonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DB35F42AA0ECA0001575E2 /* AddPersonView.swift */; };
+		E6DB35F72AAD64DF001575E2 /* ActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DB35F62AAD64DF001575E2 /* ActivityView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,6 +46,7 @@
 		E6DB35D52AA0BD0E001575E2 /* GoalDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalDetailView.swift; sourceTree = "<group>"; };
 		E6DB35F22AA0DDC1001575E2 /* SeperatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeperatorView.swift; sourceTree = "<group>"; };
 		E6DB35F42AA0ECA0001575E2 /* AddPersonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPersonView.swift; sourceTree = "<group>"; };
+		E6DB35F62AAD64DF001575E2 /* ActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +112,7 @@
 				E6DB35C22A99B087001575E2 /* AddGoalView.swift */,
 				E6DB35D52AA0BD0E001575E2 /* GoalDetailView.swift */,
 				E6DB35F42AA0ECA0001575E2 /* AddPersonView.swift */,
+				E6DB35F62AAD64DF001575E2 /* ActivityView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -197,6 +200,7 @@
 				E6DB35F52AA0ECA0001575E2 /* AddPersonView.swift in Sources */,
 				E6DB35F32AA0DDC1001575E2 /* SeperatorView.swift in Sources */,
 				E6DB35C12A99A3A0001575E2 /* HomeView.swift in Sources */,
+				E6DB35F72AAD64DF001575E2 /* ActivityView.swift in Sources */,
 				E6DB35D12A9DA9C2001575E2 /* Person+CoreDataClass.swift in Sources */,
 				E66FF7B62A999DFA0048EB63 /* ContentView.swift in Sources */,
 				E6DB35CD2A9DA9C2001575E2 /* Goal+CoreDataClass.swift in Sources */,

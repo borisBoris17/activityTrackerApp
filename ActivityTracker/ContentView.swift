@@ -8,19 +8,29 @@
 import SwiftUI
 
 struct ContentView: View {
-    
+    @State private var selection = 2
     
     var body: some View {
-        TabView {
+        TabView(selection: $selection) {
             HomeView()
                 .tabItem {
                     Label("Home", systemImage: "house")
                 }
+                .tag(1)
+            
+            ActivityView()
+                .tabItem {
+                    Label("Activity", systemImage: "timer")
+                }
+                .tag(2)
+
             
             Text("Calendar")
                 .tabItem {
                     Label("Calendar", systemImage: "calendar")
                 }
+                .tag(3)
+
         }
         .onAppear {
             UITabBar.appearance().scrollEdgeAppearance = UITabBarAppearance.init(idiom: .unspecified)

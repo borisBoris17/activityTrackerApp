@@ -84,11 +84,6 @@ struct HomeView: View {
             .navigationTitle("ActivityTracker")
             .toolbar {
                 ToolbarItem {
-                    Button("Add Data") {
-                        add()
-                    }
-                }
-                ToolbarItem {
                     Menu {
                         Button {
                             showAddPerson = true
@@ -146,92 +141,6 @@ struct HomeView: View {
         try? moc.save()
     }
     
-    func add() {
-        
-        let person1 = Person(context: moc)
-        person1.id = UUID()
-        person1.name = "Tucker"
-        let person2 = Person(context: moc)
-        person2.id = UUID()
-        person2.name = "Joe"
-        let person3 = Person(context: moc)
-        person3.id = UUID()
-        person3.name = "Mia"
-        
-        let goal1 = Goal(context: moc)
-        goal1.id = UUID()
-        goal1.name = "Outside"
-        goal1.desc = "Experience the great outdoors"
-        goal1.startDate = Date()
-        goal1.duration = 1
-        goal1.target = 1000
-        goal1.progress = 30
-        goal1.person = person2
-
-        let goal2 = Goal(context: moc)
-        goal2.id = UUID()
-        goal2.name = "Outside"
-        goal2.desc = "Experience the great outdoors"
-        goal2.startDate = Date()
-        goal2.duration = 1
-        goal2.target = 1000
-        goal2.progress = 31
-        goal2.person = person3
-
-        let goal3 = Goal(context: moc)
-        goal3.id = UUID()
-        goal3.name = "Outside"
-        goal3.desc = "Experience the great outdoors"
-        goal3.startDate = Date()
-        goal3.duration = 1
-        goal3.target = 1000
-        goal3.progress = 31
-        goal3.person = person1
-
-        let goal4 = Goal(context: moc)
-        goal4.id = UUID()
-        goal4.name = "SwiftUI"
-        goal4.desc = "Learn Swift to make Apps"
-        goal4.startDate = Date()
-        goal4.duration = 1
-        goal4.target = 1000
-        goal4.progress = 100
-        goal4.person = person1
-
-        let activity1 = Activity(context: moc)
-        activity1.id = UUID()
-        activity1.name = "Play Outside"
-        activity1.desc = "Play at the park"
-        activity1.duration = 1
-//        activity1.goals = [goal1]
-        activity1.goals = [goal1, goal2, goal3]
-
-        let activity2 = Activity(context: moc)
-        activity2.id = UUID()
-        activity2.name = "Play"
-        activity2.desc = "Play in the yard"
-        activity2.duration = 1
-        activity2.goals = [goal1, goal3]
-
-        let activity3 = Activity(context: moc)
-        activity3.id = UUID()
-        activity3.name = "Play"
-        activity3.desc = "Play in the yard"
-        activity3.duration = 1
-        activity3.goals = [goal4]
-//
-//        goal1.activities = [activity1]
-        goal1.activities = [activity1, activity2]
-        goal2.activities = [activity1]
-        goal3.activities = [activity1, activity2]
-        goal4.activities = [activity3]
-        
-        do {
-            try moc.save()
-        } catch {
-            print("There was an error saving \(error.localizedDescription)")
-        }
-    }
 }
 
 struct HomeView_Previews: PreviewProvider {
