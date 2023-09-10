@@ -1,0 +1,425 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		E66FF7B42A999DFA0048EB63 /* ActivityTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66FF7B32A999DFA0048EB63 /* ActivityTrackerApp.swift */; };
+		E66FF7B62A999DFA0048EB63 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66FF7B52A999DFA0048EB63 /* ContentView.swift */; };
+		E66FF7B82A999DFB0048EB63 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E66FF7B72A999DFB0048EB63 /* Assets.xcassets */; };
+		E66FF7BB2A999DFB0048EB63 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E66FF7BA2A999DFB0048EB63 /* Preview Assets.xcassets */; };
+		E6DB35C12A99A3A0001575E2 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DB35C02A99A3A0001575E2 /* HomeView.swift */; };
+		E6DB35C32A99B087001575E2 /* AddGoalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DB35C22A99B087001575E2 /* AddGoalView.swift */; };
+		E6DB35C62A9DA25C001575E2 /* ActivityTracker.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E6DB35C42A9DA25C001575E2 /* ActivityTracker.xcdatamodeld */; };
+		E6DB35CD2A9DA9C2001575E2 /* Goal+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DB35C72A9DA9C2001575E2 /* Goal+CoreDataClass.swift */; };
+		E6DB35CE2A9DA9C2001575E2 /* Goal+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DB35C82A9DA9C2001575E2 /* Goal+CoreDataProperties.swift */; };
+		E6DB35CF2A9DA9C2001575E2 /* Activity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DB35C92A9DA9C2001575E2 /* Activity+CoreDataClass.swift */; };
+		E6DB35D02A9DA9C2001575E2 /* Activity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DB35CA2A9DA9C2001575E2 /* Activity+CoreDataProperties.swift */; };
+		E6DB35D12A9DA9C2001575E2 /* Person+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DB35CB2A9DA9C2001575E2 /* Person+CoreDataClass.swift */; };
+		E6DB35D22A9DA9C2001575E2 /* Person+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DB35CC2A9DA9C2001575E2 /* Person+CoreDataProperties.swift */; };
+		E6DB35D42A9DAD77001575E2 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DB35D32A9DAD77001575E2 /* DataController.swift */; };
+		E6DB35D62AA0BD0E001575E2 /* GoalDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DB35D52AA0BD0E001575E2 /* GoalDetailView.swift */; };
+		E6DB35F32AA0DDC1001575E2 /* SeperatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DB35F22AA0DDC1001575E2 /* SeperatorView.swift */; };
+		E6DB35F52AA0ECA0001575E2 /* AddPersonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DB35F42AA0ECA0001575E2 /* AddPersonView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		E66FF7B02A999DFA0048EB63 /* ActivityTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ActivityTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E66FF7B32A999DFA0048EB63 /* ActivityTrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityTrackerApp.swift; sourceTree = "<group>"; };
+		E66FF7B52A999DFA0048EB63 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		E66FF7B72A999DFB0048EB63 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		E66FF7BA2A999DFB0048EB63 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		E6DB35C02A99A3A0001575E2 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		E6DB35C22A99B087001575E2 /* AddGoalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddGoalView.swift; sourceTree = "<group>"; };
+		E6DB35C52A9DA25C001575E2 /* ActivityTracker.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ActivityTracker.xcdatamodel; sourceTree = "<group>"; };
+		E6DB35C72A9DA9C2001575E2 /* Goal+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Goal+CoreDataClass.swift"; sourceTree = "<group>"; };
+		E6DB35C82A9DA9C2001575E2 /* Goal+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Goal+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		E6DB35C92A9DA9C2001575E2 /* Activity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Activity+CoreDataClass.swift"; sourceTree = "<group>"; };
+		E6DB35CA2A9DA9C2001575E2 /* Activity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Activity+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		E6DB35CB2A9DA9C2001575E2 /* Person+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Person+CoreDataClass.swift"; sourceTree = "<group>"; };
+		E6DB35CC2A9DA9C2001575E2 /* Person+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Person+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		E6DB35D32A9DAD77001575E2 /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
+		E6DB35D52AA0BD0E001575E2 /* GoalDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalDetailView.swift; sourceTree = "<group>"; };
+		E6DB35F22AA0DDC1001575E2 /* SeperatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeperatorView.swift; sourceTree = "<group>"; };
+		E6DB35F42AA0ECA0001575E2 /* AddPersonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPersonView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E66FF7AD2A999DFA0048EB63 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		E66FF7A72A999DFA0048EB63 = {
+			isa = PBXGroup;
+			children = (
+				E6DB35D32A9DAD77001575E2 /* DataController.swift */,
+				E6DB35C42A9DA25C001575E2 /* ActivityTracker.xcdatamodeld */,
+				E66FF7B22A999DFA0048EB63 /* ActivityTracker */,
+				E66FF7B12A999DFA0048EB63 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		E66FF7B12A999DFA0048EB63 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E66FF7B02A999DFA0048EB63 /* ActivityTracker.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E66FF7B22A999DFA0048EB63 /* ActivityTracker */ = {
+			isa = PBXGroup;
+			children = (
+				E6DB35C72A9DA9C2001575E2 /* Goal+CoreDataClass.swift */,
+				E6DB35C82A9DA9C2001575E2 /* Goal+CoreDataProperties.swift */,
+				E6DB35C92A9DA9C2001575E2 /* Activity+CoreDataClass.swift */,
+				E6DB35CA2A9DA9C2001575E2 /* Activity+CoreDataProperties.swift */,
+				E6DB35CB2A9DA9C2001575E2 /* Person+CoreDataClass.swift */,
+				E6DB35CC2A9DA9C2001575E2 /* Person+CoreDataProperties.swift */,
+				E6DB35BF2A99A392001575E2 /* Views */,
+				E66FF7B32A999DFA0048EB63 /* ActivityTrackerApp.swift */,
+				E66FF7B52A999DFA0048EB63 /* ContentView.swift */,
+				E66FF7B72A999DFB0048EB63 /* Assets.xcassets */,
+				E66FF7B92A999DFB0048EB63 /* Preview Content */,
+			);
+			path = ActivityTracker;
+			sourceTree = "<group>";
+		};
+		E66FF7B92A999DFB0048EB63 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				E66FF7BA2A999DFB0048EB63 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		E6DB35BF2A99A392001575E2 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				E6DB35F12AA0DDAE001575E2 /* Common */,
+				E6DB35C02A99A3A0001575E2 /* HomeView.swift */,
+				E6DB35C22A99B087001575E2 /* AddGoalView.swift */,
+				E6DB35D52AA0BD0E001575E2 /* GoalDetailView.swift */,
+				E6DB35F42AA0ECA0001575E2 /* AddPersonView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		E6DB35F12AA0DDAE001575E2 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				E6DB35F22AA0DDC1001575E2 /* SeperatorView.swift */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		E66FF7AF2A999DFA0048EB63 /* ActivityTracker */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E66FF7BE2A999DFB0048EB63 /* Build configuration list for PBXNativeTarget "ActivityTracker" */;
+			buildPhases = (
+				E66FF7AC2A999DFA0048EB63 /* Sources */,
+				E66FF7AD2A999DFA0048EB63 /* Frameworks */,
+				E66FF7AE2A999DFA0048EB63 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ActivityTracker;
+			productName = ActivityTracker;
+			productReference = E66FF7B02A999DFA0048EB63 /* ActivityTracker.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E66FF7A82A999DFA0048EB63 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1430;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					E66FF7AF2A999DFA0048EB63 = {
+						CreatedOnToolsVersion = 14.3.1;
+					};
+				};
+			};
+			buildConfigurationList = E66FF7AB2A999DFA0048EB63 /* Build configuration list for PBXProject "ActivityTracker" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = E66FF7A72A999DFA0048EB63;
+			productRefGroup = E66FF7B12A999DFA0048EB63 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E66FF7AF2A999DFA0048EB63 /* ActivityTracker */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		E66FF7AE2A999DFA0048EB63 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E66FF7BB2A999DFB0048EB63 /* Preview Assets.xcassets in Resources */,
+				E66FF7B82A999DFB0048EB63 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		E66FF7AC2A999DFA0048EB63 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E6DB35CF2A9DA9C2001575E2 /* Activity+CoreDataClass.swift in Sources */,
+				E6DB35D42A9DAD77001575E2 /* DataController.swift in Sources */,
+				E6DB35F52AA0ECA0001575E2 /* AddPersonView.swift in Sources */,
+				E6DB35F32AA0DDC1001575E2 /* SeperatorView.swift in Sources */,
+				E6DB35C12A99A3A0001575E2 /* HomeView.swift in Sources */,
+				E6DB35D12A9DA9C2001575E2 /* Person+CoreDataClass.swift in Sources */,
+				E66FF7B62A999DFA0048EB63 /* ContentView.swift in Sources */,
+				E6DB35CD2A9DA9C2001575E2 /* Goal+CoreDataClass.swift in Sources */,
+				E6DB35D62AA0BD0E001575E2 /* GoalDetailView.swift in Sources */,
+				E66FF7B42A999DFA0048EB63 /* ActivityTrackerApp.swift in Sources */,
+				E6DB35C32A99B087001575E2 /* AddGoalView.swift in Sources */,
+				E6DB35CE2A9DA9C2001575E2 /* Goal+CoreDataProperties.swift in Sources */,
+				E6DB35C62A9DA25C001575E2 /* ActivityTracker.xcdatamodeld in Sources */,
+				E6DB35D02A9DA9C2001575E2 /* Activity+CoreDataProperties.swift in Sources */,
+				E6DB35D22A9DA9C2001575E2 /* Person+CoreDataProperties.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		E66FF7BC2A999DFB0048EB63 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		E66FF7BD2A999DFB0048EB63 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		E66FF7BF2A999DFB0048EB63 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"ActivityTracker/Preview Content\"";
+				DEVELOPMENT_TEAM = YB46Q2GKPA;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.tucker-dev.ActivityTracker";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		E66FF7C02A999DFB0048EB63 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"ActivityTracker/Preview Content\"";
+				DEVELOPMENT_TEAM = YB46Q2GKPA;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.tucker-dev.ActivityTracker";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		E66FF7AB2A999DFA0048EB63 /* Build configuration list for PBXProject "ActivityTracker" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E66FF7BC2A999DFB0048EB63 /* Debug */,
+				E66FF7BD2A999DFB0048EB63 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E66FF7BE2A999DFB0048EB63 /* Build configuration list for PBXNativeTarget "ActivityTracker" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E66FF7BF2A999DFB0048EB63 /* Debug */,
+				E66FF7C02A999DFB0048EB63 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		E6DB35C42A9DA25C001575E2 /* ActivityTracker.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				E6DB35C52A9DA25C001575E2 /* ActivityTracker.xcdatamodel */,
+			);
+			currentVersion = E6DB35C52A9DA25C001575E2 /* ActivityTracker.xcdatamodel */;
+			path = ActivityTracker.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = E66FF7A82A999DFA0048EB63 /* Project object */;
+}

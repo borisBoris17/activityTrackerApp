@@ -1,0 +1,66 @@
+//
+//  Activity+CoreDataProperties.swift
+//  ActivityTracker
+//
+//  Created by tucker bichsel on 28/08/2023.
+//
+//
+
+import Foundation
+import CoreData
+
+
+extension Activity {
+    
+    @nonobjc public class func fetchRequest() -> NSFetchRequest<Activity> {
+        return NSFetchRequest<Activity>(entityName: "Activity")
+    }
+    
+    @NSManaged public var id: UUID?
+    @NSManaged public var name: String?
+    @NSManaged public var desc: String?
+    @NSManaged public var duration: Int16
+    @NSManaged public var goals: NSSet?
+    
+    public var wrappedId: UUID {
+        id ?? UUID()
+    }
+    
+    public var wrappedName: String {
+        name ?? "Unknown Name"
+    }
+    
+    public var wrappedDesc: String {
+        desc ?? "Unknown Description"
+    }
+    
+    public var goalArray: [Goal] {
+        let set = goals as? Set<Goal> ?? []
+        
+        return set.sorted {
+            $0.wrappedStartDate < $1.wrappedStartDate
+        }
+    }
+
+}
+
+// MARK: Generated accessors for goals
+extension Activity {
+
+    @objc(addGoalsObject:)
+    @NSManaged public func addToGoals(_ value: Goal)
+
+    @objc(removeGoalsObject:)
+    @NSManaged public func removeFromGoals(_ value: Goal)
+
+    @objc(addGoals:)
+    @NSManaged public func addToGoals(_ values: NSSet)
+
+    @objc(removeGoals:)
+    @NSManaged public func removeFromGoals(_ values: NSSet)
+
+}
+
+extension Activity : Identifiable {
+
+}
