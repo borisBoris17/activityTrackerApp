@@ -18,9 +18,9 @@ struct ContentView: View {
                 }
                 .tag(1)
             
-            ActivityView()
+            ActivitiesView()
                 .tabItem {
-                    Label("Activity", systemImage: "timer")
+                    Label("Activities", systemImage: "timer")
                 }
                 .tag(2)
 
