@@ -31,10 +31,10 @@ struct HomeView: View {
                             }
                         } label: {
                             HStack {
-                                Image(systemName: "tree.circle")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 40, height: 40)
+//                                Image(systemName: "tree.circle")
+//                                    .resizable()
+//                                    .scaledToFit()
+//                                    .frame(width: 40, height: 40)
                                 
                                 VStack(alignment: .leading) {
                                     Text(goal.wrappedName)
@@ -58,10 +58,10 @@ struct HomeView: View {
                     
                     ForEach(activities) { activity in
                         HStack {
-                            Image(systemName: "clock")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 40, height: 40)
+//                            Image(systemName: "clock")
+//                                .resizable()
+//                                .scaledToFit()
+//                                .frame(width: 40, height: 40)
                             
                             VStack(alignment: .leading) {
                                 Text(activity.wrappedName)

@@ -44,9 +44,10 @@ struct StartActivityView: View {
                         }
                         
                         Picker("Goal", selection: $selectedGoal) {
-                            Text("None").tag(-1)
-                            ForEach(0 ..< filteredGoals().count, id: \.self) { i in
-                                Text("\(filteredGoals()[i].wrappedName)")
+                            if filteredGoals().count > 0 {
+                                ForEach(0 ..< filteredGoals().count, id: \.self) { i in
+                                    Text("\(filteredGoals()[i].wrappedName)")
+                                }
                             }
                         }
                         .disabled(selectedPerson == -1)
@@ -73,6 +74,7 @@ struct StartActivityView: View {
                         dismiss()
                     }
                     .disabled(name.isEmpty || desc.isEmpty || selectedGoal == -1)
+                    .padding()
                 }
             }
             

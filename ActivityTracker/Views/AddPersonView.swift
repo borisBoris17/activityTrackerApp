@@ -21,23 +21,22 @@ struct AddPersonView: View {
                     Section {
                         TextField("Name", text: $newName)
                     }
-                    
-                    Button {
-                        print("Add a Person")
-                        let newPerson = Person(context: moc)
-                        newPerson.id = UUID()
-                        newPerson.name = newName
-                        
-                        try? moc.save()
-                        dismiss()
-                    } label: {
-                        HStack {
-                            Text("Save Person")
-                            Image(systemName: "doc.badge.plus")
-                        }
-                    }
                 }
                 .navigationTitle("Add Person")
+                .toolbar {
+                    ToolbarItem {
+                        Button("Save") {
+                            let newPerson = Person(context: moc)
+                            newPerson.id = UUID()
+                            newPerson.name = newName
+                            
+                            try? moc.save()
+                            dismiss()
+                        }
+                        .disabled(newName.isEmpty)
+                        .padding()
+                    }
+                }
             }
         }
     }

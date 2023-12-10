@@ -87,10 +87,10 @@ struct GoalDetailView: View {
                     
                     ForEach(goal.activityArray) { activity in
                         HStack {
-                            Image(systemName: "clock")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 40, height: 40)
+//                            Image(systemName: "clock")
+//                                .resizable()
+//                                .scaledToFit()
+//                                .frame(width: 40, height: 40)
                             
                             VStack(alignment: .leading) {
                                 Text(activity.wrappedName)

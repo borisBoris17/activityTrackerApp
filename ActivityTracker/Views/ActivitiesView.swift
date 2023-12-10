@@ -72,6 +72,7 @@ struct ActivitiesView: View {
             HStack {
                 Text("Activities")
                     .font(.system(size: 50).bold())
+                    .padding(.leading)
                 
                 Spacer()
             }
@@ -126,10 +127,10 @@ struct ActivitiesView: View {
             List {
                 ForEach(activities) { activity in
                     HStack {
-                        Image(systemName: "clock")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 40, height: 40)
+//                        Image(systemName: "clock")
+//                            .resizable()
+//                            .scaledToFit()
+//                            .frame(width: 40, height: 40)
                         
                         VStack(alignment: .leading) {
                             Text(activity.wrappedName)
