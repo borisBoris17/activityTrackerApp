@@ -31,10 +31,6 @@ struct HomeView: View {
                             }
                         } label: {
                             HStack {
-//                                Image(systemName: "tree.circle")
-//                                    .resizable()
-//                                    .scaledToFit()
-//                                    .frame(width: 40, height: 40)
                                 
                                 VStack(alignment: .leading) {
                                     Text(goal.wrappedName)
@@ -42,10 +38,6 @@ struct HomeView: View {
                                         Text(person.wrappedName)
                                             .foregroundColor(.secondary)
                                     }
-//                                    if !goal.peopleArray.isEmpty { Text("\(goal.peopleArray[0].wrappedName) - \(goal.wrappedName)")
-//                                    } else {
-//                                        Text("\("unknwn person") - \(goal.wrappedName)")
-//                                    }
                                 }
                                 
                                 Spacer()
@@ -64,10 +56,6 @@ struct HomeView: View {
                     
                     ForEach(activities) { activity in
                         HStack {
-//                            Image(systemName: "clock")
-//                                .resizable()
-//                                .scaledToFit()
-//                                .frame(width: 40, height: 40)
                             
                             VStack(alignment: .leading) {
                                 Text(activity.wrappedName)
@@ -83,7 +71,6 @@ struct HomeView: View {
                                         Text(person.wrappedName)
                                             .foregroundColor(.secondary)
                                     }
-//                                    Text("\(goal.person?.wrappedName ?? "unknwn person") - \(goal.wrappedName)")
                                 }
                             }
                         }

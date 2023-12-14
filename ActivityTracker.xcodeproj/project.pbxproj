@@ -10,7 +10,6 @@
 		E61814042AB16776003B9F1F /* ButtonStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = E61814032AB16776003B9F1F /* ButtonStyles.swift */; };
 		E61814062AB16BD6003B9F1F /* StartActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E61814052AB16BD6003B9F1F /* StartActivityView.swift */; };
 		E61814082AB365BE003B9F1F /* GoalSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E61814072AB365BE003B9F1F /* GoalSelectionView.swift */; };
-		E63860C12B273A2700724BF1 /* PersonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E63860C02B273A2700724BF1 /* PersonCell.swift */; };
 		E63860C32B27EFA000724BF1 /* MultiSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = E63860C22B27EFA000724BF1 /* MultiSelector.swift */; };
 		E63860C52B27F01200724BF1 /* MultiSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E63860C42B27F01200724BF1 /* MultiSelectorView.swift */; };
 		E66FF7B42A999DFA0048EB63 /* ActivityTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66FF7B32A999DFA0048EB63 /* ActivityTrackerApp.swift */; };
@@ -39,7 +38,6 @@
 		E61814032AB16776003B9F1F /* ButtonStyles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonStyles.swift; sourceTree = "<group>"; };
 		E61814052AB16BD6003B9F1F /* StartActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartActivityView.swift; sourceTree = "<group>"; };
 		E61814072AB365BE003B9F1F /* GoalSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalSelectionView.swift; sourceTree = "<group>"; };
-		E63860C02B273A2700724BF1 /* PersonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonCell.swift; sourceTree = "<group>"; };
 		E63860C22B27EFA000724BF1 /* MultiSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiSelector.swift; sourceTree = "<group>"; };
 		E63860C42B27F01200724BF1 /* MultiSelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiSelectorView.swift; sourceTree = "<group>"; };
 		E66FF7B02A999DFA0048EB63 /* ActivityTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ActivityTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -133,7 +131,6 @@
 				E6DB35F82AB1657A001575E2 /* ActivitiesView.swift */,
 				E61814052AB16BD6003B9F1F /* StartActivityView.swift */,
 				E61814072AB365BE003B9F1F /* GoalSelectionView.swift */,
-				E63860C02B273A2700724BF1 /* PersonCell.swift */,
 				E63860C22B27EFA000724BF1 /* MultiSelector.swift */,
 				E63860C42B27F01200724BF1 /* MultiSelectorView.swift */,
 			);
@@ -230,7 +227,6 @@
 				E6DB35D42A9DAD77001575E2 /* DataController.swift in Sources */,
 				E6DB35F52AA0ECA0001575E2 /* AddPersonView.swift in Sources */,
 				E6DB35F32AA0DDC1001575E2 /* SeperatorView.swift in Sources */,
-				E63860C12B273A2700724BF1 /* PersonCell.swift in Sources */,
 				E61814082AB365BE003B9F1F /* GoalSelectionView.swift in Sources */,
 				E6DB35C12A99A3A0001575E2 /* HomeView.swift in Sources */,
 				E6DB35F72AAD64DF001575E2 /* ActivityView.swift in Sources */,

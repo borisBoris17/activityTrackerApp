@@ -23,11 +23,9 @@ struct ActivitiesView: View {
     @State private var startTime =  Date()
     @State private var pausedSeconds = 0
     @State private var totalSeconds = 0
-//    @State private var timerString = "00:00"
     
     @State private var name = ""
     @State private var desc = ""
-    @State private var selectedGoal: Goal? = nil
     @State private var selectedGoals: [Goal] = []
     
     @State private var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
@@ -63,11 +61,6 @@ struct ActivitiesView: View {
         let descBinding = Binding(
             get: { self.desc },
             set: { self.desc = $0 }
-        )
-        
-        let goalBinding = Binding(
-            get: { self.selectedGoal },
-            set: { self.selectedGoal = $0 }
         )
         
         let goalsBinding = Binding(
@@ -107,7 +100,6 @@ struct ActivitiesView: View {
                             activityStatus = .started
                             timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
                         }
-                        //                .disabled(disableTimer())
                         .buttonStyle(BlueButton())
                     }
                     
@@ -118,7 +110,6 @@ struct ActivitiesView: View {
                         newActivity.id = UUID()
                         newActivity.name = name
                         newActivity.desc = desc
-//                        newActivity.goals = [selectedGoal!]
                         newActivity.goals = NSSet(array: selectedGoals)
                         newActivity.duration = Int16(totalSeconds / (minuteLength * hourLength))
                         
@@ -135,10 +126,6 @@ struct ActivitiesView: View {
             List {
                 ForEach(activities) { activity in
                     HStack {
-//                        Image(systemName: "clock")
-//                            .resizable()
-//                            .scaledToFit()
-//                            .frame(width: 40, height: 40)
                         
                         VStack(alignment: .leading) {
                             Text(activity.wrappedName)

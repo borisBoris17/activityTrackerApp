@@ -25,12 +25,6 @@ struct ActivityView: View {
     var body: some View {
         VStack {
             
-            
-            
-            
-            
-            
-            
         }
         .padding(.top)
     }

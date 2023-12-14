@@ -56,19 +56,6 @@ struct StartActivityView: View {
                         optionToString: { $0.wrappedName },
                         selected: $selectedGoals
                     )
-                    
-//                    ForEach(selectedPeople.sorted(by: <), id: \.self) {thisPerson in
-//                        if !thisPerson.goalsArray.isEmpty {
-//                            ForEach(0 ..< thisPerson.goalsArray.count, id: \.self) { j in
-//                                HStack {
-//                                    Toggle(isOn: $isChecked) {
-//                                        Text("\(thisPerson.goalsArray[j].wrappedName)")
-//                                        Text("\(thisPerson.goalsArray[j].wrappedDesc)")
-//                                    }
-//                                }
-//                            }
-//                        }
-//                    }
                 }
             }
             .onChange(of: selectedPeople) { newValue in
