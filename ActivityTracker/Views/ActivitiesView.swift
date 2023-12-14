@@ -13,6 +13,7 @@ let hourLength = 3
 struct ActivitiesView: View {
     
     @FetchRequest(sortDescriptors: []) var activities: FetchedResults<Activity>
+    @FetchRequest(sortDescriptors: []) var people: FetchedResults<Person>
     @FetchRequest(sortDescriptors: []) var goals: FetchedResults<Goal>
     @Environment(\.managedObjectContext) var moc
     
@@ -27,6 +28,7 @@ struct ActivitiesView: View {
     @State private var name = ""
     @State private var desc = ""
     @State private var selectedGoal: Goal? = nil
+    @State private var selectedGoals: [Goal] = []
     
     @State private var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
@@ -66,6 +68,11 @@ struct ActivitiesView: View {
         let goalBinding = Binding(
             get: { self.selectedGoal },
             set: { self.selectedGoal = $0 }
+        )
+        
+        let goalsBinding = Binding(
+            get: { self.selectedGoals },
+            set: { self.selectedGoals = $0 }
         )
         
         VStack {
@@ -111,7 +118,8 @@ struct ActivitiesView: View {
                         newActivity.id = UUID()
                         newActivity.name = name
                         newActivity.desc = desc
-                        newActivity.goals = [selectedGoal!]
+//                        newActivity.goals = [selectedGoal!]
+                        newActivity.goals = NSSet(array: selectedGoals)
                         newActivity.duration = Int16(totalSeconds / (minuteLength * hourLength))
                         
                         try? moc.save()
@@ -142,7 +150,10 @@ struct ActivitiesView: View {
                         
                         VStack(alignment: .leading) {
                             ForEach(activity.goalArray) { goal in
-                                Text("\(goal.person?.wrappedName ?? "unknwn person") - \(goal.wrappedName)")
+                                if !goal.peopleArray.isEmpty { Text("\(goal.peopleArray[0].wrappedName) - \(goal.wrappedName)")
+                                } else {
+                                    Text("\("unknwn person") - \(goal.wrappedName)")
+                                }
                             }
                         }
                     }
@@ -156,7 +167,7 @@ struct ActivitiesView: View {
             timer.upstream.connect().cancel()
         }
         .sheet(isPresented: $showNewActivitySheet) {
-            StartActivityView(name: nameBinding, desc: descBinding, goal: goalBinding, timer: timerBinding, activityStatus: activityStatusBinding, startTime: startTimeBinding)
+            StartActivityView(name: nameBinding, desc: descBinding, goals: goalsBinding, timer: timerBinding, activityStatus: activityStatusBinding, startTime: startTimeBinding)
         }
     }
 }

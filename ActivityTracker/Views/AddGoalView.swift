@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import MultiPicker
 
 struct AddGoalView: View {
     @FetchRequest(sortDescriptors: []) var people: FetchedResults<Person>
@@ -17,6 +18,7 @@ struct AddGoalView: View {
     @State private var newGoalTarget = ""
     @State private var newGoalDuration = ""
     @State private var newGoalProgreess = ""
+    @State private var newGoalPeople: Set<Person> = []
     
     @Environment(\.dismiss) var dismiss
     @Environment(\.managedObjectContext) var moc
@@ -74,7 +76,7 @@ struct AddGoalView: View {
                             newGoal.target = Int16(newGoalTarget) ?? 1000
                             newGoal.startDate = newGoalStartDate
                             newGoal.progress = Int16(newGoalProgreess) ?? 0
-                            newGoal.person = people[newGoalPerson]
+                            newGoal.people = [people[newGoalPerson]]
                             newGoal.duration = Int16(newGoalDuration) ?? 1
                             
                             try? moc.save()

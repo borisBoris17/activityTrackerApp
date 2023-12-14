@@ -38,8 +38,14 @@ struct HomeView: View {
                                 
                                 VStack(alignment: .leading) {
                                     Text(goal.wrappedName)
-                                    Text(goal.person?.wrappedName ?? "unknwn person")
-                                        .foregroundColor(.secondary)
+                                    ForEach(goal.peopleArray) { person in
+                                        Text(person.wrappedName)
+                                            .foregroundColor(.secondary)
+                                    }
+//                                    if !goal.peopleArray.isEmpty { Text("\(goal.peopleArray[0].wrappedName) - \(goal.wrappedName)")
+//                                    } else {
+//                                        Text("\("unknwn person") - \(goal.wrappedName)")
+//                                    }
                                 }
                                 
                                 Spacer()
@@ -73,7 +79,11 @@ struct HomeView: View {
                             
                             VStack(alignment: .leading) {
                                 ForEach(activity.goalArray) { goal in
-                                    Text("\(goal.person?.wrappedName ?? "unknwn person") - \(goal.wrappedName)")
+                                    ForEach(goal.peopleArray) { person in
+                                        Text(person.wrappedName)
+                                            .foregroundColor(.secondary)
+                                    }
+//                                    Text("\(goal.person?.wrappedName ?? "unknwn person") - \(goal.wrappedName)")
                                 }
                             }
                         }

@@ -23,7 +23,9 @@ extension Goal {
     @NSManaged public var duration: Int16
     @NSManaged public var target: Int16
     @NSManaged public var progress: Int16
-    @NSManaged public var person: Person?
+//    @NSManaged public var person: Person?
+    @NSManaged public var people: NSSet?
+    
     @NSManaged public var activities: NSSet?
     
     public var wrappedId: UUID {
@@ -44,6 +46,14 @@ extension Goal {
     
     public var activityArray: [Activity] {
         let set = activities as? Set<Activity> ?? []
+        
+        return set.sorted {
+            $0.wrappedName < $1.wrappedName
+        }
+    }
+    
+    public var peopleArray: [Person] {
+        let set = people as? Set<Person> ?? []
         
         return set.sorted {
             $0.wrappedName < $1.wrappedName
@@ -73,6 +83,18 @@ extension Goal {
     
     @objc(removeActivities:)
     @NSManaged public func removeFromActivities(_ values: NSSet)
+    
+    @objc(addPersonObject:)
+    @NSManaged public func addToPerople(_ value: Person)
+    
+    @objc(removePersonObject:)
+    @NSManaged public func removeFromPeople(_ value: Person)
+    
+    @objc(addPeople:)
+    @NSManaged public func addToPeople(_ values: NSSet)
+    
+    @objc(removePeople:)
+    @NSManaged public func removeFromPeople(_ values: NSSet)
     
 }
 

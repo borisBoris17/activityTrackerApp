@@ -31,8 +31,6 @@ struct GoalSelectionView: View {
                 }
             }
             .disabled(selectedPerson == -1)
-            
-            
         }
     }
     
@@ -40,7 +38,7 @@ struct GoalSelectionView: View {
         guard selectedPerson != -1 else { return [] }
         
         return goals.filter { goal in
-            return goal.person == people[selectedPerson]
+            return goal.peopleArray.contains(people[selectedPerson])
         }
     }
 }

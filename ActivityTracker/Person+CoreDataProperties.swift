@@ -10,8 +10,13 @@ import Foundation
 import CoreData
 
 
-extension Person {
-
+extension Person: Comparable {
+    public static func < (lhs: Person, rhs: Person) -> Bool {
+        lhs.wrappedName < rhs.wrappedName
+    }
+    
+    public static let MAX_PEOPLE = 20
+    
     @nonobjc public class func fetchRequest() -> NSFetchRequest<Person> {
         return NSFetchRequest<Person>(entityName: "Person")
     }
@@ -22,6 +27,10 @@ extension Person {
 
     public var wrappedId: UUID {
         id ?? UUID()
+    }
+    
+    public var wrappedValue: String {
+        wrappedName
     }
     
     public var wrappedName: String {

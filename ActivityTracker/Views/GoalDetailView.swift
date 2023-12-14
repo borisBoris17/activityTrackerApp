@@ -56,8 +56,13 @@ struct GoalDetailView: View {
                 VStack {
                     HStack {
                         VStack(alignment: .leading) {
-                            Text(goal.person?.wrappedName ?? "Unknown Person")
-                                .font(.title.bold())
+                            if !goal.peopleArray.isEmpty {
+                                Text(goal.peopleArray[0].wrappedName )
+                                    .font(.title.bold())
+                            } else {
+                                Text("Unknown Person")
+                                    .font(.title.bold())
+                            }
                             Text("Starting: \(goal.formattedStartDate)")
                                 .foregroundColor(.secondary)
                             Text(goal.duration == 1 ? "Duration: \(goal.duration) Year" : "Duration: \(goal.duration) Years")
@@ -102,7 +107,10 @@ struct GoalDetailView: View {
                             
                             VStack(alignment: .leading) {
                                 ForEach(activity.goalArray) { goal in
-                                    Text("\(goal.person?.wrappedName ?? "unknwn person") - \(goal.wrappedName)")
+                                    if !goal.peopleArray.isEmpty { Text("\(goal.peopleArray[0].wrappedName) - \(goal.wrappedName)")
+                                    } else {
+                                        Text("\("unknwn person") - \(goal.wrappedName)")
+                                    }
                                 }
                             }
                         }
