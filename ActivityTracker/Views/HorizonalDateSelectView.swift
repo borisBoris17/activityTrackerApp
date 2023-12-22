@@ -12,6 +12,7 @@ struct DateComponentView: View {
     var day: Int
     var dayOfWeek: String
     var isSelectedDay: Bool
+    @Binding var selectedDay: Int
     
     var body: some View {
         VStack {
@@ -23,15 +24,19 @@ struct DateComponentView: View {
                     .frame(width: circleSize, height: circleSize)
                 Text("\(day)")
             }
+            .onTapGesture {
+                selectedDay = day
+            }
         }
     }
 }
 
 struct HorizonalDateSelectView: View {
     
+    @Binding var startingSunday: Date
     var startingSundayDay: Int
     var startingSundayMonth: Int
-    var selectedDay: Int
+    @Binding var selectedDay: Int
     
 //    var dayOfStartingSunday = Calendar.current.dateComponents([.day], from: startingSunday).day!
     
@@ -39,39 +44,39 @@ struct HorizonalDateSelectView: View {
         GeometryReader { bounds in
             VStack {
                 Text("\(Calendar.current.monthSymbols[startingSundayMonth - 1])")
+                    .offset(y: -10)
                 HStack {
                     Button {
-                        print("clicked left")
+                        startingSunday = Calendar.current.date(byAdding: .day, value: -7, to: startingSunday)!
                     } label: {
                         Image(systemName: "chevron.left")
                     }
                     
-                    DateComponentView(circleSize: bounds.size.width * 0.1, day: startingSundayDay, dayOfWeek: "S", isSelectedDay: startingSundayDay == selectedDay)
+                    DateComponentView(circleSize: bounds.size.width * 0.1, day: startingSundayDay, dayOfWeek: "S", isSelectedDay: startingSundayDay == selectedDay, selectedDay: $selectedDay)
                     
-                    DateComponentView(circleSize: bounds.size.width * 0.1, day: startingSundayDay + 1, dayOfWeek: "M", isSelectedDay: startingSundayDay + 1 == selectedDay)
+                    DateComponentView(circleSize: bounds.size.width * 0.1, day: startingSundayDay + 1, dayOfWeek: "M", isSelectedDay: startingSundayDay + 1 == selectedDay, selectedDay: $selectedDay)
                     
-                    DateComponentView(circleSize: bounds.size.width * 0.1, day: startingSundayDay + 2, dayOfWeek: "T", isSelectedDay: startingSundayDay + 2 == selectedDay)
+                    DateComponentView(circleSize: bounds.size.width * 0.1, day: startingSundayDay + 2, dayOfWeek: "T", isSelectedDay: startingSundayDay + 2 == selectedDay, selectedDay: $selectedDay)
                     
-                    DateComponentView(circleSize: bounds.size.width * 0.1, day: startingSundayDay + 3, dayOfWeek: "W", isSelectedDay: startingSundayDay + 3 == selectedDay)
+                    DateComponentView(circleSize: bounds.size.width * 0.1, day: startingSundayDay + 3, dayOfWeek: "W", isSelectedDay: startingSundayDay + 3 == selectedDay, selectedDay: $selectedDay)
                     
-                    DateComponentView(circleSize: bounds.size.width * 0.1, day: startingSundayDay + 4, dayOfWeek: "T", isSelectedDay: startingSundayDay + 4 == selectedDay)
+                    DateComponentView(circleSize: bounds.size.width * 0.1, day: startingSundayDay + 4, dayOfWeek: "T", isSelectedDay: startingSundayDay + 4 == selectedDay, selectedDay: $selectedDay)
                     
-                    DateComponentView(circleSize: bounds.size.width * 0.1, day: startingSundayDay + 5, dayOfWeek: "F", isSelectedDay: startingSundayDay + 5 == selectedDay)
+                    DateComponentView(circleSize: bounds.size.width * 0.1, day: startingSundayDay + 5, dayOfWeek: "F", isSelectedDay: startingSundayDay + 5 == selectedDay, selectedDay: $selectedDay)
                     
-                    DateComponentView(circleSize: bounds.size.width * 0.1, day: startingSundayDay + 6, dayOfWeek: "S", isSelectedDay: startingSundayDay + 6 == selectedDay)
+                    DateComponentView(circleSize: bounds.size.width * 0.1, day: startingSundayDay + 6, dayOfWeek: "S", isSelectedDay: startingSundayDay + 6 == selectedDay, selectedDay: $selectedDay)
                     
                     Button {
-                        print("clicked right")
+                        startingSunday = Calendar.current.date(byAdding: .day, value: 7, to: startingSunday)!
                     } label: {
                         Image(systemName: "chevron.right")
                     }
                 }
-                .frame(maxWidth: .infinity)
-                .padding()
-                .background(.gray)
-                .opacity(0.5)
             }
-//            .frame(maxHeight: 90)
+            .frame(maxWidth: .infinity)
+            .padding()
+            .background(.gray)
+            .opacity(0.5)
         }
     }
 }

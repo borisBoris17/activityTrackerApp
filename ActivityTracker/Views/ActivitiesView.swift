@@ -31,6 +31,9 @@ struct ActivitiesView: View {
     
     @State private var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
+    @State private var startingSunday = Calendar.current.date(byAdding: .day, value: -(Calendar.current.component(.weekday, from: Date.now) - 1), to: Date.now)!
+    @State private var selectedDay = Calendar.current.dateComponents([.day], from: Date.now).day!
+    
     func timerString() -> String {
         let seconds = String(format: "%02d", totalSeconds % minuteLength)
         let minutes = String(format: "%02d", (totalSeconds / minuteLength) % hourLength)
@@ -38,13 +41,10 @@ struct ActivitiesView: View {
         return hours == "00" ? "\(minutes):\(seconds)" : "\(hours):\(minutes):\(seconds)"
     }
     
-    func startingSunday() -> Date {
-        var startingSunday = Date.now
-        var dayOfWeek = Calendar.current.component(.weekday, from: startingSunday)
-        print(dayOfWeek)
-        startingSunday = Calendar.current.date(byAdding: .day, value: -(dayOfWeek - 1), to: startingSunday)!
-        return startingSunday
-    }
+//    func startingSunday() -> Date {
+//        var dayOfWeek = Calendar.current.component(.weekday, from: Date.now)
+//        return Calendar.current.date(byAdding: .day, value: -(dayOfWeek - 1), to: Date.now)!
+//    }
     
     var body: some View {
         let timerBinding = Binding(
@@ -75,6 +75,16 @@ struct ActivitiesView: View {
         let goalsBinding = Binding(
             get: { self.selectedGoals },
             set: { self.selectedGoals = $0 }
+        )
+        
+        let startingSundayBinding = Binding(
+            get: { self.startingSunday },
+            set: { self.startingSunday = $0 }
+        )
+        
+        let selectedDayBinding = Binding(
+            get: { self.selectedDay },
+            set: { self.selectedDay = $0 }
         )
         
         VStack {
@@ -138,7 +148,7 @@ struct ActivitiesView: View {
             
             
             VStack {
-                HorizonalDateSelectView(startingSundayDay: Calendar.current.dateComponents([.day], from: startingSunday()).day!, startingSundayMonth: Calendar.current.dateComponents([.month], from: startingSunday()).month!, selectedDay: Calendar.current.dateComponents([.day], from: Date.now).day!)
+                HorizonalDateSelectView(startingSunday: startingSundayBinding, startingSundayDay: Calendar.current.dateComponents([.day], from: startingSunday).day!, startingSundayMonth: Calendar.current.dateComponents([.month], from: startingSunday).month!, selectedDay: selectedDayBinding)
                 
                 List {
                     
