@@ -9,6 +9,8 @@
 import Foundation
 import CoreData
 
+//let minuteLength = 3.0
+//let hourLength = 3.0
 
 extension Goal {
     
@@ -22,7 +24,7 @@ extension Goal {
     @NSManaged public var startDate: Date?
     @NSManaged public var duration: Int16
     @NSManaged public var target: Int16
-    @NSManaged public var progress: Int16
+    @NSManaged public var progress: Double
 //    @NSManaged public var person: Person?
     @NSManaged public var people: NSSet?
     
@@ -64,8 +66,16 @@ extension Goal {
         startDate?.formatted(date: .abbreviated, time: .omitted) ?? "N/A"
     }
     
+    public var formattedProgress: String {
+        String(format: "%.2f", progressInHours)
+    }
+    
+    public var progressInHours: CGFloat {
+        progress / (Double(minuteLength * hourLength) )
+    }
+    
     public var percentageDone: CGFloat {
-        CGFloat(Float(progress) / Float(target))
+        CGFloat(Float(progressInHours) / Float(target))
     }
 }
 

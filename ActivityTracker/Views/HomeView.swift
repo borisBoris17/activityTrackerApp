@@ -42,7 +42,7 @@ struct HomeView: View {
                                 
                                 Spacer()
                                 
-                                Text("\(goal.progress)/\(goal.target)")
+                                Text("\(goal.formattedProgress)/\(goal.target)")
                             }
                         }
                     }
@@ -59,7 +59,7 @@ struct HomeView: View {
                             
                             VStack(alignment: .leading) {
                                 Text(activity.wrappedName)
-                                Text("\(activity.duration) hour")
+                                Text("\(activity.formattedDuration) hour")
                                     .foregroundColor(.secondary)
                             }
                             

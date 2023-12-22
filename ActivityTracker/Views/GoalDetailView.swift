@@ -44,7 +44,7 @@ struct GoalDetailView: View {
                                 .animation(animation, value: drawingStroke)
                             
                             
-                            Text("\(goal.progress) / \(goal.target)")
+                            Text("\(goal.formattedProgress) / \(goal.target)")
                                 .font(.largeTitle.bold())
                             
                         }
@@ -95,7 +95,7 @@ struct GoalDetailView: View {
                             
                             VStack(alignment: .leading) {
                                 Text(activity.wrappedName)
-                                Text("\(activity.duration) hour")
+                                Text("\(activity.formattedDuration) hour")
                                     .foregroundColor(.secondary)
                             }
                             

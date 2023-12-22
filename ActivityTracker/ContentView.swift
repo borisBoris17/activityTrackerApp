@@ -25,9 +25,9 @@ struct ContentView: View {
                 .tag(2)
 
             
-            Text("Calendar")
+            Text("Settings")
                 .tabItem {
-                    Label("Calendar", systemImage: "calendar")
+                    Label("Settings", systemImage: "gearshape")
                 }
                 .tag(3)
 

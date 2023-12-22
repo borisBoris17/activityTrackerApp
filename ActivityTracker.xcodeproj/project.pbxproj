@@ -12,6 +12,7 @@
 		E61814082AB365BE003B9F1F /* GoalSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E61814072AB365BE003B9F1F /* GoalSelectionView.swift */; };
 		E63860C32B27EFA000724BF1 /* MultiSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = E63860C22B27EFA000724BF1 /* MultiSelector.swift */; };
 		E63860C52B27F01200724BF1 /* MultiSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E63860C42B27F01200724BF1 /* MultiSelectorView.swift */; };
+		E643DE1E2B33F51800ED46DA /* HorizonalDateSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E643DE1D2B33F51800ED46DA /* HorizonalDateSelectView.swift */; };
 		E66FF7B42A999DFA0048EB63 /* ActivityTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66FF7B32A999DFA0048EB63 /* ActivityTrackerApp.swift */; };
 		E66FF7B62A999DFA0048EB63 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66FF7B52A999DFA0048EB63 /* ContentView.swift */; };
 		E66FF7B82A999DFB0048EB63 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E66FF7B72A999DFB0048EB63 /* Assets.xcassets */; };
@@ -40,6 +41,7 @@
 		E61814072AB365BE003B9F1F /* GoalSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalSelectionView.swift; sourceTree = "<group>"; };
 		E63860C22B27EFA000724BF1 /* MultiSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiSelector.swift; sourceTree = "<group>"; };
 		E63860C42B27F01200724BF1 /* MultiSelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiSelectorView.swift; sourceTree = "<group>"; };
+		E643DE1D2B33F51800ED46DA /* HorizonalDateSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizonalDateSelectView.swift; sourceTree = "<group>"; };
 		E66FF7B02A999DFA0048EB63 /* ActivityTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ActivityTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E66FF7B32A999DFA0048EB63 /* ActivityTrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityTrackerApp.swift; sourceTree = "<group>"; };
 		E66FF7B52A999DFA0048EB63 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -133,6 +135,7 @@
 				E61814072AB365BE003B9F1F /* GoalSelectionView.swift */,
 				E63860C22B27EFA000724BF1 /* MultiSelector.swift */,
 				E63860C42B27F01200724BF1 /* MultiSelectorView.swift */,
+				E643DE1D2B33F51800ED46DA /* HorizonalDateSelectView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -240,6 +243,7 @@
 				E63860C52B27F01200724BF1 /* MultiSelectorView.swift in Sources */,
 				E6DB35CE2A9DA9C2001575E2 /* Goal+CoreDataProperties.swift in Sources */,
 				E6DB35C62A9DA25C001575E2 /* ActivityTracker.xcdatamodeld in Sources */,
+				E643DE1E2B33F51800ED46DA /* HorizonalDateSelectView.swift in Sources */,
 				E63860C32B27EFA000724BF1 /* MultiSelector.swift in Sources */,
 				E6DB35D02A9DA9C2001575E2 /* Activity+CoreDataProperties.swift in Sources */,
 				E6DB35D22A9DA9C2001575E2 /* Person+CoreDataProperties.swift in Sources */,

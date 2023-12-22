@@ -34,6 +34,11 @@ extension Activity {
         desc ?? "Unknown Description"
     }
     
+    public var formattedDuration: String {
+        var durationInHours = Double(duration) / (Double(minuteLength) * Double(hourLength))
+        return String(format: "%.2f", durationInHours)
+    }
+    
     public var goalArray: [Goal] {
         let set = goals as? Set<Goal> ?? []
         

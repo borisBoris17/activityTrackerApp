@@ -8,6 +8,9 @@
 import SwiftUI
 import MultiPicker
 
+//let minuteLength: Int16 = 3
+//let hourLength: Int16 = 3
+
 struct AddGoalView: View {
     @FetchRequest(sortDescriptors: []) var people: FetchedResults<Person>
     
@@ -75,7 +78,7 @@ struct AddGoalView: View {
                             newGoal.desc = newGoalDesc
                             newGoal.target = Int16(newGoalTarget) ?? 1000
                             newGoal.startDate = newGoalStartDate
-                            newGoal.progress = Int16(newGoalProgreess) ?? 0
+                            newGoal.progress = (Double(newGoalProgreess) ?? 1) * Double(minuteLength) * Double(hourLength)
                             newGoal.people = [people[newGoalPerson]]
                             newGoal.duration = Int16(newGoalDuration) ?? 1
                             

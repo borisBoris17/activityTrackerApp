@@ -27,6 +27,7 @@ struct ActivitiesView: View {
     @State private var name = ""
     @State private var desc = ""
     @State private var selectedGoals: [Goal] = []
+    @State private var day = Date.now
     
     @State private var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
@@ -35,6 +36,14 @@ struct ActivitiesView: View {
         let minutes = String(format: "%02d", (totalSeconds / minuteLength) % hourLength)
         let hours = String(format: "%02d", totalSeconds / (minuteLength * hourLength))
         return hours == "00" ? "\(minutes):\(seconds)" : "\(hours):\(minutes):\(seconds)"
+    }
+    
+    func startingSunday() -> Date {
+        var startingSunday = Date.now
+        var dayOfWeek = Calendar.current.component(.weekday, from: startingSunday)
+        print(dayOfWeek)
+        startingSunday = Calendar.current.date(byAdding: .day, value: -(dayOfWeek - 1), to: startingSunday)!
+        return startingSunday
     }
     
     var body: some View {
@@ -111,7 +120,12 @@ struct ActivitiesView: View {
                         newActivity.name = name
                         newActivity.desc = desc
                         newActivity.goals = NSSet(array: selectedGoals)
-                        newActivity.duration = Int16(totalSeconds / (minuteLength * hourLength))
+                        newActivity.duration = Int16(totalSeconds)
+                        
+                        // Update all of the Goals. Add the duration to the progress
+                        for goal in selectedGoals {
+                            goal.progress = goal.progress + Double(totalSeconds)
+                        }
                         
                         try? moc.save()
                         
@@ -123,29 +137,35 @@ struct ActivitiesView: View {
             }
             
             
-            List {
-                ForEach(activities) { activity in
-                    HStack {
-                        
-                        VStack(alignment: .leading) {
-                            Text(activity.wrappedName)
-                            Text("\(activity.duration) hour")
-                                .foregroundColor(.secondary)
-                        }
-                        
-                        Spacer()
-                        
-                        VStack(alignment: .leading) {
-                            ForEach(activity.goalArray) { goal in
-                                if !goal.peopleArray.isEmpty { Text("\(goal.peopleArray[0].wrappedName) - \(goal.wrappedName)")
-                                } else {
-                                    Text("\("unknwn person") - \(goal.wrappedName)")
+            VStack {
+                HorizonalDateSelectView(startingSundayDay: Calendar.current.dateComponents([.day], from: startingSunday()).day!, startingSundayMonth: Calendar.current.dateComponents([.month], from: startingSunday()).month!, selectedDay: Calendar.current.dateComponents([.day], from: Date.now).day!)
+                
+                List {
+                    
+                    ForEach(activities) { activity in
+                        HStack {
+                            
+                            VStack(alignment: .leading) {
+                                Text(activity.wrappedName)
+                                Text("\(activity.formattedDuration) hour")
+                                    .foregroundColor(.secondary)
+                            }
+                            
+                            Spacer()
+                            
+                            VStack(alignment: .leading) {
+                                ForEach(activity.goalArray) { goal in
+                                    if !goal.peopleArray.isEmpty { Text("\(goal.peopleArray[0].wrappedName) - \(goal.wrappedName)")
+                                    } else {
+                                        Text("\("unknwn person") - \(goal.wrappedName)")
+                                    }
                                 }
                             }
                         }
                     }
                 }
             }
+            .padding(.top)
         }
         .onReceive(timer) { _ in
             totalSeconds = pausedSeconds + Int(Date().timeIntervalSince(startTime))
