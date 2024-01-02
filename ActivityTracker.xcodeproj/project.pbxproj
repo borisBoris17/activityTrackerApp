@@ -13,6 +13,7 @@
 		E63860C32B27EFA000724BF1 /* MultiSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = E63860C22B27EFA000724BF1 /* MultiSelector.swift */; };
 		E63860C52B27F01200724BF1 /* MultiSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E63860C42B27F01200724BF1 /* MultiSelectorView.swift */; };
 		E643DE1E2B33F51800ED46DA /* HorizonalDateSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E643DE1D2B33F51800ED46DA /* HorizonalDateSelectView.swift */; };
+		E643DE202B43D0E700ED46DA /* ActivityListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E643DE1F2B43D0E700ED46DA /* ActivityListView.swift */; };
 		E66FF7B42A999DFA0048EB63 /* ActivityTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66FF7B32A999DFA0048EB63 /* ActivityTrackerApp.swift */; };
 		E66FF7B62A999DFA0048EB63 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66FF7B52A999DFA0048EB63 /* ContentView.swift */; };
 		E66FF7B82A999DFB0048EB63 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E66FF7B72A999DFB0048EB63 /* Assets.xcassets */; };
@@ -42,6 +43,7 @@
 		E63860C22B27EFA000724BF1 /* MultiSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiSelector.swift; sourceTree = "<group>"; };
 		E63860C42B27F01200724BF1 /* MultiSelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiSelectorView.swift; sourceTree = "<group>"; };
 		E643DE1D2B33F51800ED46DA /* HorizonalDateSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizonalDateSelectView.swift; sourceTree = "<group>"; };
+		E643DE1F2B43D0E700ED46DA /* ActivityListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityListView.swift; sourceTree = "<group>"; };
 		E66FF7B02A999DFA0048EB63 /* ActivityTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ActivityTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E66FF7B32A999DFA0048EB63 /* ActivityTrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityTrackerApp.swift; sourceTree = "<group>"; };
 		E66FF7B52A999DFA0048EB63 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -136,6 +138,7 @@
 				E63860C22B27EFA000724BF1 /* MultiSelector.swift */,
 				E63860C42B27F01200724BF1 /* MultiSelectorView.swift */,
 				E643DE1D2B33F51800ED46DA /* HorizonalDateSelectView.swift */,
+				E643DE1F2B43D0E700ED46DA /* ActivityListView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -229,6 +232,7 @@
 				E6DB35CF2A9DA9C2001575E2 /* Activity+CoreDataClass.swift in Sources */,
 				E6DB35D42A9DAD77001575E2 /* DataController.swift in Sources */,
 				E6DB35F52AA0ECA0001575E2 /* AddPersonView.swift in Sources */,
+				E643DE202B43D0E700ED46DA /* ActivityListView.swift in Sources */,
 				E6DB35F32AA0DDC1001575E2 /* SeperatorView.swift in Sources */,
 				E61814082AB365BE003B9F1F /* GoalSelectionView.swift in Sources */,
 				E6DB35C12A99A3A0001575E2 /* HomeView.swift in Sources */,

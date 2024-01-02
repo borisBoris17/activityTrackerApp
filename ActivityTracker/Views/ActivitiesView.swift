@@ -12,7 +12,6 @@ let hourLength = 3
 
 struct ActivitiesView: View {
     
-    @FetchRequest(sortDescriptors: []) var activities: FetchedResults<Activity>
     @FetchRequest(sortDescriptors: []) var people: FetchedResults<Person>
     @FetchRequest(sortDescriptors: []) var goals: FetchedResults<Goal>
     @Environment(\.managedObjectContext) var moc
@@ -31,8 +30,9 @@ struct ActivitiesView: View {
     
     @State private var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
-    @State private var startingSunday = Calendar.current.date(byAdding: .day, value: -(Calendar.current.component(.weekday, from: Date.now) - 1), to: Date.now)!
-    @State private var selectedDay = Calendar.current.dateComponents([.day], from: Date.now).day!
+    @State private var startingSunday = Calendar.current.startOfDay(for: Calendar.current.date(byAdding: .day, value: -(Calendar.current.component(.weekday, from: Date.now) - 1), to: Date.now)!)
+    
+    @State private var selectedDay = Calendar.current.startOfDay(for: Date.now)
     
     func timerString() -> String {
         let seconds = String(format: "%02d", totalSeconds % minuteLength)
@@ -40,11 +40,6 @@ struct ActivitiesView: View {
         let hours = String(format: "%02d", totalSeconds / (minuteLength * hourLength))
         return hours == "00" ? "\(minutes):\(seconds)" : "\(hours):\(minutes):\(seconds)"
     }
-    
-//    func startingSunday() -> Date {
-//        var dayOfWeek = Calendar.current.component(.weekday, from: Date.now)
-//        return Calendar.current.date(byAdding: .day, value: -(dayOfWeek - 1), to: Date.now)!
-//    }
     
     var body: some View {
         let timerBinding = Binding(
@@ -131,6 +126,7 @@ struct ActivitiesView: View {
                         newActivity.desc = desc
                         newActivity.goals = NSSet(array: selectedGoals)
                         newActivity.duration = Int16(totalSeconds)
+                        newActivity.startDate = Calendar.current.startOfDay(for: Date.now)
                         
                         // Update all of the Goals. Add the duration to the progress
                         for goal in selectedGoals {
@@ -150,30 +146,7 @@ struct ActivitiesView: View {
             VStack {
                 HorizonalDateSelectView(startingSunday: startingSundayBinding, startingSundayDay: Calendar.current.dateComponents([.day], from: startingSunday).day!, startingSundayMonth: Calendar.current.dateComponents([.month], from: startingSunday).month!, selectedDay: selectedDayBinding)
                 
-                List {
-                    
-                    ForEach(activities) { activity in
-                        HStack {
-                            
-                            VStack(alignment: .leading) {
-                                Text(activity.wrappedName)
-                                Text("\(activity.formattedDuration) hour")
-                                    .foregroundColor(.secondary)
-                            }
-                            
-                            Spacer()
-                            
-                            VStack(alignment: .leading) {
-                                ForEach(activity.goalArray) { goal in
-                                    if !goal.peopleArray.isEmpty { Text("\(goal.peopleArray[0].wrappedName) - \(goal.wrappedName)")
-                                    } else {
-                                        Text("\("unknwn person") - \(goal.wrappedName)")
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
+                ActivityListView(selectedDay: selectedDay)
             }
             .padding(.top)
         }

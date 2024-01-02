@@ -21,6 +21,7 @@ extension Activity {
     @NSManaged public var desc: String?
     @NSManaged public var duration: Int16
     @NSManaged public var goals: NSSet?
+    @NSManaged public var startDate: Date?
     
     public var wrappedId: UUID {
         id ?? UUID()
@@ -45,6 +46,10 @@ extension Activity {
         return set.sorted {
             $0.wrappedStartDate < $1.wrappedStartDate
         }
+    }
+    
+    public var wrappedStartDate: Date {
+        startDate ?? Date.now
     }
 
 }
