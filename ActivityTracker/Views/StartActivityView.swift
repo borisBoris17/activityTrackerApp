@@ -59,7 +59,6 @@ struct StartActivityView: View {
                 }
             }
             .onChange(of: selectedPeople) { newValue in
-                print("onChange")
                 goalsArray = allGoals.filter { goal in
                     var goalHasPerson = false
                     for person in selectedPeople {
@@ -89,7 +88,6 @@ struct StartActivityView: View {
                 }
             }
             .onAppear() {
-                print("onAppear")
                 peopleArray = Array(people)
             }
         }

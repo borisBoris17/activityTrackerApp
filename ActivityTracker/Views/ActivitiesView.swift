@@ -138,6 +138,9 @@ struct ActivitiesView: View {
                         pausedSeconds = 0
                         totalSeconds = 0
                         activityStatus = .ready
+                        name = ""
+                        desc = ""
+                        timer.upstream.connect().cancel()
                     }
                 }
             }
@@ -154,7 +157,11 @@ struct ActivitiesView: View {
             totalSeconds = pausedSeconds + Int(Date().timeIntervalSince(startTime))
         }
         .onAppear {
-            timer.upstream.connect().cancel()
+            if activityStatus == .started {
+                timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+            } else {
+                timer.upstream.connect().cancel()
+            }
         }
         .sheet(isPresented: $showNewActivitySheet) {
             StartActivityView(name: nameBinding, desc: descBinding, goals: goalsBinding, timer: timerBinding, activityStatus: activityStatusBinding, startTime: startTimeBinding)
