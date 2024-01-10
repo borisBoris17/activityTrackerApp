@@ -13,31 +13,64 @@ enum ActivityStatus {
 
 struct ActivityView: View {
     
-    @State private var name = ""
-    @State private var desc = ""
-    @State private var selectedPerson = -1
-    @State private var selectedGoal = -1
-    @State private var numberOfGoals = 1
-    
-
-    
+    let activity: Activity
     
     var body: some View {
-        VStack {
+        Form {
+            HStack(alignment: .top) {
+                Text("Name")
+                Spacer()
+                Text(activity.wrappedName)
+                    .foregroundColor(.secondary)
+                    .multilineTextAlignment(.trailing)
+            }
             
+            HStack(alignment: .top) {
+                Text("Description")
+                Spacer()
+                Text(activity.wrappedDesc)
+                    .foregroundColor(.secondary)
+                    .multilineTextAlignment(.trailing)
+            }
+            
+            HStack(alignment: .top) {
+                Text("Goals")
+                Spacer()
+                VStack(alignment: .trailing) {
+                    ForEach(activity.goalArray) { goal in
+                        ForEach(goal.peopleArray) { person in
+                            Text("\(person.wrappedName) - \(goal.wrappedName)" )
+                                .foregroundColor(.secondary)
+                        }
+                    }
+                }
+            }
+            
+            HStack(alignment: .top) {
+                Text("Duration")
+                Spacer()
+                Text(activity.formattedDuration + " Hours")
+                    .foregroundColor(.secondary)
+                    .multilineTextAlignment(.trailing)
+            }
+            
+            HStack(alignment: .top) {
+                Text("Date")
+                Spacer()
+                Text(activity.wrappedStartDate.formatted(.dateTime.day().month().year()))
+                    .foregroundColor(.secondary)
+                    .multilineTextAlignment(.trailing)
+            }
         }
         .padding(.top)
+//        .navigationBarTitle(activity.wrappedName, displayMode: .inline)
+        .navigationBarTitle("Activity Detail", displayMode: .inline)
     }
-    
-    func disableTimer() -> Bool {
-        name == "" || desc == "" || selectedPerson == -1
-    }
-    
     
 }
 
-struct ActivityView_Previews: PreviewProvider {
-    static var previews: some View {
-        ActivityView()
-    }
-}
+//struct ActivityView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ActivityView(activity: Activity)
+//    }
+//}

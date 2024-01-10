@@ -67,7 +67,7 @@ struct AddGoalView: View {
                     }
                 }
                 .navigationBarItems(leading: Button("Cancel") { dismiss() })
-                .navigationTitle("Add Goal")
+                .navigationBarTitle("Add Goal", displayMode: .inline)
                 .toolbar {
                     ToolbarItemGroup {
                         

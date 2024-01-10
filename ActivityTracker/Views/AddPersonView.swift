@@ -22,7 +22,7 @@ struct AddPersonView: View {
                         TextField("Name", text: $newName)
                     }
                 }
-                .navigationTitle("Add Person")
+                .navigationBarTitle("Add Person", displayMode: .inline)
                 .toolbar {
                     ToolbarItem {
                         Button("Save") {

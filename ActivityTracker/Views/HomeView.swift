@@ -26,7 +26,7 @@ struct HomeView: View {
                     
                     ForEach(goals) { goal in
                         NavigationLink {
-                            ScrollView {
+                            VStack {
                                 GoalDetailView(goal: goal)
                             }
                         } label: {
@@ -55,21 +55,27 @@ struct HomeView: View {
                     }
                     
                     ForEach(activities) { activity in
-                        HStack {
-                            
-                            VStack(alignment: .leading) {
-                                Text(activity.wrappedName)
-                                Text("\(activity.formattedDuration) hour")
-                                    .foregroundColor(.secondary)
+                        NavigationLink {
+                            VStack {
+                                ActivityView(activity: activity)
                             }
-                            
-                            Spacer()
-                            
-                            VStack(alignment: .leading) {
-                                ForEach(activity.goalArray) { goal in
-                                    ForEach(goal.peopleArray) { person in
-                                        Text(person.wrappedName)
-                                            .foregroundColor(.secondary)
+                        } label: {
+                            HStack {
+                                
+                                VStack(alignment: .leading) {
+                                    Text(activity.wrappedName)
+                                    Text("\(activity.formattedDuration) hour")
+                                        .foregroundColor(.secondary)
+                                }
+                                
+                                Spacer()
+                                
+                                VStack(alignment: .leading) {
+                                    ForEach(activity.goalArray) { goal in
+                                        ForEach(goal.peopleArray) { person in
+                                            Text(person.wrappedName)
+                                                .foregroundColor(.secondary)
+                                        }
                                     }
                                 }
                             }

@@ -50,7 +50,9 @@ struct HorizonalDateSelectView: View {
                     .offset(y: -10)
                 HStack {
                     Button {
-                        startingSunday = Calendar.current.date(byAdding: .day, value: -7, to: startingSunday)!
+                        withAnimation {
+                            startingSunday = Calendar.current.date(byAdding: .day, value: -7, to: startingSunday)!
+                        }
                     } label: {
                         Image(systemName: "chevron.left")
                     }
