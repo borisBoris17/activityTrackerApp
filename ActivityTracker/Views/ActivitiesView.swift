@@ -10,6 +10,10 @@ import SwiftUI
 let minuteLength = 3
 let hourLength = 3
 
+enum ActivityStatus {
+    case ready, started, paused, stoped
+}
+
 struct ActivitiesView: View {
     
     @FetchRequest(sortDescriptors: []) var people: FetchedResults<Person>

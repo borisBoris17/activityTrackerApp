@@ -122,6 +122,12 @@ struct HomeView: View {
         for offset in offsets {
             // find this book in our fetch request
             let goal = goals[offset]
+            
+            for activity in activities {
+                if activity.goalArray.count == 1 && activity.goalArray.contains(goal) {
+                    moc.delete(activity)
+                }
+            }
 
             // delete it from the context
             moc.delete(goal)
@@ -135,6 +141,9 @@ struct HomeView: View {
         for offset in offsets {
             // find this book in our fetch request
             let activity = activities[offset]
+            for goal in activity.goalArray {
+                goal.progress = goal.progress - Double(activity.duration)
+            }
 
             // delete it from the context
             moc.delete(activity)
