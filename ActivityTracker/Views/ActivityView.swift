@@ -83,15 +83,12 @@ struct ActivityView: View {
                     .padding()
                 } else {
                     Button("Save") {
-                        print("updatedDuration", updatedDuration, Double(updatedDuration) ?? 0.0)
-                        print("lengths", Double(minuteLength), Double(hourLength))
                         let newSeconds = (Double(updatedDuration) ?? 0.0) * Double(minuteLength) * Double(hourLength)
-                        print("new Seconds: ", newSeconds)
                         for goal in activity.goalArray {
-                            goal.progress = goal.progress - Double(activity.duration) + newSeconds
+                            goal.progress = goal.progress - Double(activity.duration) + newSeconds.rounded(.up)
                         }
                         
-                        activity.duration = Int16(newSeconds)
+                        activity.duration = Int16(newSeconds.rounded(.up))
                         try? moc.save()
                         mode = "view"
                         dismiss()
