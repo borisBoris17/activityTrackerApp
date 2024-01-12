@@ -7,13 +7,14 @@
 
 import SwiftUI
 
-enum ActivityStatus {
-    case ready, started, paused, stoped
-}
-
 struct ActivityView: View {
     
     let activity: Activity
+    @Environment(\.managedObjectContext) var moc
+    @Environment(\.dismiss) var dismiss
+    
+    @State var mode = "view"
+    @State var updatedDuration = ""
     
     var body: some View {
         Form {
@@ -47,11 +48,19 @@ struct ActivityView: View {
             }
             
             HStack(alignment: .top) {
-                Text("Duration")
-                Spacer()
-                Text(activity.formattedDuration + " Hours")
-                    .foregroundColor(.secondary)
-                    .multilineTextAlignment(.trailing)
+                
+                if mode == "view" {
+                    Text("Duration")
+                    Spacer()
+                    Text(activity.formattedDuration + " Hours")
+                        .foregroundColor(.secondary)
+                        .multilineTextAlignment(.trailing)
+                } else {
+                    Text("Duration")
+                    Spacer()
+                    TextField("Duration", text: $updatedDuration)
+                        .multilineTextAlignment(.trailing)
+                }
             }
             
             HStack(alignment: .top) {
@@ -63,8 +72,35 @@ struct ActivityView: View {
             }
         }
         .padding(.top)
-//        .navigationBarTitle(activity.wrappedName, displayMode: .inline)
         .navigationBarTitle("Activity Detail", displayMode: .inline)
+        .toolbar {
+            ToolbarItemGroup {
+                if mode == "view" {
+                    Button("Edit") {
+                        updatedDuration = activity.formattedDuration
+                        mode = "edit"
+                    }
+                    .padding()
+                } else {
+                    Button("Save") {
+                        print("updatedDuration", updatedDuration, Double(updatedDuration) ?? 0.0)
+                        print("lengths", Double(minuteLength), Double(hourLength))
+                        let newSeconds = (Double(updatedDuration) ?? 0.0) * Double(minuteLength) * Double(hourLength)
+                        print("new Seconds: ", newSeconds)
+                        for goal in activity.goalArray {
+                            goal.progress = goal.progress - Double(activity.duration) + newSeconds
+                        }
+                        
+                        activity.duration = Int16(newSeconds)
+                        try? moc.save()
+                        mode = "view"
+                        dismiss()
+                    }
+                    .disabled(updatedDuration.isEmpty)
+                    .padding()
+                }
+            }
+        }
     }
     
 }
