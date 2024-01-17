@@ -15,86 +15,123 @@ struct ActivityView: View {
     
     @State var mode = "view"
     @State var updatedDuration = ""
+    @State var updatedName = ""
+    @State var updatedDescription = ""
     
     var body: some View {
-        Form {
-            HStack(alignment: .top) {
-                Text("Name")
-                Spacer()
-                Text(activity.wrappedName)
-                    .foregroundColor(.secondary)
-                    .multilineTextAlignment(.trailing)
-            }
-            
-            HStack(alignment: .top) {
-                Text("Description")
-                Spacer()
-                Text(activity.wrappedDesc)
-                    .foregroundColor(.secondary)
-                    .multilineTextAlignment(.trailing)
-            }
-            
-            HStack(alignment: .top) {
-                Text("Goals")
-                Spacer()
-                VStack(alignment: .trailing) {
-                    ForEach(activity.goalArray) { goal in
-                        ForEach(goal.peopleArray) { person in
-                            Text("\(person.wrappedName) - \(goal.wrappedName)" )
-                                .foregroundColor(.secondary)
+        
+        GeometryReader { geometry in
+            Form {
+                HStack(alignment: .top) {
+                    if mode == "view" {
+                        Text("Name")
+                            .frame(width: geometry.size.width * 0.3, alignment: .leading)
+                        Spacer()
+                        Text(activity.wrappedName)
+                            .foregroundColor(.secondary)
+                            .multilineTextAlignment(.trailing)
+                    } else {
+                        Text("Name")
+                            .frame(width: geometry.size.width * 0.3, alignment: .leading)
+                        Spacer()
+                        TextField("Name", text: $updatedName)
+                            .multilineTextAlignment(.trailing)
+                            .padding(.trailing)
+                            .background(Color.secondary)
+                    }
+                }
+                
+                HStack(alignment: .top) {
+                    if mode == "view" {
+                        Text("Description")
+                            .frame(width: geometry.size.width * 0.3, alignment: .leading)
+                        Spacer()
+                        Text(activity.wrappedDesc)
+                            .foregroundColor(.secondary)
+                            .multilineTextAlignment(.trailing)
+                    } else {
+                        Text("Description")
+                            .frame(width: geometry.size.width * 0.3, alignment: .leading)
+                        Spacer()
+                        TextField("Description", text: $updatedDescription)
+                            .multilineTextAlignment(.trailing)
+                            .padding(.trailing)
+                            .background(Color.secondary)
+                    }
+                }
+                
+                HStack(alignment: .top) {
+                    Text("Goals")
+                        .frame(width: geometry.size.width * 0.3, alignment: .leading)
+                    Spacer()
+                    VStack(alignment: .trailing) {
+                        ForEach(activity.goalArray) { goal in
+                            ForEach(goal.peopleArray) { person in
+                                Text("\(person.wrappedName) - \(goal.wrappedName)" )
+                                    .foregroundColor(.secondary)
+                            }
                         }
                     }
                 }
-            }
-            
-            HStack(alignment: .top) {
                 
-                if mode == "view" {
-                    Text("Duration")
+                HStack(alignment: .top) {
+                    
+                    if mode == "view" {
+                        Text("Duration")
+                            .frame(width: geometry.size.width * 0.3, alignment: .leading)
+                        Spacer()
+                        Text(activity.formattedDuration + " Hours")
+                            .foregroundColor(.secondary)
+                            .multilineTextAlignment(.trailing)
+                    } else {
+                        Text("Duration")
+                            .frame(width: geometry.size.width * 0.3, alignment: .leading)
+                        Spacer()
+                        TextField("Duration", text: $updatedDuration)
+                            .multilineTextAlignment(.trailing)
+                            .padding(.trailing)
+                            .background(Color.secondary)
+                    }
+                }
+                
+                HStack(alignment: .top) {
+                    Text("Date")
+                        .frame(width: geometry.size.width * 0.3, alignment: .leading)
                     Spacer()
-                    Text(activity.formattedDuration + " Hours")
+                    Text(activity.wrappedStartDate.formatted(.dateTime.day().month().year()))
                         .foregroundColor(.secondary)
                         .multilineTextAlignment(.trailing)
-                } else {
-                    Text("Duration")
-                    Spacer()
-                    TextField("Duration", text: $updatedDuration)
-                        .multilineTextAlignment(.trailing)
                 }
             }
-            
-            HStack(alignment: .top) {
-                Text("Date")
-                Spacer()
-                Text(activity.wrappedStartDate.formatted(.dateTime.day().month().year()))
-                    .foregroundColor(.secondary)
-                    .multilineTextAlignment(.trailing)
-            }
-        }
-        .padding(.top)
-        .navigationBarTitle("Activity Detail", displayMode: .inline)
-        .toolbar {
-            ToolbarItemGroup {
-                if mode == "view" {
-                    Button("Edit") {
-                        updatedDuration = activity.formattedDuration
-                        mode = "edit"
-                    }
-                    .padding()
-                } else {
-                    Button("Save") {
-                        let newSeconds = (Double(updatedDuration) ?? 0.0) * Double(minuteLength) * Double(hourLength)
-                        for goal in activity.goalArray {
-                            goal.progress = goal.progress - Double(activity.duration) + newSeconds.rounded(.up)
+            .padding(.top)
+            .navigationBarTitle("Activity Detail", displayMode: .inline)
+            .toolbar {
+                ToolbarItemGroup {
+                    if mode == "view" {
+                        Button("Edit") {
+                            updatedDuration = activity.formattedDuration
+                            updatedName = activity.wrappedName
+                            updatedDescription = activity.wrappedDesc
+                            mode = "edit"
                         }
-                        
-                        activity.duration = Int16(newSeconds.rounded(.up))
-                        try? moc.save()
-                        mode = "view"
-                        dismiss()
+                        .padding()
+                    } else {
+                        Button("Save") {
+                            let newSeconds = (Double(updatedDuration) ?? 0.0) * Double(minuteLength) * Double(hourLength)
+                            for goal in activity.goalArray {
+                                goal.progress = goal.progress - Double(activity.duration) + newSeconds.rounded(.up)
+                            }
+                            
+                            activity.duration = Int16(newSeconds.rounded(.up))
+                            activity.name = updatedName
+                            activity.desc = updatedDescription
+                            try? moc.save()
+                            mode = "view"
+                            //                        dismiss()
+                        }
+                        .disabled(updatedDuration.isEmpty)
+                        .padding()
                     }
-                    .disabled(updatedDuration.isEmpty)
-                    .padding()
                 }
             }
         }
