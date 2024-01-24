@@ -23,6 +23,9 @@ struct ActivitiesView: View {
     @State private var showNewActivitySheet = false
     @State private var activityStatus = ActivityStatus.ready
     
+    @State private var showCompleteActivityScreen = false
+    @State private var activityToSave = Activity()
+    
     @State private var startTime =  Date()
     @State private var pausedSeconds = 0
     @State private var totalSeconds = 0
@@ -122,29 +125,7 @@ struct ActivitiesView: View {
                     }
                     
                     Button("Save") {
-                        // save the Activity
-                        // create an Activity object then save the object
-                        let newActivity = Activity(context: moc)
-                        newActivity.id = UUID()
-                        newActivity.name = name
-                        newActivity.desc = desc
-                        newActivity.goals = NSSet(array: selectedGoals)
-                        newActivity.duration = Int16(totalSeconds)
-                        newActivity.startDate = Calendar.current.startOfDay(for: Date.now)
-                        
-                        // Update all of the Goals. Add the duration to the progress
-                        for goal in selectedGoals {
-                            goal.progress = goal.progress + Double(totalSeconds)
-                        }
-                        
-                        try? moc.save()
-                        
-                        pausedSeconds = 0
-                        totalSeconds = 0
-                        activityStatus = .ready
-                        name = ""
-                        desc = ""
-                        timer.upstream.connect().cancel()
+                        showCompleteActivityScreen = true
                     }
                 }
             }
@@ -169,6 +150,33 @@ struct ActivitiesView: View {
         }
         .sheet(isPresented: $showNewActivitySheet) {
             StartActivityView(name: nameBinding, desc: descBinding, goals: goalsBinding, timer: timerBinding, activityStatus: activityStatusBinding, startTime: startTimeBinding)
+        }
+        .sheet(isPresented: $showCompleteActivityScreen) {
+            SaveActivityView(name: nameBinding, desc: descBinding, saveActivity: {
+                let newActivity = Activity(context: moc)
+                newActivity.id = UUID()
+                newActivity.name = name
+                newActivity.desc = desc
+                newActivity.goals = NSSet(array: selectedGoals)
+                newActivity.duration = Int16(totalSeconds)
+                newActivity.startDate = Calendar.current.startOfDay(for: Date.now)
+                
+                activityToSave = newActivity
+                
+                // Update all of the Goals. Add the duration to the progress
+                for goal in selectedGoals {
+                    goal.progress = goal.progress + Double(totalSeconds)
+                }
+                
+                try? moc.save()
+                
+                pausedSeconds = 0
+                totalSeconds = 0
+                activityStatus = .ready
+                name = ""
+                desc = ""
+                timer.upstream.connect().cancel()
+            })
         }
     }
 }

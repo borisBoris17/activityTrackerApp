@@ -45,6 +45,10 @@ struct HorizonalDateSelectView: View {
     }
     
     var body: some View {
+        ZStack {                
+            RoundedRectangle(cornerRadius: 16)
+                .opacity(0.5)
+            
             VStack {
                 Text("\(Calendar.current.monthSymbols[startingSundayMonth - 1])")
                     .offset(y: -10)
@@ -80,9 +84,9 @@ struct HorizonalDateSelectView: View {
                 }
             }
             .padding()
-            .background(.gray)
-            .opacity(0.5)
         }
+        .fixedSize(horizontal: false, vertical: true)
+    }
 }
 
 //#Preview {
