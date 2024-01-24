@@ -36,7 +36,6 @@ struct ActivityView: View {
                         Spacer()
                         TextField("Name", text: $updatedName)
                             .multilineTextAlignment(.trailing)
-                            .padding(.trailing)
                             .background(Color.secondary)
                     }
                 }
@@ -53,9 +52,11 @@ struct ActivityView: View {
                         Text("Description")
                             .frame(width: geometry.size.width * 0.3, alignment: .leading)
                         Spacer()
-                        TextField("Description", text: $updatedDescription)
+                        TextEditor( text: $updatedDescription)
+                            .frame(minHeight: 150,
+                                   maxHeight: .infinity,
+                                   alignment: .center )
                             .multilineTextAlignment(.trailing)
-                            .padding(.trailing)
                             .background(Color.secondary)
                     }
                 }
@@ -89,7 +90,6 @@ struct ActivityView: View {
                         Spacer()
                         TextField("Duration", text: $updatedDuration)
                             .multilineTextAlignment(.trailing)
-                            .padding(.trailing)
                             .background(Color.secondary)
                     }
                 }
@@ -112,7 +112,9 @@ struct ActivityView: View {
                             updatedDuration = activity.formattedDuration
                             updatedName = activity.wrappedName
                             updatedDescription = activity.wrappedDesc
-                            mode = "edit"
+                            withAnimation {
+                                mode = "edit"
+                            }
                         }
                         .padding()
                     } else {
@@ -126,7 +128,9 @@ struct ActivityView: View {
                             activity.name = updatedName
                             activity.desc = updatedDescription
                             try? moc.save()
-                            mode = "view"
+                            withAnimation {
+                                mode = "view"
+                            }
                             //                        dismiss()
                         }
                         .disabled(updatedDuration.isEmpty)
