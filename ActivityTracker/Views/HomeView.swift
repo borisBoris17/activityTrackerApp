@@ -12,7 +12,7 @@ struct HomeView: View {
     @Environment(\.managedObjectContext) var moc
  
     @FetchRequest(sortDescriptors: []) var goals: FetchedResults<Goal>
-    @FetchRequest(sortDescriptors: []) var activities: FetchedResults<Activity>
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Activity.startDate, ascending: false)]) var activities: FetchedResults<Activity>
     @State private var showAddGoal = false
     @State private var showAddPerson = false
     

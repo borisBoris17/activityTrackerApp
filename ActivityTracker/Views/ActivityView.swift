@@ -17,6 +17,8 @@ struct ActivityView: View {
     @State var updatedDuration = ""
     @State var updatedName = ""
     @State var updatedDescription = ""
+    @State var hours = 0
+    @State var minutes = 0
     
     var body: some View {
         
@@ -88,9 +90,39 @@ struct ActivityView: View {
                         Text("Duration")
                             .frame(width: geometry.size.width * 0.3, alignment: .leading)
                         Spacer()
-                        TextField("Duration", text: $updatedDuration)
-                            .multilineTextAlignment(.trailing)
-                            .background(Color.secondary)
+                        Picker("Hours", selection: $hours) {
+                            ForEach(0..<25) {
+                                Text("\($0)")
+                            }
+                        }
+                        .pickerStyle(.wheel)
+                        .frame(maxHeight: 150)
+                        .clipped()
+                        
+                        VStack {
+                            Spacer()
+                            Text("Hrs")
+                            Spacer()
+                        }
+                        .frame(maxHeight: 150)
+                        .clipped()
+                        
+                        Picker("Minutes", selection: $minutes) {
+                            ForEach(0..<60) {
+                                Text("\($0)")
+                            }
+                        }
+                        .pickerStyle(.wheel)
+                        .frame(maxHeight: 150)
+                        .clipped()
+                        
+                        VStack {
+                            Spacer()
+                            Text("Min")
+                            Spacer()
+                        }
+                        .frame(maxHeight: 150)
+                        .clipped()
                     }
                 }
                 
@@ -112,6 +144,16 @@ struct ActivityView: View {
                             updatedDuration = activity.formattedDuration
                             updatedName = activity.wrappedName
                             updatedDescription = activity.wrappedDesc
+                            let durationSegments = activity.formattedDuration.components(separatedBy: ".")
+                            hours = Int(durationSegments[0]) ?? 0
+                            let decimalMinutes = Double(durationSegments[1]) ?? 0
+                            let calculatedMinutes = Int(ceil((decimalMinutes / 100) * Double(minuteLength)))
+                            if calculatedMinutes < hourLength {
+                                minutes = calculatedMinutes
+                            } else {
+                                minutes = 0
+                            }
+                            
                             withAnimation {
                                 mode = "edit"
                             }
@@ -119,7 +161,9 @@ struct ActivityView: View {
                         .padding()
                     } else {
                         Button("Save") {
-                            let newSeconds = (Double(updatedDuration) ?? 0.0) * Double(minuteLength) * Double(hourLength)
+                            let newSecondsFromHour = hours * minuteLength * hourLength
+                            let newSecondsFromMinutes = minutes * hourLength
+                            let newSeconds = Double(newSecondsFromHour + newSecondsFromMinutes)
                             for goal in activity.goalArray {
                                 goal.progress = goal.progress - Double(activity.duration) + newSeconds.rounded(.up)
                             }

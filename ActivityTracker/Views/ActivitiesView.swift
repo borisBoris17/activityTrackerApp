@@ -152,7 +152,7 @@ struct ActivitiesView: View {
             StartActivityView(name: nameBinding, desc: descBinding, goals: goalsBinding, timer: timerBinding, activityStatus: activityStatusBinding, startTime: startTimeBinding)
         }
         .sheet(isPresented: $showCompleteActivityScreen) {
-            SaveActivityView(name: nameBinding, desc: descBinding, saveActivity: {
+            SaveActivityView(name: nameBinding, desc: descBinding, timer: timerBinding, saveActivity: {
                 let newActivity = Activity(context: moc)
                 newActivity.id = UUID()
                 newActivity.name = name

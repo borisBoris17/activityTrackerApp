@@ -6,10 +6,12 @@
 //
 
 import SwiftUI
+import Combine
 
 struct SaveActivityView: View {
     @Binding var name: String
     @Binding var desc: String
+    @Binding var timer: Publishers.Autoconnect<Timer.TimerPublisher>
     var saveActivity: () -> Void
     @Environment(\.dismiss) var dismiss
     
@@ -49,6 +51,8 @@ struct SaveActivityView: View {
                     .disabled(name.isEmpty)
                     .padding()
                 }
+            }.onAppear {
+                timer.upstream.connect().cancel()
             }
         }
     }
