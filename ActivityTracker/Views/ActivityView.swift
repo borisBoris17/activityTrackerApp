@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import PhotosUI
 
 struct ActivityView: View {
     
@@ -19,6 +20,19 @@ struct ActivityView: View {
     @State var updatedDescription = ""
     @State var hours = 0
     @State var minutes = 0
+    
+    @State private var activityPhotoItem: PhotosPickerItem?
+    @State private var activityImage: Image?
+    
+    @Environment(\.displayScale) var displayScale
+    
+    
+    
+    func getDocumentsDirectory() -> URL {
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        let documentsDirectory = paths[0]
+        return documentsDirectory
+    }
     
     var body: some View {
         
@@ -60,6 +74,20 @@ struct ActivityView: View {
                                    alignment: .center )
                             .multilineTextAlignment(.trailing)
                             .background(Color.secondary)
+                    }
+                }
+                
+                HStack {
+                    if mode == "view" {
+                        Spacer()
+                        activityImage?
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: geometry.size.width * 0.15, height: geometry.size.width * 0.15)
+                    } else {
+                        if #available(iOS 17.0, *) {
+                            ImagePickerView(photoItem: $activityPhotoItem, image: $activityImage, imageSize: geometry.size.width * 0.15)
+                        }
                     }
                 }
                 
@@ -171,16 +199,34 @@ struct ActivityView: View {
                             activity.duration = Int16(newSeconds.rounded(.up))
                             activity.name = updatedName
                             activity.desc = updatedDescription
+                            
+                            let renderer = ImageRenderer(content: activityImage)
+                            //                            renderer.scale = displayScale
+                            print("before save image")
+                            if let uiImage = renderer.uiImage {
+                                print("uiImage", uiImage)
+                                if let data = uiImage.pngData() {
+                                    print("data", data)
+                                    let filename = getDocumentsDirectory().appendingPathComponent("\(activity.wrappedId).png")
+                                    print(filename)
+                                    try? data.write(to: filename)
+                                }
+                            }
+                            
                             try? moc.save()
                             withAnimation {
                                 mode = "view"
                             }
-                            //                        dismiss()
                         }
                         .disabled(updatedDuration.isEmpty)
                         .padding()
                     }
                 }
+            }
+            .onAppear {
+                let imagePath = getDocumentsDirectory().appendingPathComponent("\(activity.wrappedId).png")
+                activityImage = Image(uiImage: UIImage(contentsOfFile: imagePath.path())
+                      ?? UIImage(systemName: "photo")!)
             }
         }
     }
