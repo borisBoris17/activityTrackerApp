@@ -22,11 +22,10 @@ struct ActivityView: View {
     @State var minutes = 0
     
     @State private var activityPhotoItem: PhotosPickerItem?
+    @State private var activityImageData: Data?
     @State private var activityImage: Image?
     
     @Environment(\.displayScale) var displayScale
-    
-    
     
     func getDocumentsDirectory() -> URL {
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
@@ -86,7 +85,13 @@ struct ActivityView: View {
                             .frame(width: geometry.size.width * 0.15, height: geometry.size.width * 0.15)
                     } else {
                         if #available(iOS 17.0, *) {
-                            ImagePickerView(photoItem: $activityPhotoItem, image: $activityImage, imageSize: geometry.size.width * 0.15)
+                            ImagePickerView(photoItem: $activityPhotoItem, selectedImageData: $activityImageData, imageSize: geometry.size.width * 0.15)
+                                .onChange(of: activityImageData) {
+                                    if let activityImageData,
+                                       let uiImage = UIImage(data: activityImageData) {
+                                        activityImage = Image(uiImage: uiImage)
+                                    }
+                                }
                         }
                     }
                 }
@@ -201,14 +206,9 @@ struct ActivityView: View {
                             activity.desc = updatedDescription
                             
                             let renderer = ImageRenderer(content: activityImage)
-                            //                            renderer.scale = displayScale
-                            print("before save image")
                             if let uiImage = renderer.uiImage {
-                                print("uiImage", uiImage)
                                 if let data = uiImage.pngData() {
-                                    print("data", data)
                                     let filename = getDocumentsDirectory().appendingPathComponent("\(activity.wrappedId).png")
-                                    print(filename)
                                     try? data.write(to: filename)
                                 }
                             }
@@ -225,8 +225,13 @@ struct ActivityView: View {
             }
             .onAppear {
                 let imagePath = getDocumentsDirectory().appendingPathComponent("\(activity.wrappedId).png")
-                activityImage = Image(uiImage: UIImage(contentsOfFile: imagePath.path())
-                      ?? UIImage(systemName: "photo")!)
+                do {
+                    let foundActivityImageData = try Data(contentsOf: imagePath)
+                    let uiImage = UIImage(data: foundActivityImageData)
+                    activityImage = Image(uiImage: uiImage ?? UIImage(systemName: "photo")!)
+                } catch {
+                    print("Error reading file: \(error)")
+                }
             }
         }
     }

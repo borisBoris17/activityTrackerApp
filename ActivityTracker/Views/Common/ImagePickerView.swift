@@ -11,7 +11,7 @@ import PhotosUI
 @available(iOS 17.0, *)
 struct ImagePickerView: View {
     @Binding var photoItem: PhotosPickerItem?
-    @Binding var image: Image?
+    @Binding var selectedImageData: Data?
     
     var imageSize: CGFloat
     
@@ -19,15 +19,18 @@ struct ImagePickerView: View {
         HStack {
             PhotosPicker("Select Image", selection: $photoItem, matching: .images)
             Spacer()
-            image?
-                .resizable()
-                .scaledToFit()
-                .frame(width: imageSize, height: imageSize)
+            if let selectedImageData,
+               let uiImage = UIImage(data: selectedImageData) {
+                Image(uiImage: uiImage)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: imageSize, height: imageSize)
+            }
         }
         .onChange(of: photoItem) {
             Task {
-                if let loaded = try? await photoItem?.loadTransferable(type: Image.self) {
-                    image = loaded
+                if let loaded = try? await photoItem?.loadTransferable(type: Data.self) {
+                    selectedImageData = loaded
                 } else {
                     print("Failed")
                 }
