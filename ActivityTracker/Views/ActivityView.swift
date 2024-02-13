@@ -27,12 +27,6 @@ struct ActivityView: View {
     
     @Environment(\.displayScale) var displayScale
     
-    func getDocumentsDirectory() -> URL {
-        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-        let documentsDirectory = paths[0]
-        return documentsDirectory
-    }
-    
     var body: some View {
         
         GeometryReader { geometry in
@@ -78,11 +72,20 @@ struct ActivityView: View {
                 
                 HStack {
                     if mode == "view" {
-                        Spacer()
-                        activityImage?
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: geometry.size.width * 0.15, height: geometry.size.width * 0.15)
+                        NavigationLink {
+                            VStack {
+                                activityImage?
+                                    .resizable()
+                                    .scaledToFit()
+                            }
+                        } label: {
+                            HStack {
+                                activityImage?
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: geometry.size.width * 0.15, height: geometry.size.width * 0.15)
+                            }
+                        }
                     } else {
                         if #available(iOS 17.0, *) {
                             ImagePickerView(photoItem: $activityPhotoItem, selectedImageData: $activityImageData, imageSize: geometry.size.width * 0.15)
@@ -208,7 +211,7 @@ struct ActivityView: View {
                             let renderer = ImageRenderer(content: activityImage)
                             if let uiImage = renderer.uiImage {
                                 if let data = uiImage.pngData() {
-                                    let filename = getDocumentsDirectory().appendingPathComponent("\(activity.wrappedId).png")
+                                    let filename = FileManager.getDocumentsDirectory().appendingPathComponent("\(activity.wrappedId).png")
                                     try? data.write(to: filename)
                                 }
                             }
@@ -224,7 +227,7 @@ struct ActivityView: View {
                 }
             }
             .onAppear {
-                let imagePath = getDocumentsDirectory().appendingPathComponent("\(activity.wrappedId).png")
+                let imagePath = FileManager.getDocumentsDirectory().appendingPathComponent("\(activity.wrappedId).png")
                 do {
                     let foundActivityImageData = try Data(contentsOf: imagePath)
                     let uiImage = UIImage(data: foundActivityImageData)

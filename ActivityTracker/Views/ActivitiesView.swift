@@ -152,7 +152,7 @@ struct ActivitiesView: View {
             StartActivityView(name: nameBinding, desc: descBinding, goals: goalsBinding, timer: timerBinding, activityStatus: activityStatusBinding, startTime: startTimeBinding)
         }
         .sheet(isPresented: $showCompleteActivityScreen) {
-            SaveActivityView(name: nameBinding, desc: descBinding, timer: timerBinding, saveActivity: {
+            SaveActivityView(name: nameBinding, desc: descBinding, timer: timerBinding, saveActivity: { activityImage in
                 let newActivity = Activity(context: moc)
                 newActivity.id = UUID()
                 newActivity.name = name
@@ -162,6 +162,16 @@ struct ActivitiesView: View {
                 newActivity.startDate = Calendar.current.startOfDay(for: Date.now)
                 
                 activityToSave = newActivity
+                
+                if activityImage != nil {
+                    let renderer = ImageRenderer(content: activityImage)
+                    if let uiImage = renderer.uiImage {
+                        if let data = uiImage.pngData() {
+                            let filename = FileManager.getDocumentsDirectory().appendingPathComponent("\(newActivity.id!).png")
+                            try? data.write(to: filename)
+                        }
+                    }
+                }
                 
                 // Update all of the Goals. Add the duration to the progress
                 for goal in selectedGoals {
