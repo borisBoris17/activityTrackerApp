@@ -71,7 +71,6 @@ struct StartActivityView: View {
                     }
                     return goalHasPerson
                 }
-                print("Goals array: \(goalsArray)")
             }
             .navigationTitle("Start New Activity")
             .toolbar {

@@ -25,9 +25,9 @@ struct ContentView: View {
                 .tag(2)
 
             
-            Text("Settings")
+            PeopleView()
                 .tabItem {
-                    Label("Settings", systemImage: "gearshape")
+                    Label("People", systemImage: "person.3")
                 }
                 .tag(3)
 
