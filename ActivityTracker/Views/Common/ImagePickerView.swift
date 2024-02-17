@@ -27,7 +27,7 @@ struct ImagePickerView: View {
                     .frame(width: imageSize, height: imageSize)
             }
         }
-        .onChange(of: photoItem) {
+        .onChange(of: photoItem) { 
             Task {
                 if let loaded = try? await photoItem?.loadTransferable(type: Data.self) {
                     selectedImageData = loaded

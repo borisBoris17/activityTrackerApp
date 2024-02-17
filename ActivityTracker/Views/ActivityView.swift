@@ -211,7 +211,7 @@ struct ActivityView: View {
                             let renderer = ImageRenderer(content: activityImage)
                             if let uiImage = renderer.uiImage {
                                 if let data = uiImage.pngData() {
-                                    let filename = FileManager.getDocumentsDirectory().appendingPathComponent("\(activity.wrappedId).png")
+                                    let filename = FileManager.getDocumentsDirectory().appendingPathExtension("/activityImages").appendingPathComponent("\(activity.wrappedId).png")
                                     try? data.write(to: filename)
                                 }
                             }
@@ -227,7 +227,7 @@ struct ActivityView: View {
                 }
             }
             .onAppear {
-                let imagePath = FileManager.getDocumentsDirectory().appendingPathComponent("\(activity.wrappedId).png")
+                let imagePath = FileManager.getDocumentsDirectory().appendingPathExtension("/activityImages").appendingPathComponent("\(activity.wrappedId).png")
                 do {
                     let foundActivityImageData = try Data(contentsOf: imagePath)
                     let uiImage = UIImage(data: foundActivityImageData)

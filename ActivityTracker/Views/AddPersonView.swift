@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import _PhotosUI_SwiftUI
 
 struct AddPersonView: View {
     @State private var newName = ""
@@ -13,28 +14,60 @@ struct AddPersonView: View {
     @Environment(\.managedObjectContext) var moc
     @Environment(\.dismiss) var dismiss
     
+    @State private var personPhotoItem: PhotosPickerItem?
+    @State private var personImageData: Data?
+    @State private var personImage: Image?
+    
     
     var body: some View {
-        VStack {
-            NavigationView {
-                Form {
-                    Section {
-                        TextField("Name", text: $newName)
-                    }
-                }
-                .navigationBarTitle("Add Person", displayMode: .inline)
-                .toolbar {
-                    ToolbarItem {
-                        Button("Save") {
-                            let newPerson = Person(context: moc)
-                            newPerson.id = UUID()
-                            newPerson.name = newName
-                            
-                            try? moc.save()
-                            dismiss()
+        GeometryReader { geometry in
+            VStack {
+                NavigationView {
+                    Form {
+                        Section {
+                            TextField("Name", text: $newName)
+                            if #available(iOS 17.0, *) {
+                                ImagePickerView(photoItem: $personPhotoItem, selectedImageData: $personImageData, imageSize: geometry.size.width * 0.15)
+                                    .onChange(of: personImageData) {
+                                        if let personImageData,
+                                           let uiImage = UIImage(data: personImageData) {
+                                            personImage = Image(uiImage: uiImage)
+                                        }
+                                    }
+                            }
                         }
-                        .disabled(newName.isEmpty)
-                        .padding()
+                    }
+                    .navigationBarTitle("Add Person", displayMode: .inline)
+                    .toolbar {
+                        ToolbarItem {
+                            Button("Save") {
+                                let newPerson = Person(context: moc)
+                                newPerson.id = UUID()
+                                newPerson.name = newName
+                                
+                                if personImage != nil {
+                                    print("has personImage")
+                                    let renderer = ImageRenderer(content: personImage)
+                                    if let uiImage = renderer.uiImage {
+                                        print("has uiImage")
+                                        if let data = uiImage.pngData() {
+                                            let filename = FileManager.getDocumentsDirectory().appendingPathExtension("/personImages").appendingPathComponent("\(newPerson.id!).png")
+                                            print("\(filename)")
+                                            do {
+                                                try data.write(to: filename)
+                                            } catch {
+                                                print("Error writting file: \(error)")
+                                            }
+                                        }
+                                    }
+                                }
+                                
+                                try? moc.save()
+                                dismiss()
+                            }
+                            .disabled(newName.isEmpty)
+                            .padding()
+                        }
                     }
                 }
             }

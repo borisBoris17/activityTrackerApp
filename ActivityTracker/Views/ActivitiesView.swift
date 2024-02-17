@@ -167,7 +167,7 @@ struct ActivitiesView: View {
                     let renderer = ImageRenderer(content: activityImage)
                     if let uiImage = renderer.uiImage {
                         if let data = uiImage.pngData() {
-                            let filename = FileManager.getDocumentsDirectory().appendingPathComponent("\(newActivity.id!).png")
+                            let filename = FileManager.getDocumentsDirectory().appendingPathExtension("/activityImages").appendingPathComponent("\(newActivity.id!).png")
                             try? data.write(to: filename)
                         }
                     }
