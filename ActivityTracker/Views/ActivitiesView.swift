@@ -23,6 +23,8 @@ struct ActivitiesView: View {
     @State private var showNewActivitySheet = false
     @State private var activityStatus = ActivityStatus.ready
     
+    @State private var showAll = false
+    
     @State private var showCompleteActivityScreen = false
     @State private var activityToSave = Activity()
     
@@ -89,104 +91,128 @@ struct ActivitiesView: View {
             set: { self.selectedDay = $0 }
         )
         
-        VStack {
-            HStack {
-                Text("Activities")
-                    .font(.system(size: 50).bold())
-                    .padding(.leading)
-                
-                Spacer()
-            }
-            
-            if activityStatus == .ready {
-                Button("Start New Activity") {
-                    showNewActivitySheet = true
-                }
-                .buttonStyle(BlueButton())
-            } else {
-                VStack {
-                    Text("\(timerString())")
-                        .font(.system(size: 80).bold())
-                    
-                    if activityStatus == .started {
-                        Button("Pause") {
-                            pausedSeconds = totalSeconds
-                            timer.upstream.connect().cancel()
-                            activityStatus = .paused
-                        }
-                        .buttonStyle(BlueButton())
-                    } else if activityStatus == .paused {
-                        Button("Resume") {
-                            startTime = Date()
-                            activityStatus = .started
-                            timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
-                        }
-                        .buttonStyle(BlueButton())
-                    }
-                    
-                    Button("Save") {
-                        showCompleteActivityScreen = true
-                    }
-                }
-            }
-            
-            
+        ZStack {
             VStack {
-                HorizonalDateSelectView(startingSunday: startingSundayBinding, startingSundayDay: Calendar.current.dateComponents([.day], from: startingSunday).day!, startingSundayMonth: Calendar.current.dateComponents([.month], from: startingSunday).month!, selectedDay: selectedDayBinding)
                 
-                ActivityListView(selectedDay: selectedDay)
-            }
-            .padding(.top)
-        }
-        .onReceive(timer) { _ in
-            totalSeconds = pausedSeconds + Int(Date().timeIntervalSince(startTime))
-        }
-        .onAppear {
-            if activityStatus == .started {
-                timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
-            } else {
-                timer.upstream.connect().cancel()
-            }
-        }
-        .sheet(isPresented: $showNewActivitySheet) {
-            StartActivityView(name: nameBinding, desc: descBinding, goals: goalsBinding, timer: timerBinding, activityStatus: activityStatusBinding, startTime: startTimeBinding)
-        }
-        .sheet(isPresented: $showCompleteActivityScreen) {
-            SaveActivityView(name: nameBinding, desc: descBinding, timer: timerBinding, saveActivity: { activityImage in
-                let newActivity = Activity(context: moc)
-                newActivity.id = UUID()
-                newActivity.name = name
-                newActivity.desc = desc
-                newActivity.goals = NSSet(array: selectedGoals)
-                newActivity.duration = Int16(totalSeconds)
-                newActivity.startDate = Calendar.current.startOfDay(for: Date.now)
-                
-                activityToSave = newActivity
-                
-                if activityImage != nil {
-                    let renderer = ImageRenderer(content: activityImage)
-                    if let uiImage = renderer.uiImage {
-                        if let data = uiImage.pngData() {
-                            let filename = FileManager.getDocumentsDirectory().appendingPathExtension("/activityImages").appendingPathComponent("\(newActivity.id!).png")
-                            try? data.write(to: filename)
+                if activityStatus != .ready {
+                    VStack {
+                        Text("\(timerString())")
+                            .font(.system(size: 80).bold())
+                        
+                        HStack {
+                            if activityStatus == .started {
+                                Button() {
+                                    pausedSeconds = totalSeconds
+                                    timer.upstream.connect().cancel()
+                                    activityStatus = .paused
+                                } label: {
+                                    Label("Pause Timer", systemImage: "pause")
+                                }
+                                .buttonStyle(BlueButton())
+                            } else if activityStatus == .paused {
+                                Button() {
+                                    startTime = Date()
+                                    activityStatus = .started
+                                    timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+                                } label: {
+                                    Label("Resume Timer", systemImage: "play")
+                                }
+                                .buttonStyle(BlueButton())
+                            }
+                            
+                            Button() {
+                                showCompleteActivityScreen = true
+                            } label: {
+                                Label("Save Activity", systemImage: "stop")
+                            }
+                            .buttonStyle(BlueButton())
                         }
                     }
                 }
                 
-                // Update all of the Goals. Add the duration to the progress
-                for goal in selectedGoals {
-                    goal.progress = goal.progress + Double(totalSeconds)
+                
+                VStack {
+                    HorizonalDateSelectView(startingSunday: startingSundayBinding, startingSundayDay: Calendar.current.dateComponents([.day], from: startingSunday).day!, startingSundayMonth: Calendar.current.dateComponents([.month], from: startingSunday).month!, selectedDay: selectedDayBinding)
+                    
+                    ActivityListView(selectedDay: selectedDay, showAll: showAll)
                 }
-                
-                try? moc.save()
-                
-                pausedSeconds = 0
-                totalSeconds = 0
-                activityStatus = .ready
-                name = ""
-                desc = ""
-                timer.upstream.connect().cancel()
-            })
+                .padding(.top)
+            }
+            .onReceive(timer) { _ in
+                totalSeconds = pausedSeconds + Int(Date().timeIntervalSince(startTime))
+            }
+            .onAppear {
+                if activityStatus == .started {
+                    timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+                } else {
+                    timer.upstream.connect().cancel()
+                }
+            }
+            .sheet(isPresented: $showNewActivitySheet) {
+                StartActivityView(name: nameBinding, desc: descBinding, goals: goalsBinding, timer: timerBinding, activityStatus: activityStatusBinding, startTime: startTimeBinding)
+            }
+            .sheet(isPresented: $showCompleteActivityScreen) {
+                SaveActivityView(name: nameBinding, desc: descBinding, timer: timerBinding, saveActivity: { activityImage in
+                    let newActivity = Activity(context: moc)
+                    newActivity.id = UUID()
+                    newActivity.name = name
+                    newActivity.desc = desc
+                    newActivity.goals = NSSet(array: selectedGoals)
+                    newActivity.duration = Int16(totalSeconds)
+                    newActivity.startDate = Calendar.current.startOfDay(for: Date.now)
+                    
+                    activityToSave = newActivity
+                    
+                    if activityImage != nil {
+                        let renderer = ImageRenderer(content: activityImage)
+                        if let uiImage = renderer.uiImage {
+                            if let data = uiImage.pngData() {
+                                let filename = FileManager.getDocumentsDirectory().appendingPathExtension("/activityImages").appendingPathComponent("\(newActivity.id!).png")
+                                try? data.write(to: filename)
+                            }
+                        }
+                    }
+                    
+                    // Update all of the Goals. Add the duration to the progress
+                    for goal in selectedGoals {
+                        goal.progress = goal.progress + Double(totalSeconds)
+                    }
+                    
+                    try? moc.save()
+                    
+                    pausedSeconds = 0
+                    totalSeconds = 0
+                    activityStatus = .ready
+                    name = ""
+                    desc = ""
+                    timer.upstream.connect().cancel()
+                })
+            }
+            if activityStatus == .ready {
+                VStack {
+                    Spacer()
+                    
+                    HStack {
+                        Spacer()
+                        
+                        Button() {
+                            showNewActivitySheet = true
+                        } label : {
+                            Label("Add New Activity", systemImage: "plus")
+                        }
+                        .buttonStyle(BlueButton())
+                    }
+                }
+            }
+        }
+        .navigationTitle("Activities")
+        .toolbar {
+            ToolbarItem {
+                Button(showAll ? "By Date" : "Show All") {
+                    showAll.toggle()
+                }
+                .padding()
+            }
         }
     }
 }

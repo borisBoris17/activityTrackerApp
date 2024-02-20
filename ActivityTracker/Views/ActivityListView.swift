@@ -8,12 +8,19 @@
 import SwiftUI
 
 struct ActivityListView: View {
+    @Environment(\.managedObjectContext) var moc
     var selectedDay: Date
+    var showAll: Bool
     @FetchRequest var activities: FetchedResults<Activity>
     
-    init(selectedDay: Date) {
-        _activities = FetchRequest<Activity>(sortDescriptors: [], predicate: NSPredicate(format: "%K > %@ && %K < %@", "startDate", Calendar.current.date(byAdding: .day, value: -1, to: selectedDay)! as NSDate, "startDate", Calendar.current.date(byAdding: .day, value: 1, to: selectedDay)! as NSDate))
+    init(selectedDay: Date, showAll: Bool) {
+        if showAll {
+            _activities = FetchRequest<Activity>(sortDescriptors: [NSSortDescriptor(keyPath: \Activity.startDate, ascending: false)])
+        } else {
+            _activities = FetchRequest<Activity>(sortDescriptors: [NSSortDescriptor(keyPath: \Activity.startDate, ascending: false)], predicate: NSPredicate(format: "%K > %@ && %K < %@", "startDate", Calendar.current.date(byAdding: .day, value: -1, to: selectedDay)! as NSDate, "startDate", Calendar.current.date(byAdding: .day, value: 1, to: selectedDay)! as NSDate))
+        }
         self.selectedDay = selectedDay
+        self.showAll = showAll
     }
     
     func formattedDate(from: Date) -> String {
@@ -26,37 +33,64 @@ struct ActivityListView: View {
         return dateFormatter.string(from: from)
     }
     
+    func deleteActivities(at offsets: IndexSet) {
+        for offset in offsets {
+            // find this book in our fetch request
+            let activity = activities[offset]
+            for goal in activity.goalArray {
+                goal.progress = goal.progress - Double(activity.duration)
+            }
+
+            // delete it from the context
+            moc.delete(activity)
+        }
+
+        // save the context
+        try? moc.save()
+    }
+    
     var body: some View {
         List {
             Section {
                 ForEach(activities) { activity in
-                    HStack {
-                        
-                        VStack(alignment: .leading) {
-                            Text(activity.wrappedName)
-                            Text("\(activity.formattedDuration) hour")
-                                .foregroundColor(.secondary)
+                    NavigationLink {
+                        VStack {
+                            ActivityView(activity: activity)
                         }
-                        
-                        Spacer()
-                        
-                        VStack(alignment: .leading) {
-                            ForEach(activity.goalArray) { goal in
-                                if !goal.peopleArray.isEmpty { Text("\(goal.peopleArray[0].wrappedName) - \(goal.wrappedName)")
-                                } else {
-                                    Text("\("unknwn person") - \(goal.wrappedName)")
+                    } label: {
+                        HStack {
+                            
+                            VStack(alignment: .leading) {
+                                Text(activity.wrappedName)
+                                Text("\(activity.formattedDuration) hour")
+                                    .foregroundColor(.secondary)
+                            }
+                            
+                            Spacer()
+                            
+                            VStack(alignment: .leading) {
+                                ForEach(activity.goalArray) { goal in
+                                    if !goal.peopleArray.isEmpty { Text("\(goal.peopleArray[0].wrappedName) - \(goal.wrappedName)")
+                                    } else {
+                                        Text("\("unknwn person") - \(goal.wrappedName)")
+                                    }
                                 }
                             }
                         }
                     }
                 }
+                .onDelete(perform: deleteActivities)
             } header: {
-                Text("\(formattedDate(from:selectedDay))")
+                if showAll {
+                    Text("All Activities")
+                } else {
+                    Text("\(formattedDate(from:selectedDay))")
+                }
             }
         }
     }
 }
 
 #Preview {
-    ActivityListView(selectedDay: Date.now)
+    ActivityListView(selectedDay: Date.now, showAll: false)
 }

@@ -14,16 +14,17 @@ struct ContentView: View {
         TabView(selection: $selection) {
             HomeView()
                 .tabItem {
-                    Label("Home", systemImage: "house")
+                    Label("Goals", systemImage: "list.clipboard")
                 }
                 .tag(1)
             
-            ActivitiesView()
-                .tabItem {
-                    Label("Activities", systemImage: "timer")
-                }
-                .tag(2)
-
+            NavigationView {
+                ActivitiesView()
+            }
+            .tabItem {
+                Label("Activities", systemImage: "timer")
+            }
+            .tag(2)
             
             PeopleView()
                 .tabItem {

@@ -52,86 +52,69 @@ struct PersonDetailView: View {
             }
             .padding(.horizontal)
             
-            HStack {
-                                    if let personImage {
-                                        personImage
-                                            .resizable()
-                                            .scaledToFit()
-                                            .frame(width: geometry.size.width * 0.4)
-                                            .overlay(alignment: .bottomTrailing) {
-                                                PhotosPicker(selection: $personPhotoItem,
-                                                             matching: .images,
-                                                             photoLibrary: .shared()) {
-                                                    if mode == "edit" {
-                                                        Image(systemName: "pencil.circle.fill")
-                                                            .symbolRenderingMode(.multicolor)
-                                                            .font(.system(size: 30))
-                                                            .foregroundColor(.accentColor)
-                                                    }
-                                                }
-                                                             .buttonStyle(.borderless)
-                                            }
-                                            .padding(.leading)
-                                    } else {
-                                        Image(systemName: "person.crop.rectangle.badge.plus")
-                                            .resizable()
-                                            .scaledToFit()
-                                            .frame(width: geometry.size.width * 0.4)
-                                            .overlay(alignment: .bottomTrailing) {
-                                                PhotosPicker(selection: $personPhotoItem,
-                                                             matching: .images,
-                                                             photoLibrary: .shared()) {
-                                                    if mode == "edit" {
-                                                        Image(systemName: "pencil.circle.fill")
-                                                            .symbolRenderingMode(.multicolor)
-                                                            .font(.system(size: 30))
-                                                            .foregroundColor(.accentColor)
-                                                    }
-                                                }
-                                                             .buttonStyle(.borderless)
-                                            }
-                                            .padding(.leading)
+
+            
+            List {
+                HStack(alignment: .top) {
+                    Text("Image")
+                    Spacer()
+                    if let personImage {
+                        personImage
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: geometry.size.width * 0.4)
+                            .overlay(alignment: .bottomTrailing) {
+                                PhotosPicker(selection: $personPhotoItem,
+                                             matching: .images,
+                                             photoLibrary: .shared()) {
+                                    if mode == "edit" {
+                                        Image(systemName: "pencil.circle.fill")
+                                            .symbolRenderingMode(.multicolor)
+                                            .font(.system(size: 30))
+                                            .foregroundColor(.accentColor)
                                     }
-                
-//                personImage?
-//                    .resizable()
-//                    .scaledToFit()
-//                    .frame(width: geometry.size.width * 0.4)
-//                    .overlay(alignment: .bottomTrailing) {
-//                        PhotosPicker(selection: $personPhotoItem,
-//                                     matching: .images,
-//                                     photoLibrary: .shared()) {
-//                            if mode == "edit" {
-//                                Image(systemName: "pencil.circle.fill")
-//                                    .symbolRenderingMode(.multicolor)
-//                                    .font(.system(size: 30))
-//                                    .foregroundColor(.accentColor)
-//                            }
-//                        }
-//                                     .buttonStyle(.borderless)
-//                    }
-//                    .padding(.leading)
-                
-                Spacer()
-            }
-            .onChange(of: personPhotoItem) { newPhoto in
-                Task {
-                    if let loaded = try? await newPhoto?.loadTransferable(type: Data.self) {
-                        personImageData = loaded
+                                }
+                                             .buttonStyle(.borderless)
+                            }
+                            .padding(.leading)
                     } else {
-                        print("Failed")
+                        Image(systemName: "person.crop.rectangle.badge.plus")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: geometry.size.width * 0.4)
+                            .overlay(alignment: .bottomTrailing) {
+                                PhotosPicker(selection: $personPhotoItem,
+                                             matching: .images,
+                                             photoLibrary: .shared()) {
+                                    if mode == "edit" {
+                                        Image(systemName: "pencil.circle.fill")
+                                            .symbolRenderingMode(.multicolor)
+                                            .font(.system(size: 30))
+                                            .foregroundColor(.accentColor)
+                                    }
+                                }
+                                             .buttonStyle(.borderless)
+                            }
+                            .padding(.leading)
+                    }
+                }
+                .onChange(of: personPhotoItem) { newPhoto in
+                    Task {
+                        if let loaded = try? await newPhoto?.loadTransferable(type: Data.self) {
+                            personImageData = loaded
+                        } else {
+                            print("Failed")
+                        }
+                    }
+                    
+                }
+                .onChange(of: personImageData) { newData in
+                    if let newData,
+                       let uiImage = UIImage(data: newData) {
+                        personImage = Image(uiImage: uiImage)
                     }
                 }
                 
-            }
-            .onChange(of: personImageData) { newData in
-                if let newData,
-                   let uiImage = UIImage(data: newData) {
-                    personImage = Image(uiImage: uiImage)
-                }
-            }
-            
-            List {
                 Section() {
                     HStack(alignment: .top) {
                         Text("Name")
