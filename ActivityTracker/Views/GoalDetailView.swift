@@ -92,31 +92,42 @@ struct GoalDetailView: View {
                             }
                             Spacer()
                         }
+                        .padding(.bottom)
                         
-                        ForEach(goal.activityArray) { activity in
-                            HStack {
-                                
-                                VStack(alignment: .leading) {
-                                    Text(activity.wrappedName)
-                                    Text("\(activity.formattedDuration) hour")
-                                        .foregroundColor(.secondary)
-                                }
-                                
-                                Spacer()
-                                
-                                VStack(alignment: .leading) {
-                                    ForEach(activity.goalArray) { goal in
-                                        if !goal.peopleArray.isEmpty { Text("\(goal.peopleArray[0].wrappedName) - \(goal.wrappedName)")
-                                        } else {
-                                            Text("\("unknwn person") - \(goal.wrappedName)")
-                                        }
+                        ForEach(goal.descendingActivityArray) { activity in
+                            NavigationLink {
+                                ActivityView(activity: activity)
+                            } label: {
+                                VStack {
+                                    HStack {
+                                        ActivityListItemView(activity: activity)
+//                                        VStack(alignment: .leading) {
+//                                            Text(activity.wrappedName)
+//                                                .foregroundColor(.primary)
+//                                            Text("\(activity.formattedDuration) hour")
+//                                                .foregroundColor(.secondary)
+//                                        }
+//                                        
+//                                        Spacer()
+//                                        
+//                                        VStack(alignment: .leading) {
+//                                            ForEach(activity.goalArray) { goal in
+//                                                if !goal.peopleArray.isEmpty { Text("\(goal.peopleArray[0].wrappedName) - \(goal.wrappedName)")
+//                                                        .foregroundColor(.primary)
+//                                                } else {
+//                                                    Text("\("unknwn person") - \(goal.wrappedName)")
+//                                                        .foregroundColor(.primary)
+//                                                }
+//                                            }
+//                                        }
+                                        
+                                        Text(">")
+                                            .foregroundColor(.secondary)
                                     }
+                                    SeperatorView(height: 2, color: .secondary)
                                 }
                             }
                             
-                            if (goal.activityArray.firstIndex(of: activity) != goal.activityArray.count - 1) {
-                                SeperatorView(height: 2, color: .secondary)
-                            }
                         }
                     }
                     .padding()

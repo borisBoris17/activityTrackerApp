@@ -11,7 +11,6 @@ struct BlueButton: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .padding()
-//            .padding()
             .background(Color(red: 0, green: 0, blue: 0.5))
             .foregroundStyle(.white)
             .font(.largeTitle)
@@ -19,5 +18,6 @@ struct BlueButton: ButtonStyle {
             .labelStyle(.iconOnly)
             .clipShape(Circle())
             .padding()
+            .shadow(color: .gray, radius: 5)
     }
 }

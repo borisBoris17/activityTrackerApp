@@ -50,8 +50,14 @@ extension Goal {
         let set = activities as? Set<Activity> ?? []
         
         return set.sorted {
-            $0.wrappedName < $1.wrappedName
+            $0.wrappedStartDate < $1.wrappedStartDate
         }
+    }
+    
+    public var descendingActivityArray: [Activity] {
+        let set = activityArray
+        
+        return set.reversed()
     }
     
     public var peopleArray: [Person] {

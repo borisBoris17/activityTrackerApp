@@ -58,25 +58,7 @@ struct ActivityListView: View {
                             ActivityView(activity: activity)
                         }
                     } label: {
-                        HStack {
-                            
-                            VStack(alignment: .leading) {
-                                Text(activity.wrappedName)
-                                Text("\(activity.formattedDuration) hour")
-                                    .foregroundColor(.secondary)
-                            }
-                            
-                            Spacer()
-                            
-                            VStack(alignment: .leading) {
-                                ForEach(activity.goalArray) { goal in
-                                    if !goal.peopleArray.isEmpty { Text("\(goal.peopleArray[0].wrappedName) - \(goal.wrappedName)")
-                                    } else {
-                                        Text("\("unknwn person") - \(goal.wrappedName)")
-                                    }
-                                }
-                            }
-                        }
+                        ActivityListItemView(activity: activity)
                     }
                 }
                 .onDelete(perform: deleteActivities)
