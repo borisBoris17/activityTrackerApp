@@ -11,6 +11,7 @@ struct PeopleView: View {
     
     @State public var selectedPerson: Person? = nil
     @State var showAddPerson = false
+    @State private var imageHasChanged = false
     @FetchRequest(sortDescriptors: []) var people: FetchedResults<Person>
     
     var body: some View {
@@ -18,11 +19,11 @@ struct PeopleView: View {
             GeometryReader { geometry in
                 ZStack {
                     VStack {
-                        HorizontalPeopleView(people: people, selectedPerson: $selectedPerson)
+                        HorizontalPeopleView(people: people, selectedPerson: $selectedPerson, imageHasChanged: imageHasChanged)
                             .padding(.bottom)
                         
                         if let selectedPerson = selectedPerson {
-                            PersonDetailView(person: selectedPerson, geometry: geometry)
+                            PersonDetailView(person: selectedPerson, geometry: geometry, imageHasChanged: $imageHasChanged)
                         } else {
                             Spacer()
                         }

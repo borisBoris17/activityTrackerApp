@@ -13,6 +13,8 @@ struct PersonDetailView: View {
     
     var person: Person
     var geometry: GeometryProxy
+    @Binding var imageHasChanged: Bool
+    
     @State var mode = "view"
     @State var updatedName = ""
     @State var showAddGoalSheet = false
@@ -35,6 +37,7 @@ struct PersonDetailView: View {
                     }
                 } else {
                     Button("Save") {
+                        imageHasChanged.toggle()
                         person.name = updatedName
                         
                         let renderer = ImageRenderer(content: personImage)
@@ -55,48 +58,57 @@ struct PersonDetailView: View {
 
             
             List {
-                HStack(alignment: .top) {
-                    Text("Image")
-                    Spacer()
-                    if let personImage {
-                        personImage
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: geometry.size.width * 0.4)
-                            .overlay(alignment: .bottomTrailing) {
-                                PhotosPicker(selection: $personPhotoItem,
-                                             matching: .images,
-                                             photoLibrary: .shared()) {
-                                    if mode == "edit" {
-                                        Image(systemName: "pencil.circle.fill")
-                                            .symbolRenderingMode(.multicolor)
-                                            .font(.system(size: 30))
-                                            .foregroundColor(.accentColor)
-                                    }
+                Section("Image") {
+                    HStack(alignment: .top) {
+                        if let personImage {
+                            Spacer()
+                            NavigationLink {
+                                VStack {
+                                    personImage
+                                        .resizable()
+                                        .scaledToFit()
                                 }
-                                             .buttonStyle(.borderless)
-                            }
-                            .padding(.leading)
-                    } else {
-                        Image(systemName: "person.crop.rectangle.badge.plus")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: geometry.size.width * 0.4)
-                            .overlay(alignment: .bottomTrailing) {
-                                PhotosPicker(selection: $personPhotoItem,
-                                             matching: .images,
-                                             photoLibrary: .shared()) {
-                                    if mode == "edit" {
-                                        Image(systemName: "pencil.circle.fill")
-                                            .symbolRenderingMode(.multicolor)
-                                            .font(.system(size: 30))
-                                            .foregroundColor(.accentColor)
+                            } label: {
+                                personImage
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: geometry.size.width * 0.4)
+                                    .overlay(alignment: .bottomTrailing) {
+                                        PhotosPicker(selection: $personPhotoItem,
+                                                     matching: .images,
+                                                     photoLibrary: .shared()) {
+                                            if mode == "edit" {
+                                                Image(systemName: "pencil.circle.fill")
+                                                    .symbolRenderingMode(.multicolor)
+                                                    .font(.system(size: 30))
+                                                    .foregroundColor(.accentColor)
+                                            }
+                                        }
+                                                     .buttonStyle(.borderless)
                                     }
-                                }
-                                             .buttonStyle(.borderless)
                             }
-                            .padding(.leading)
+                        } else {
+                            Image(systemName: "person.crop.rectangle.badge.plus")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: geometry.size.width * 0.4)
+                                .overlay(alignment: .bottomTrailing) {
+                                    PhotosPicker(selection: $personPhotoItem,
+                                                 matching: .images,
+                                                 photoLibrary: .shared()) {
+                                        if mode == "edit" {
+                                            Image(systemName: "pencil.circle.fill")
+                                                .symbolRenderingMode(.multicolor)
+                                                .font(.system(size: 30))
+                                                .foregroundColor(.accentColor)
+                                        }
+                                    }
+                                                 .buttonStyle(.borderless)
+                                }
+                                .padding(.leading)
+                        }
                     }
+                    
                 }
                 .onChange(of: personPhotoItem) { newPhoto in
                     Task {

@@ -10,12 +10,13 @@ import SwiftUI
 struct HorizontalPeopleView: View {
     var people: FetchedResults<Person>
     @Binding var selectedPerson: Person?
+    var imageHasChanged: Bool
     
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack() {
                 ForEach(people) { person in
-                    PersonButtonView(person: person, selectedPerson: $selectedPerson)
+                    PersonButtonView(person: person, selectedPerson: $selectedPerson, imageHasChanged: imageHasChanged)
                 }
             }
             .frame(height: 100)
