@@ -22,160 +22,174 @@ struct PersonDetailView: View {
     @State private var personPhotoItem: PhotosPickerItem?
     @State private var personImageData: Data?
     @State private var personImage: Image?
+    @State private var isLoading = true
     
     
     var body: some View {
         VStack {
-            HStack {
-                Text(person.wrappedName)
-                    .font(.largeTitle)
+            if isLoading {
                 Spacer()
-                if mode == "view" {
-                    Button("Edit") {
-                        updatedName = person.wrappedName
-                        mode = "edit"
-                    }
-                } else {
-                    Button("Save") {
-                        imageHasChanged.toggle()
-                        person.name = updatedName
-                        
-                        let renderer = ImageRenderer(content: personImage)
-                        if let uiImage = renderer.uiImage {
-                            if let data = uiImage.pngData() {
-                                let filename = FileManager.getDocumentsDirectory().appendingPathExtension("/personImages").appendingPathComponent("\(person.wrappedId).png")
-                                try? data.write(to: filename)
-                            }
-                        }
-                        
-                        try? moc.save()
-                        mode = "view"
-                    }
-                }
-            }
-            .padding(.horizontal)
-            
-
-            
-            List {
-                Section("Image") {
-                    HStack(alignment: .top) {
-                        if let personImage {
-                            Spacer()
-                            NavigationLink {
-                                VStack {
-                                    personImage
-                                        .resizable()
-                                        .scaledToFit()
-                                }
-                            } label: {
-                                personImage
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: geometry.size.width * 0.4)
-                                    .overlay(alignment: .bottomTrailing) {
-                                        PhotosPicker(selection: $personPhotoItem,
-                                                     matching: .images,
-                                                     photoLibrary: .shared()) {
-                                            if mode == "edit" {
-                                                Image(systemName: "pencil.circle.fill")
-                                                    .symbolRenderingMode(.multicolor)
-                                                    .font(.system(size: 30))
-                                                    .foregroundColor(.accentColor)
-                                            }
-                                        }
-                                                     .buttonStyle(.borderless)
-                                    }
-                            }
-                        } else {
-                            Image(systemName: "person.crop.rectangle.badge.plus")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: geometry.size.width * 0.4)
-                                .overlay(alignment: .bottomTrailing) {
-                                    PhotosPicker(selection: $personPhotoItem,
-                                                 matching: .images,
-                                                 photoLibrary: .shared()) {
-                                        if mode == "edit" {
-                                            Image(systemName: "pencil.circle.fill")
-                                                .symbolRenderingMode(.multicolor)
-                                                .font(.system(size: 30))
-                                                .foregroundColor(.accentColor)
-                                        }
-                                    }
-                                                 .buttonStyle(.borderless)
-                                }
-                                .padding(.leading)
-                        }
-                    }
-                    
-                }
-                .onChange(of: personPhotoItem) { newPhoto in
-                    Task {
-                        if let loaded = try? await newPhoto?.loadTransferable(type: Data.self) {
-                            personImageData = loaded
-                        } else {
-                            print("Failed")
-                        }
-                    }
-                    
-                }
-                .onChange(of: personImageData) { newData in
-                    if let newData,
-                       let uiImage = UIImage(data: newData) {
-                        personImage = Image(uiImage: uiImage)
-                    }
-                }
-                
-                Section() {
-                    HStack(alignment: .top) {
-                        Text("Name")
+                ProgressView()
+                Spacer()
+            } else {
+                VStack {
+                    HStack {
+                        Text(person.wrappedName)
+                            .font(.largeTitle)
                         Spacer()
                         if mode == "view" {
-                            Text(person.wrappedName)
-                                .foregroundColor(.secondary)
-                                .multilineTextAlignment(.trailing)
+                            Button("Edit") {
+                                updatedName = person.wrappedName
+                                mode = "edit"
+                            }
                         } else {
-                            TextField("Name", text: $updatedName)
-                                .multilineTextAlignment(.trailing)
-                                .background(Color.secondary)
+                            Button("Save") {
+                                imageHasChanged.toggle()
+                                person.name = updatedName
+                                
+                                let renderer = ImageRenderer(content: personImage)
+                                if let uiImage = renderer.uiImage {
+                                    if let data = uiImage.pngData() {
+                                        let filename = FileManager.getDocumentsDirectory().appendingPathExtension("/personImages").appendingPathComponent("\(person.wrappedId).png")
+                                        try? data.write(to: filename)
+                                    }
+                                }
+                                
+                                try? moc.save()
+                                mode = "view"
+                            }
                         }
                     }
-                }
-                
-                Section(header: Text("Goals")) {
-                    ForEach(person.goalsArray) { goal in
-                        VStack(alignment: .leading) {
-                            Text("\(goal.wrappedName)")
-                            Text(goal.wrappedDesc)
-                                .foregroundColor(.secondary)
-                                .multilineTextAlignment(.trailing)
+                    .padding(.horizontal)
+                    
+                    List {
+                        Section("Image") {
+                            HStack(alignment: .top) {
+                                if let personImage {
+                                    Spacer()
+                                    NavigationLink {
+                                        VStack {
+                                            personImage
+                                                .resizable()
+                                                .scaledToFit()
+                                        }
+                                    } label: {
+                                        personImage
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(width: geometry.size.width * 0.4)
+                                            .overlay(alignment: .bottomTrailing) {
+                                                PhotosPicker(selection: $personPhotoItem,
+                                                             matching: .images,
+                                                             photoLibrary: .shared()) {
+                                                    if mode == "edit" {
+                                                        Image(systemName: "pencil.circle.fill")
+                                                            .symbolRenderingMode(.multicolor)
+                                                            .font(.system(size: 30))
+                                                            .foregroundColor(.accentColor)
+                                                    }
+                                                }
+                                                             .buttonStyle(.borderless)
+                                            }
+                                    }
+                                } else {
+                                    Image(systemName: "person.crop.rectangle.badge.plus")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: geometry.size.width * 0.4)
+                                        .overlay(alignment: .bottomTrailing) {
+                                            PhotosPicker(selection: $personPhotoItem,
+                                                         matching: .images,
+                                                         photoLibrary: .shared()) {
+                                                if mode == "edit" {
+                                                    Image(systemName: "pencil.circle.fill")
+                                                        .symbolRenderingMode(.multicolor)
+                                                        .font(.system(size: 30))
+                                                        .foregroundColor(.accentColor)
+                                                }
+                                            }
+                                                         .buttonStyle(.borderless)
+                                        }
+                                        .padding(.leading)
+                                }
+                            }
+                            
+                        }
+                        .onChange(of: personPhotoItem) { newPhoto in
+                            Task {
+                                if let loaded = try? await newPhoto?.loadTransferable(type: Data.self) {
+                                    personImageData = loaded
+                                } else {
+                                    print("Failed")
+                                }
+                            }
+                            
+                        }
+                        .onChange(of: personImageData) { newData in
+                            if let newData,
+                               let uiImage = UIImage(data: newData) {
+                                personImage = Image(uiImage: uiImage)
+                            }
+                        }
+                        
+                        Section() {
+                            HStack(alignment: .top) {
+                                Text("Name")
+                                Spacer()
+                                if mode == "view" {
+                                    Text(person.wrappedName)
+                                        .foregroundColor(.secondary)
+                                        .multilineTextAlignment(.trailing)
+                                } else {
+                                    TextField("Name", text: $updatedName)
+                                        .multilineTextAlignment(.trailing)
+                                        .background(Color.secondary)
+                                }
+                            }
+                        }
+                        
+                        Section(header: Text("Goals")) {
+                            ForEach(person.goalsArray) { goal in
+                                NavigationLink {
+                                    GoalDetailView(goal: goal)
+                                } label: {
+                                    VStack(alignment: .leading) {
+                                        Text("\(goal.wrappedName)")
+                                        Text(goal.wrappedDesc)
+                                            .foregroundColor(.secondary)
+                                            .multilineTextAlignment(.trailing)
+                                    }
+                                }
+                            }
+                            
                         }
                     }
                     
-                }
-            }
-            
-            if mode == "edit" {
-                HStack {
-                    Spacer()
-                    
-                    Button("Add Goal") {
-                        showAddGoalSheet = true
+                    if mode == "edit" {
+                        HStack {
+                            Spacer()
+                            
+                            Button("Add Goal") {
+                                showAddGoalSheet = true
+                            }
+                        }
+                        .padding(.trailing)
                     }
                 }
-                .padding(.trailing)
-            }
-        }
-        .onChange(of: person) { newPerson in
-            let imagePath = FileManager.getDocumentsDirectory().appendingPathExtension("/personImages").appendingPathComponent("\(newPerson.wrappedId).png")
-            do {
-                let foundActivityImageData = try Data(contentsOf: imagePath)
-                let uiImage = UIImage(data: foundActivityImageData)
-                personImage = Image(uiImage: uiImage ?? UIImage(systemName: "photo")!)
-            } catch {
-                personImage = nil
-                print("Error reading file: \(error)")
+                .onChange(of: person) { newPerson in
+                    let imagePath = FileManager.getDocumentsDirectory().appendingPathExtension("/personImages").appendingPathComponent("\(newPerson.wrappedId).png")
+                    do {
+                        let foundActivityImageData = try Data(contentsOf: imagePath)
+                        let uiImage = UIImage(data: foundActivityImageData)
+                        personImage = Image(uiImage: uiImage ?? UIImage(systemName: "photo")!)
+                    } catch {
+                        personImage = nil
+                        print("Error reading file: \(error)")
+                    }
+                }
+                .sheet(isPresented: $showAddGoalSheet) {
+                    AddGoalToPersonView(person: person)
+                }
             }
         }
         .onAppear {
@@ -187,9 +201,7 @@ struct PersonDetailView: View {
             } catch {
                 print("Error reading file: \(error)")
             }
-        }
-        .sheet(isPresented: $showAddGoalSheet) {
-            AddGoalToPersonView(person: person)
+            isLoading = false
         }
     }
     

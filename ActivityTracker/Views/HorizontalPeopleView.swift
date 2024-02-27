@@ -19,7 +19,6 @@ struct HorizontalPeopleView: View {
                     PersonButtonView(person: person, selectedPerson: $selectedPerson, imageHasChanged: imageHasChanged)
                 }
             }
-            .frame(height: 100)
         }
     }
 }

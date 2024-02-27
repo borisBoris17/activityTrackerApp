@@ -17,7 +17,7 @@ struct PersonButtonView: View {
         Button {
             selectedPerson = person
         } label: {
-            ZStack() {
+            VStack() {
                 if personImage != nil {
                     personImage!
                         .resizable()
@@ -38,17 +38,10 @@ struct PersonButtonView: View {
                         .padding(5)
                 }
                 
-                VStack() {
-                    Spacer()
-                    HStack {
-                        Spacer()
-                        Text(person.wrappedName)
-                            .foregroundColor(.white)
-                            .font(.headline)
-                        Spacer()
-                    }
-                }
-                .padding(.bottom)
+                Text(person.wrappedName)
+                    .font(.title2)
+                    .foregroundColor(.white)
+                    .frame(maxWidth: 100)
             }
         }
         .onAppear {
