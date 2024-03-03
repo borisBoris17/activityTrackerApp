@@ -9,6 +9,8 @@ import SwiftUI
 
 struct PeopleView: View {
     
+    @State private var isLoading = true
+    @State public var numPeople = 0
     @State public var selectedPerson: Person? = nil
     @State var showAddPerson = false
     @State private var imageHasChanged = false
@@ -17,6 +19,11 @@ struct PeopleView: View {
     var body: some View {
         NavigationView {
             GeometryReader { geometry in
+//                VStack {
+//                    LoaderView(tintColor: .blue, scaleSize: 13.0)
+//                        .hidden(!isLoading)
+//                }
+                
                 ZStack {
                     VStack {
                         HorizontalPeopleView(people: people, selectedPerson: $selectedPerson, imageHasChanged: imageHasChanged)
@@ -44,11 +51,32 @@ struct PeopleView: View {
                         }
                     }
                 }
+                
             }
             .navigationTitle("People")
             .sheet(isPresented: $showAddPerson) {
                 AddPersonView()
             }
+        }
+    }
+}
+
+struct LoaderView: View {
+    var tintColor: Color = .blue
+    var scaleSize: CGFloat = 1.0
+    
+    var body: some View {
+        ProgressView()
+            .scaleEffect(scaleSize, anchor: .center)
+            .progressViewStyle(CircularProgressViewStyle(tint: tintColor))
+    }
+}
+
+extension View {
+    @ViewBuilder func hidden(_ shouldHide: Bool) -> some View {
+        switch shouldHide {
+        case true: self.hidden()
+        case false: self
         }
     }
 }

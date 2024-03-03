@@ -13,10 +13,12 @@ struct HorizontalPeopleView: View {
     var imageHasChanged: Bool
     
     var body: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            HStack() {
-                ForEach(people) { person in
-                    PersonButtonView(person: person, selectedPerson: $selectedPerson, imageHasChanged: imageHasChanged)
+        VStack {
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack() {
+                    ForEach(people) { person in
+                        PersonButtonView(person: person, selectedPerson: $selectedPerson, imageHasChanged: imageHasChanged)
+                    }
                 }
             }
         }

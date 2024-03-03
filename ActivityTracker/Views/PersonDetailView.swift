@@ -49,7 +49,7 @@ struct PersonDetailView: View {
                                 
                                 let renderer = ImageRenderer(content: personImage)
                                 if let uiImage = renderer.uiImage {
-                                    if let data = uiImage.pngData() {
+                                    if let data = uiImage.jpegData(compressionQuality: 0.2) {
                                         let filename = FileManager.getDocumentsDirectory().appendingPathExtension("/personImages").appendingPathComponent("\(person.wrappedId).png")
                                         try? data.write(to: filename)
                                     }

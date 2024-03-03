@@ -10,7 +10,7 @@ import SwiftUI
 struct PersonButtonView: View {
     var person: Person
     @Binding var selectedPerson: Person?
-    @State private var personImage: Image?
+    @State private var personImage: Image? = Image(systemName: "questionmark")
     var imageHasChanged: Bool
     
     var body: some View {
@@ -45,16 +45,6 @@ struct PersonButtonView: View {
             }
         }
         .onAppear {
-            let imagePath = FileManager.getDocumentsDirectory().appendingPathExtension("/personImages").appendingPathComponent("\(person.wrappedId).png")
-            do {
-                let foundActivityImageData = try Data(contentsOf: imagePath)
-                let uiImage = UIImage(data: foundActivityImageData)
-                personImage = Image(uiImage: uiImage ?? UIImage(systemName: "photo")!)
-            } catch {
-                print("Error reading file: \(error)")
-            }
-        }
-        .onChange(of: imageHasChanged) { _ in
             let imagePath = FileManager.getDocumentsDirectory().appendingPathExtension("/personImages").appendingPathComponent("\(person.wrappedId).png")
             do {
                 let foundActivityImageData = try Data(contentsOf: imagePath)
