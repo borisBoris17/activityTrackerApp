@@ -84,53 +84,49 @@ struct GoalDetailView: View {
                         .padding()
                     }
                     
-                    VStack {
-                        HStack {
-                            VStack(alignment: .leading) {
-                                Text("Activities")
-                                    .font(.title.bold())
-                            }
-                            Spacer()
-                        }
-                        .padding(.bottom)
-                        
-                        ForEach(goal.descendingActivityArray) { activity in
-                            NavigationLink {
-                                ActivityView(activity: activity)
-                            } label: {
-                                VStack {
-                                    HStack {
-                                        ActivityListItemView(activity: activity)
-//                                        VStack(alignment: .leading) {
-//                                            Text(activity.wrappedName)
-//                                                .foregroundColor(.primary)
-//                                            Text("\(activity.formattedDuration) hour")
-//                                                .foregroundColor(.secondary)
-//                                        }
-//                                        
-//                                        Spacer()
-//                                        
-//                                        VStack(alignment: .leading) {
-//                                            ForEach(activity.goalArray) { goal in
-//                                                if !goal.peopleArray.isEmpty { Text("\(goal.peopleArray[0].wrappedName) - \(goal.wrappedName)")
-//                                                        .foregroundColor(.primary)
-//                                                } else {
-//                                                    Text("\("unknwn person") - \(goal.wrappedName)")
-//                                                        .foregroundColor(.primary)
-//                                                }
-//                                            }
-//                                        }
-                                        
-                                        Text(">")
-                                            .foregroundColor(.secondary)
-                                    }
-                                    SeperatorView(height: 2, color: .secondary)
+                    
+                    NavigationLink {
+                        List {
+                            ForEach(goal.descendingActivityArray) {activity in
+                                NavigationLink {
+                                    ActivityView(activity: activity)
+                                } label: {
+                                    ActivityListItemView(activity: activity)
                                 }
                             }
-                            
                         }
+                        .navigationTitle("\(goal.wrappedName) - \(goal.peopleArray[0].wrappedName)")
+                    } label: {
+                        VStack {
+                            HStack {
+                                VStack(alignment: .leading) {
+                                    Text("Activities")
+                                        .font(.title.bold())
+                                }
+                                Spacer()
+                            }
+                            .padding(.bottom)
+                        }
+                        
+                        //                        ForEach(goal.descendingActivityArray) { activity in
+                        //                            NavigationLink {
+                        //                                ActivityView(activity: activity)
+                        //                            } label: {
+                        //                                VStack {
+                        //                                    HStack {
+                        //                                        ActivityListItemView(activity: activity)
+                        //
+                        //                                        Text(">")
+                        //                                            .foregroundColor(.secondary)
+                        //                                    }
+                        //                                    SeperatorView(height: 2, color: .secondary)
+                        //                                }
+                        //                            }
+                        //
+                        //                        }
+                        //                    }
+                        .padding()
                     }
-                    .padding()
                 }
                 Spacer()
             }
