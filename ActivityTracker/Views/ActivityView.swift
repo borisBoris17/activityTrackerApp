@@ -280,7 +280,17 @@ struct ActivityView: View {
             }
             .sheet(isPresented: $showEditGoals) {
                 VStack {
-                    GoalSelectionView(selectedGoals: $updatedGoals)
+                    NavigationView {
+                        GoalSelectionView(selectedGoals: $updatedGoals)
+                        .navigationTitle("Edit Goals")
+                        .toolbar {
+                            ToolbarItemGroup {
+                                Button("Back") {
+                                    showEditGoals.toggle()
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }

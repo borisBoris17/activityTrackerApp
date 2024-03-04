@@ -18,21 +18,11 @@ struct GoalSelectionView: View {
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
-        NavigationView {
             List {
                 ForEach(people) { person in
                     PersonSelectionRowView( selectedGoals: $selectedGoals, person: person, goals: goals)
                 }
             }
-            .navigationTitle("Edit Goals")
-            .toolbar {
-                ToolbarItemGroup {
-                    Button("Back") {
-                        dismiss()
-                    }
-                }
-            }
-        }
     }
     
     struct PersonSelectionRowView: View {

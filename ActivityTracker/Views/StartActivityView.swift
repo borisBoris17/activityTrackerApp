@@ -12,66 +12,31 @@ struct StartActivityView: View {
     @Binding var name: String
     @Binding var desc: String
     @Binding var goals: [Goal]
-    @State private var numberOfGoals = 2
     
     @Binding var timer: Publishers.Autoconnect<Timer.TimerPublisher>
     @Binding var activityStatus: ActivityStatus
     @Binding var startTime: Date
-    
-    @State private var selectedPeople = Set<Person>()
+
     @State private var selectedGoals = Set<Goal>()
-    
-    @State private var selectedPerson = -1
-    @State private var selectedGoal = -1
     
     @FetchRequest(sortDescriptors: []) var people: FetchedResults<Person>
     @FetchRequest(sortDescriptors: []) var allGoals: FetchedResults<Goal>
-    @State var peopleArray = [Person]()
-    @State var goalsArray = [Goal]()
-    @State private var isPersonChecked = [Bool]()
-    @State private var isChecked = false
     
     @Environment(\.dismiss) var dismiss
 
     var body: some View {
         
         NavigationView {
-            Form {
-                Section {
-                    TextField("Name", text: $name)
-                    TextField("Description", text: $desc)
-                }
-                
-                
-                // Replace the Multi selectors with the GoalSelectionView
-                MultiSelector(
-                    label: Text("People"),
-                    options: peopleArray,
-                    optionToString: { $0.wrappedName },
-                    selected: $selectedPeople
-                )
-                
-                Section("Goals") {
-                    MultiSelector(
-                        label: Text("Goals"),
-                        options: goalsArray,
-                        optionToString: { $0.wrappedName },
-                        selected: $selectedGoals
-                    )
-                }
-            }
-            .onChange(of: selectedPeople) { newValue in
-                goalsArray = allGoals.filter { goal in
-                    var goalHasPerson = false
-                    for person in selectedPeople {
-                        goalHasPerson = goal.peopleArray.contains { element in
-                            element == person
-                        }
-                        if goalHasPerson {
-                            break
-                        }
+            VStack {
+                Form {
+                    Section {
+                        TextField("Name", text: $name)
+                        TextField("Description", text: $desc)
                     }
-                    return goalHasPerson
+                    
+                    Section("Goals") {
+                        GoalSelectionView(selectedGoals: $selectedGoals)
+                    }
                 }
             }
             .navigationTitle("Start New Activity")
@@ -87,9 +52,6 @@ struct StartActivityView: View {
                     .disabled(name.isEmpty || desc.isEmpty || selectedGoals.count < 1)
                     .padding()
                 }
-            }
-            .onAppear() {
-                peopleArray = Array(people)
             }
         }
     }
