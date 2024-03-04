@@ -42,6 +42,8 @@ struct StartActivityView: View {
                     TextField("Description", text: $desc)
                 }
                 
+                
+                // Replace the Multi selectors with the GoalSelectionView
                 MultiSelector(
                     label: Text("People"),
                     options: peopleArray,

@@ -7,38 +7,120 @@
 
 import SwiftUI
 
+
 struct GoalSelectionView: View {
-    
-    @State private var selectedPerson = -1
-    @State private var selectedGoal = -1
+    // Refactor this to be a Set instead of an array
+    @Binding var selectedGoals: Set<Goal>
     
     @FetchRequest(sortDescriptors: []) var people: FetchedResults<Person>
     @FetchRequest(sortDescriptors: []) var goals: FetchedResults<Goal>
     
+    @Environment(\.dismiss) var dismiss
+    
     var body: some View {
-        Section {
-            Picker("Person", selection: $selectedPerson) {
-                Text("None").tag(-1)
-                ForEach(0 ..< people.count, id: \.self) { i in
-                    Text("\(people[i].wrappedName)").tag(i as Int?)
+        NavigationView {
+            List {
+                ForEach(people) { person in
+                    PersonSelectionRowView( selectedGoals: $selectedGoals, person: person, goals: goals)
                 }
             }
-            
-            Picker("Goal", selection: $selectedGoal) {
-                Text("None").tag(-1)
-                ForEach(0 ..< filteredGoals().count, id: \.self) { i in
-                    Text("\(goals[i].wrappedName)")
+            .navigationTitle("Edit Goals")
+            .toolbar {
+                ToolbarItemGroup {
+                    Button("Back") {
+                        dismiss()
+                    }
                 }
             }
-            .disabled(selectedPerson == -1)
         }
     }
     
-    func filteredGoals() -> [Goal] {
-        guard selectedPerson != -1 else { return [] }
+    struct PersonSelectionRowView: View {
+        @Binding var selectedGoals: Set<Goal>
+        var person: Person
+        var goals: FetchedResults<Goal>
         
-        return goals.filter { goal in
-            return goal.peopleArray.contains(people[selectedPerson])
+        @State private var isExpanded = false
+        
+        func filteredGoals(for person: Person) -> [Goal] {
+            return goals.filter { goal in
+                return goal.peopleArray.contains(person)
+            }
+        }
+        
+        var body: some View {
+            HStack {
+                Text(person.wrappedName)
+                Spacer()
+                Button {
+                    withAnimation {
+                        isExpanded.toggle()
+                    }
+                } label: {
+                    isExpanded ? Image(systemName: "chevron.up") : Image(systemName: "chevron.down")
+                }
+            }
+            .onAppear() {
+                for goal in filteredGoals(for: person) {
+                    if selectedGoals.contains(goal) {
+                        isExpanded = true
+                        break
+                    }
+                }
+            }
+            
+            if isExpanded {
+                ForEach(filteredGoals(for: person)) { goal in
+                    GoalSelectionRowView(goal: goal, selectedGoals: $selectedGoals)
+                }
+            }
+        }
+    }
+    
+    struct GoalSelectionRowView: View {
+        var goal: Goal
+        @Binding var selectedGoals: Set<Goal>
+        
+        @State private var isSelected = false
+        
+        func somethingk(goal: Goal) -> Bool {
+            selectedGoals.contains(goal)
+        }
+        
+        var body: some View {
+            HStack {
+                Text(goal.wrappedName)
+                Spacer()
+                Toggle(isOn: $isSelected) {
+                    
+                }
+                .toggleStyle(iOSCheckboxToggleStyle())
+                .accentColor(.primary)
+                .onChange(of: isSelected) { newValue in
+                    if newValue && !selectedGoals.contains(goal) {
+                        selectedGoals.insert(goal)
+                    } else if !newValue && selectedGoals.contains(goal) {
+                        selectedGoals.remove(goal)
+                    }
+                }
+            }
+            .padding(.leading, 20)
+            .onAppear() {
+                isSelected = selectedGoals.contains(goal)
+            }
+        }
+    }
+    
+    struct iOSCheckboxToggleStyle: ToggleStyle {
+        func makeBody(configuration: Configuration) -> some View {
+            Button(action: {
+                configuration.isOn.toggle()
+            }, label: {
+                HStack {
+                    Image(systemName: configuration.isOn ? "checkmark.square" : "square")
+                    configuration.label
+                }
+            })
         }
     }
 }
