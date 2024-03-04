@@ -7,8 +7,8 @@
 
 import SwiftUI
 
-let minuteLength = 3
-let hourLength = 3
+let minuteLength = 60
+let hourLength = 60
 
 enum ActivityStatus {
     case ready, started, paused, stoped
@@ -139,7 +139,8 @@ struct ActivitiesView: View {
                 .padding(.top)
             }
             .onReceive(timer) { _ in
-                totalSeconds = pausedSeconds + Int(Date().timeIntervalSince(startTime))
+//                totalSeconds = pausedSeconds + Int(Date().timeIntervalSince(startTime)) -- add one second to the timer (normal case)
+                totalSeconds = pausedSeconds + (Int(Date().timeIntervalSince(startTime)) * 900) // add 15 minutes at a time
             }
             .onAppear {
                 if activityStatus == .started {

@@ -107,7 +107,6 @@ struct ActivityView: View {
                         Text("Goals")
                         if mode == "edit" {
                             Button("Edit") {
-                                updatedGoals = Set<Goal>(activity.goalArray)
                                 showEditGoals.toggle()
                             }
                         }
@@ -201,7 +200,8 @@ struct ActivityView: View {
                                 minutes = 0
                             }
                             
-                    
+                            
+                            updatedGoals = Set<Goal>(activity.goalArray)
                             mode = "edit"
                             
                         }
@@ -214,6 +214,7 @@ struct ActivityView: View {
                             let newSecondsFromHour = hours * minuteLength * hourLength
                             let newSecondsFromMinutes = minutes * hourLength
                             let newSeconds = Double(newSecondsFromHour + newSecondsFromMinutes)
+                            let oldSeconds = Double(activity.duration)
                             
                             // Find the Goals that were removed
                             for existingGoal in activity.goalArray {
@@ -233,17 +234,17 @@ struct ActivityView: View {
                             
                             // take away the progress that was made toward the removed goals (using the previously saved time)
                             for removedGoal in removedGoals {
-                                removedGoal.progress = Double(activity.duration)
+                                removedGoal.progress = removedGoal.progress - oldSeconds
                             }
                             
                             // Add the new time to the added goals progress
                             for addedGoal in addedGoals {
-                                addedGoal.progress = newSeconds.rounded(.up)
+                                addedGoal.progress = addedGoal.progress + newSeconds.rounded(.up)
                             }
                             
                             // modify the goals that were neither removed or added
                             for goal in editedGoal {
-                                goal.progress = goal.progress - Double(activity.duration) + newSeconds.rounded(.up)
+                                goal.progress = (goal.progress - oldSeconds) + newSeconds.rounded(.up)
                             }
                             
                             activity.duration = Int16(newSeconds.rounded(.up))
