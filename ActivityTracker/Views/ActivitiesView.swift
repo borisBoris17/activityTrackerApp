@@ -51,46 +51,6 @@ struct ActivitiesView: View {
     }
     
     var body: some View {
-        let timerBinding = Binding(
-            get: { self.timer },
-            set: { self.timer = $0 }
-        )
-        
-        let startTimeBinding = Binding(
-            get: { self.startTime },
-            set: { self.startTime = $0 }
-        )
-        
-        let activityStatusBinding = Binding(
-            get: { self.activityStatus },
-            set: { self.activityStatus = $0 }
-        )
-        
-        let nameBinding = Binding(
-            get: { self.name },
-            set: { self.name = $0 }
-        )
-        
-        let descBinding = Binding(
-            get: { self.desc },
-            set: { self.desc = $0 }
-        )
-        
-        let goalsBinding = Binding(
-            get: { self.selectedGoals },
-            set: { self.selectedGoals = $0 }
-        )
-        
-        let startingSundayBinding = Binding(
-            get: { self.startingSunday },
-            set: { self.startingSunday = $0 }
-        )
-        
-        let selectedDayBinding = Binding(
-            get: { self.selectedDay },
-            set: { self.selectedDay = $0 }
-        )
-        
         ZStack {
             VStack {
                 
@@ -132,7 +92,7 @@ struct ActivitiesView: View {
                 
                 
                 VStack {
-                    HorizonalDateSelectView(startingSunday: startingSundayBinding, startingSundayDay: Calendar.current.dateComponents([.day], from: startingSunday).day!, startingSundayMonth: Calendar.current.dateComponents([.month], from: startingSunday).month!, selectedDay: selectedDayBinding)
+                    HorizonalDateSelectView(startingSunday: $startingSunday, startingSundayDay: Calendar.current.dateComponents([.day], from: startingSunday).day!, startingSundayMonth: Calendar.current.dateComponents([.month], from: startingSunday).month!, selectedDay: $selectedDay)
                     
                     ActivityListView(selectedDay: selectedDay, showAll: showAll)
                 }
@@ -150,10 +110,10 @@ struct ActivitiesView: View {
                 }
             }
             .sheet(isPresented: $showNewActivitySheet) {
-                StartActivityView(name: nameBinding, desc: descBinding, goals: goalsBinding, timer: timerBinding, activityStatus: activityStatusBinding, startTime: startTimeBinding)
+                StartActivityView(name: $name, desc: $desc, goals: $selectedGoals, timer: $timer, activityStatus: $activityStatus, startTime: $startTime)
             }
             .sheet(isPresented: $showCompleteActivityScreen) {
-                SaveActivityView(name: nameBinding, desc: descBinding, timer: timerBinding, saveActivity: { activityImage in
+                SaveActivityView(name: $name, desc: $desc, timer: $timer, saveActivity: { activityImage in
                     let newActivity = Activity(context: moc)
                     newActivity.id = UUID()
                     newActivity.name = name

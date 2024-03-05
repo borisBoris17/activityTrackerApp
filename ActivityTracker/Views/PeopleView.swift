@@ -19,10 +19,6 @@ struct PeopleView: View {
     var body: some View {
         NavigationView {
             GeometryReader { geometry in
-//                VStack {
-//                    LoaderView(tintColor: .blue, scaleSize: 13.0)
-//                        .hidden(!isLoading)
-//                }
                 
                 ZStack {
                     VStack {
