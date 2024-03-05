@@ -94,7 +94,7 @@ struct ActivitiesView: View {
                 VStack {
                     HorizonalDateSelectView(startingSunday: $startingSunday, startingSundayDay: Calendar.current.dateComponents([.day], from: startingSunday).day!, startingSundayMonth: Calendar.current.dateComponents([.month], from: startingSunday).month!, selectedDay: $selectedDay)
                     
-                    ActivityListView(selectedDay: selectedDay, showAll: showAll)
+                    ActivityListView(selectedDay: selectedDay, showAll: false)
                 }
                 .padding(.top)
             }
@@ -165,15 +165,23 @@ struct ActivitiesView: View {
                     }
                 }
             }
+            
         }
         .navigationTitle("Activities")
         .toolbar {
             ToolbarItem {
-                Button(showAll ? "By Date" : "Show All") {
+                Button("Show All") {
                     showAll.toggle()
                 }
                 .padding()
             }
+        }
+        .sheet(isPresented: $showAll) {
+            NavigationView() {
+                ActivityListView(selectedDay: selectedDay, showAll: true)
+                    .navigationTitle("Activities")
+            }
+            .presentationDetents([.medium, .large])
         }
     }
 }
