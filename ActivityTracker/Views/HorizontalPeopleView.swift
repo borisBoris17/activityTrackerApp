@@ -20,7 +20,10 @@ struct HorizontalPeopleView: View {
                         PersonButtonView(person: person, selectedPerson: $selectedPerson, imageHasChanged: imageHasChanged)
                     }
                 }
+                .padding()
+                .background(.gray, in: RoundedRectangle(cornerRadius: 20))
             }
+            .shadow(color: .white, radius: 5)
         }
     }
 }

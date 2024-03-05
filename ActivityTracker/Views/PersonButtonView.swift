@@ -10,7 +10,7 @@ import SwiftUI
 struct PersonButtonView: View {
     var person: Person
     @Binding var selectedPerson: Person?
-    @State private var personImage: Image? = Image(systemName: "questionmark")
+    @State private var personImage: Image? = nil
     var imageHasChanged: Bool
     
     var body: some View {
@@ -25,7 +25,7 @@ struct PersonButtonView: View {
                 if personImage != nil {
                     personImage!
                         .resizable()
-                        .frame(width: 100, height: 100)
+                        .frame(width: 90, height: 90)
                         .clipShape(Circle())
                         .scaledToFill()
                         .padding(5)
@@ -33,7 +33,7 @@ struct PersonButtonView: View {
                     Image(systemName: "person")
                         .resizable()
                         .padding()
-                        .frame(width: 100, height: 100)
+                        .frame(width: 90, height: 90)
                         .clipShape(Circle())
                         .overlay(
                             Circle()
