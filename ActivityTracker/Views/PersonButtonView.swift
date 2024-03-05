@@ -15,7 +15,11 @@ struct PersonButtonView: View {
     
     var body: some View {
         Button {
-            selectedPerson = person
+            if selectedPerson == nil || !selectedPerson!.isEqual(person){
+                selectedPerson = person
+            } else {
+                selectedPerson = nil
+            }
         } label: {
             VStack() {
                 if personImage != nil {
