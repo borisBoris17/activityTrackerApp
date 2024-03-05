@@ -16,6 +16,19 @@ struct HomeView: View {
     @State private var showAddGoal = false
     @State private var showAddPerson = false
     
+    // WHIP for grouping the Goals by People 
+//    func groupGoals(goals: FetchedResults<Goal>) -> (Dictionary<Person, [Goal]>) {
+//        var result = Dictionary<Person, [Goal]>()
+//        
+//        for goal in goals {
+//            if result.keys.contains(goal) {
+//                result.updateValue(person, forKey: <#T##Person#>)
+//            }
+//        }
+//        
+//        return result
+//    }
+    
     var body: some View {
         
         NavigationView {
