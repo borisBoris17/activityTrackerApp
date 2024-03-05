@@ -11,6 +11,7 @@ import PhotosUI
 struct ActivityView: View {
     
     let activity: Activity
+    @Binding var refreshId: UUID
     @Environment(\.managedObjectContext) var moc
     @Environment(\.dismiss) var dismiss
     
@@ -260,6 +261,7 @@ struct ActivityView: View {
                             
                             try? moc.save()
                             updatedGoals = Set<Goal>()
+                            refreshId = UUID()
                             withAnimation {
                                 mode = "view"
                             }

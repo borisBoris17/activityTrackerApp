@@ -11,6 +11,8 @@ struct GoalDetailView: View {
     @State private var drawingStroke = false
     @State private var showActivities = false
     
+    @State private var refreshId = UUID()
+    
     let goal: Goal
     
     let animation = Animation
@@ -96,11 +98,12 @@ struct GoalDetailView: View {
                         Section("Activities") {
                             ForEach(goal.descendingActivityArray) {activity in
                                 NavigationLink {
-                                    ActivityView(activity: activity)
+                                    ActivityView(activity: activity, refreshId: $refreshId)
                                 } label: {
                                     ActivityListItemView(activity: activity)
                                 }
                             }
+                            .id(refreshId)
                         }
                     }
                     .navigationTitle("\(goal.wrappedName) - Activities")

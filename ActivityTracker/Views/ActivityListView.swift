@@ -13,6 +13,8 @@ struct ActivityListView: View {
     var showAll: Bool
     @FetchRequest var activities: FetchedResults<Activity>
     
+    @State private var refreshingID = UUID()
+    
     init(selectedDay: Date, showAll: Bool) {
         if showAll {
             _activities = FetchRequest<Activity>(sortDescriptors: [NSSortDescriptor(keyPath: \Activity.startDate, ascending: false)])
@@ -55,13 +57,14 @@ struct ActivityListView: View {
                 ForEach(activities) { activity in
                     NavigationLink {
                         VStack {
-                            ActivityView(activity: activity)
+                            ActivityView(activity: activity, refreshId: $refreshingID)
                         }
                     } label: {
                         ActivityListItemView(activity: activity)
                     }
                 }
                 .onDelete(perform: deleteActivities)
+                .id(refreshingID)
             } header: {
                 if showAll {
                     Text("All Activities")
