@@ -9,6 +9,7 @@ import SwiftUI
 
 struct GoalDetailView: View {
     @State private var drawingStroke = false
+    @State private var showActivities = false
     
     let goal: Goal
     
@@ -72,6 +73,9 @@ struct GoalDetailView: View {
                                     .foregroundColor(.secondary)
                             }
                             Spacer()
+                            Button("Activities") {
+                                showActivities = true
+                            }
                         }
                         .padding(.horizontal)
                         
@@ -83,10 +87,13 @@ struct GoalDetailView: View {
                         }
                         .padding()
                     }
-                    
-                    
-                    NavigationLink {
-                        List {
+                }
+                Spacer()
+            }
+            .sheet(isPresented: $showActivities) {
+                NavigationView {
+                    List {
+                        Section("Activities") {
                             ForEach(goal.descendingActivityArray) {activity in
                                 NavigationLink {
                                     ActivityView(activity: activity)
@@ -95,40 +102,10 @@ struct GoalDetailView: View {
                                 }
                             }
                         }
-                        .navigationTitle("\(goal.wrappedName) - \(goal.peopleArray[0].wrappedName)")
-                    } label: {
-                        VStack {
-                            HStack {
-                                VStack(alignment: .leading) {
-                                    Text("Activities")
-                                        .font(.title.bold())
-                                }
-                                Spacer()
-                            }
-                            .padding(.bottom)
-                        }
-                        
-                        //                        ForEach(goal.descendingActivityArray) { activity in
-                        //                            NavigationLink {
-                        //                                ActivityView(activity: activity)
-                        //                            } label: {
-                        //                                VStack {
-                        //                                    HStack {
-                        //                                        ActivityListItemView(activity: activity)
-                        //
-                        //                                        Text(">")
-                        //                                            .foregroundColor(.secondary)
-                        //                                    }
-                        //                                    SeperatorView(height: 2, color: .secondary)
-                        //                                }
-                        //                            }
-                        //
-                        //                        }
-                        //                    }
-                        .padding()
                     }
+                    .navigationTitle("\(goal.wrappedName) - Activities")
                 }
-                Spacer()
+                .presentationDetents([.height(geometry.size.height * 0.45), .medium, .large])
             }
         }
         .navigationTitle(goal.wrappedName)
