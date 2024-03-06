@@ -12,8 +12,18 @@ struct GoalDetailView: View {
     @State private var showActivities = false
     
     @State private var refreshId = UUID()
+    @State private var showEditGoal = false
+    
+    @State private var newGoalName = ""
+    @State private var newGoalDesc = ""
+    @State private var newGoalStartDate = Date()
+    @State private var newGoalTarget = ""
+    // Update when refactored to be an endDate
+    @State private var newGoalDuration = ""
     
     let goal: Goal
+    
+    @Environment(\.managedObjectContext) var moc
     
     let animation = Animation
         .easeOut(duration: 1)
@@ -113,8 +123,32 @@ struct GoalDetailView: View {
         }
         .navigationTitle(goal.wrappedName)
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem {
+                Button("Edit") {
+                    newGoalName = goal.wrappedName
+                    newGoalDesc = goal.wrappedDesc
+                    newGoalStartDate = goal.wrappedStartDate
+                    newGoalTarget = "\(goal.target)"
+                    newGoalDuration = "\(goal.duration)"
+                    
+                    showEditGoal = true
+                }
+            }
+        }
         .onAppear {
             drawingStroke = true
+        }
+        .sheet(isPresented: $showEditGoal) {
+            EditGoalView(newGoalName: $newGoalName, newGoalDesc: $newGoalDesc, newGoalStartDate: $newGoalStartDate, newGoalTarget: $newGoalTarget, newGoalDuration: $newGoalDuration) {
+                goal.name = newGoalName
+                goal.desc = newGoalDesc
+                goal.startDate = newGoalStartDate
+                goal.target = Int16(newGoalTarget) ?? 1000
+                goal.duration = Int16(newGoalDuration) ?? 1
+                
+                try? moc.save()
+            }
         }
     }
 }

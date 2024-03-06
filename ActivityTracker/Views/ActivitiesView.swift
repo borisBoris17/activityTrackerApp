@@ -26,7 +26,7 @@ struct ActivitiesView: View {
     @State private var showAll = false
     
     @State private var showCompleteActivityScreen = false
-    @State private var activityToSave = Activity()
+    @State private var activityToSave: Activity?
     
     @State private var startTime =  Date()
     @State private var pausedSeconds = 0
