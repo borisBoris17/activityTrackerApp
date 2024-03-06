@@ -11,23 +11,11 @@ import SwiftUI
 struct HomeView: View {
     @Environment(\.managedObjectContext) var moc
     
+    @FetchRequest(sortDescriptors: []) var people: FetchedResults<Person>
     @FetchRequest(sortDescriptors: []) var goals: FetchedResults<Goal>
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Activity.startDate, ascending: false)]) var activities: FetchedResults<Activity>
     @State private var showAddGoal = false
     @State private var showAddPerson = false
-    
-    // WHIP for grouping the Goals by People 
-//    func groupGoals(goals: FetchedResults<Goal>) -> (Dictionary<Person, [Goal]>) {
-//        var result = Dictionary<Person, [Goal]>()
-//        
-//        for goal in goals {
-//            if result.keys.contains(goal) {
-//                result.updateValue(person, forKey: <#T##Person#>)
-//            }
-//        }
-//        
-//        return result
-//    }
     
     var body: some View {
         
@@ -39,31 +27,36 @@ struct HomeView: View {
                         Text("Add some goals...")
                     }
                     
-                    ForEach(goals) { goal in
-                        NavigationLink {
-                            VStack {
-                                GoalDetailView(goal: goal)
-                            }
-                        } label: {
-                            HStack {
-                                
-                                VStack(alignment: .leading) {
-                                    Text(goal.wrappedName)
-                                    ForEach(goal.peopleArray) { person in
-                                        Text(person.wrappedName)
-                                            .foregroundColor(.secondary)
+                    ForEach(people) { person in
+                        if person.goalsArray.count > 0 {
+                        Section(person.wrappedName) {
+                                ForEach(person.goalsArray) { goal in
+                                    if goal.peopleArray.contains(person) {
+                                        NavigationLink {
+                                            VStack {
+                                                GoalDetailView(goal: goal)
+                                            }
+                                        } label: {
+                                            HStack {
+                                                
+                                                VStack(alignment: .leading) {
+                                                    Text(goal.wrappedName)
+                                                    Text(goal.wrappedDesc)
+                                                        .foregroundColor(.secondary)
+                                                }
+                                                
+                                                Spacer()
+                                                
+                                                Text("\(goal.formattedProgress)/\(goal.target)")
+                                            }
+                                        }
                                     }
                                 }
-                                
-                                Spacer()
-                                
-                                Text("\(goal.formattedProgress)/\(goal.target)")
+                                .onDelete(perform: deleteGoals)
                             }
                         }
                     }
-                    .onDelete(perform: deleteGoals)
                 }
-                
                 
                 VStack {
                     Spacer()
