@@ -9,23 +9,26 @@ import SwiftUI
 
 struct PersonButtonView: View {
     var person: Person
+    var imageSize: CGFloat
     @Binding var selectedPerson: Person?
     @State private var personImage: Image? = nil
     var imageHasChanged: Bool
     
     var body: some View {
         Button {
-            if selectedPerson == nil || !selectedPerson!.isEqual(person){
-                selectedPerson = person
-            } else {
-                selectedPerson = nil
+            withAnimation {
+                if selectedPerson == nil || !selectedPerson!.isEqual(person){
+                    selectedPerson = person
+                } else {
+                    selectedPerson = nil
+                }
             }
         } label: {
             VStack() {
                 if personImage != nil {
                     personImage!
                         .resizable()
-                        .frame(width: 90, height: 90)
+                        .frame(width: selectedPerson == person ? imageSize * 1.25 : imageSize, height: selectedPerson == person ? imageSize * 1.25 : imageSize)
                         .clipShape(Circle())
                         .scaledToFill()
                         .padding(5)
@@ -33,7 +36,7 @@ struct PersonButtonView: View {
                     Image(systemName: "person")
                         .resizable()
                         .padding()
-                        .frame(width: 90, height: 90)
+                        .frame(width: imageSize, height: imageSize)
                         .clipShape(Circle())
                         .overlay(
                             Circle()

@@ -22,15 +22,15 @@ struct PeopleView: View {
                 
                 ZStack {
                     VStack {
-                        HorizontalPeopleView(people: people, selectedPerson: $selectedPerson, imageHasChanged: imageHasChanged)
-                            .padding(.bottom)
-                        
+                        HorizontalPeopleView(people: people, imageSize: geometry.size.width * 0.18, selectedPerson: $selectedPerson, imageHasChanged: imageHasChanged)
+                                                    
                         if let selectedPerson = selectedPerson {
                             PersonDetailView(person: selectedPerson, geometry: geometry, imageHasChanged: $imageHasChanged)
                         } else {
                             Spacer()
                         }
                     }
+                    .padding(.top)
                     
                     VStack {
                         Spacer()

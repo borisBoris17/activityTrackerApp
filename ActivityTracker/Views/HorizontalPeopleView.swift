@@ -9,6 +9,7 @@ import SwiftUI
 
 struct HorizontalPeopleView: View {
     var people: FetchedResults<Person>
+    var imageSize: CGFloat
     @Binding var selectedPerson: Person?
     var imageHasChanged: Bool
     
@@ -17,13 +18,12 @@ struct HorizontalPeopleView: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack() {
                     ForEach(people) { person in
-                        PersonButtonView(person: person, selectedPerson: $selectedPerson, imageHasChanged: imageHasChanged)
+                        PersonButtonView(person: person, imageSize: imageSize, selectedPerson: $selectedPerson, imageHasChanged: imageHasChanged)
                     }
                 }
                 .padding()
-                .background(.gray, in: RoundedRectangle(cornerRadius: 20))
+                .background(.secondary, in: RoundedRectangle(cornerRadius: 16))
             }
-            .shadow(color: .white, radius: 5)
         }
     }
 }
