@@ -65,7 +65,6 @@ struct AddGoalToPersonView: View {
                             newGoal.startDate = newGoalStartDate
                             newGoal.progress = (Double(newGoalProgreess) ?? 1) * Double(minuteLength) * Double(hourLength)
                             newGoal.people = [person]
-                            newGoal.duration = Int16(newGoalDuration) ?? 1
                             
                             try? moc.save()
                             

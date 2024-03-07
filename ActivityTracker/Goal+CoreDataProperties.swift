@@ -22,7 +22,7 @@ extension Goal {
     @NSManaged public var name: String?
     @NSManaged public var desc: String?
     @NSManaged public var startDate: Date?
-    @NSManaged public var duration: Int16
+    @NSManaged public var endDate: Date?
     @NSManaged public var target: Int16
     @NSManaged public var progress: Double
 //    @NSManaged public var person: Person?
@@ -44,6 +44,10 @@ extension Goal {
     
     public var wrappedStartDate: Date {
         startDate ?? Date()
+    }
+    
+    public var wrappedEndDate: Date {
+        endDate ?? Date()
     }
     
     public var activityArray: [Activity] {
@@ -70,6 +74,14 @@ extension Goal {
     
     public var formattedStartDate: String {
         startDate?.formatted(date: .abbreviated, time: .omitted) ?? "N/A"
+    }
+    
+    public var formattedEndDate: String {
+        endDate?.formatted(date: .abbreviated, time: .omitted) ?? "N/A"
+    }
+    
+    public var daysBetween: Int {
+        Calendar.current.dateComponents([.day], from: wrappedStartDate, to: wrappedEndDate).day ?? 0
     }
     
     public var formattedProgress: String {

@@ -18,8 +18,8 @@ struct AddGoalView: View {
     @State private var newGoalDesc = ""
     @State private var newGoalPerson = -1
     @State private var newGoalStartDate = Date.now
+    @State private var newGoalEndDate = Calendar.current.date(byAdding: .year, value: 1, to: Date.init())!
     @State private var newGoalTarget = ""
-    @State private var newGoalDuration = ""
     @State private var newGoalProgreess = ""
     @State private var newGoalPeople: Set<Person> = []
     
@@ -47,9 +47,13 @@ struct AddGoalView: View {
                         }
                     }
                     
-                    Section {
+                    Section("Duration") {
                         DatePicker(selection: $newGoalStartDate, in: ...Date.now, displayedComponents: .date) {
                             Text("Start Date")
+                        }
+                        
+                        DatePicker(selection: $newGoalEndDate, in: Date.now..., displayedComponents: .date) {
+                            Text("End Date")
                         }
                     }
                     
@@ -57,10 +61,7 @@ struct AddGoalView: View {
                         TextField("Target (in hours)", text: $newGoalTarget)
                             .keyboardType(.decimalPad)
                     }
-                    Section("Duration") {
-                        TextField("Time to achieve goal (in years)", text: $newGoalDuration)
-                            .keyboardType(.decimalPad)
-                    }
+                    
                     Section("Progress") {
                         TextField("Time already achieved (in hours)", text: $newGoalProgreess)
                             .keyboardType(.decimalPad)
@@ -78,9 +79,9 @@ struct AddGoalView: View {
                             newGoal.desc = newGoalDesc
                             newGoal.target = Int16(newGoalTarget) ?? 1000
                             newGoal.startDate = newGoalStartDate
+                            newGoal.endDate = newGoalEndDate
                             newGoal.progress = (Double(newGoalProgreess) ?? 1) * Double(minuteLength) * Double(hourLength)
                             newGoal.people = [people[newGoalPerson]]
-                            newGoal.duration = Int16(newGoalDuration) ?? 1
                             
                             try? moc.save()
                             

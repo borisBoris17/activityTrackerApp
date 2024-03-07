@@ -17,9 +17,8 @@ struct GoalDetailView: View {
     @State private var newGoalName = ""
     @State private var newGoalDesc = ""
     @State private var newGoalStartDate = Date()
+    @State private var newGoalEndDate = Date()
     @State private var newGoalTarget = ""
-    // Update when refactored to be an endDate
-    @State private var newGoalDuration = ""
     
     let goal: Goal
     
@@ -81,7 +80,7 @@ struct GoalDetailView: View {
                                 }
                                 Text("Starting: \(goal.formattedStartDate)")
                                     .foregroundColor(.secondary)
-                                Text(goal.duration == 1 ? "Duration: \(goal.duration) Year" : "Duration: \(goal.duration) Years")
+                                Text("Remaining Days: \(goal.daysBetween)")
                                     .foregroundColor(.secondary)
                             }
                             Spacer()
@@ -129,8 +128,8 @@ struct GoalDetailView: View {
                     newGoalName = goal.wrappedName
                     newGoalDesc = goal.wrappedDesc
                     newGoalStartDate = goal.wrappedStartDate
+                    newGoalEndDate = goal.wrappedEndDate
                     newGoalTarget = "\(goal.target)"
-                    newGoalDuration = "\(goal.duration)"
                     
                     showEditGoal = true
                 }
@@ -140,12 +139,12 @@ struct GoalDetailView: View {
             drawingStroke = true
         }
         .sheet(isPresented: $showEditGoal) {
-            EditGoalView(newGoalName: $newGoalName, newGoalDesc: $newGoalDesc, newGoalStartDate: $newGoalStartDate, newGoalTarget: $newGoalTarget, newGoalDuration: $newGoalDuration) {
+            EditGoalView(goal: goal, newGoalName: $newGoalName, newGoalDesc: $newGoalDesc, newGoalStartDate: $newGoalStartDate, newGoalEndDate: $newGoalEndDate, newGoalTarget: $newGoalTarget) {
                 goal.name = newGoalName
                 goal.desc = newGoalDesc
                 goal.startDate = newGoalStartDate
+                goal.endDate = newGoalEndDate
                 goal.target = Int16(newGoalTarget) ?? 1000
-                goal.duration = Int16(newGoalDuration) ?? 1
                 
                 try? moc.save()
             }
