@@ -61,6 +61,16 @@ struct PersonButtonView: View {
                 print("Error reading file: \(error)")
             }
         }
+        .onChange(of: imageHasChanged) { newValue in
+            let imagePath = FileManager.getDocumentsDirectory().appendingPathExtension("/personImages").appendingPathComponent("\(person.wrappedId).png")
+            do {
+                let foundActivityImageData = try Data(contentsOf: imagePath)
+                let uiImage = UIImage(data: foundActivityImageData)
+                personImage = Image(uiImage: uiImage ?? UIImage(systemName: "photo")!)
+            } catch {
+                print("Error reading file: \(error)")
+            }
+        }
     }
 }
 
