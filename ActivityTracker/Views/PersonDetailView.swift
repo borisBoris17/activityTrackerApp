@@ -48,6 +48,7 @@ struct PersonDetailView: View {
                         }
                     } else {
                         Button("Save") {
+                            personPhotoItem = nil
                             imageHasChanged.toggle()
                             person.name = updatedName
                             

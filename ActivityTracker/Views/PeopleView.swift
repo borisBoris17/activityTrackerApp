@@ -52,6 +52,7 @@ struct PeopleView: View {
             .navigationTitle("People")
             .sheet(isPresented: $showAddPerson) {
                 AddPersonView()
+                    .presentationDetents([.medium])
             }
         }
     }
