@@ -58,6 +58,7 @@ struct PersonButtonView: View {
                 let uiImage = UIImage(data: foundActivityImageData)
                 personImage = Image(uiImage: uiImage ?? UIImage(systemName: "photo")!)
             } catch {
+                personImage = nil
                 print("Error reading file: \(error)")
             }
         }
@@ -68,6 +69,7 @@ struct PersonButtonView: View {
                 let uiImage = UIImage(data: foundActivityImageData)
                 personImage = Image(uiImage: uiImage ?? UIImage(systemName: "photo")!)
             } catch {
+                personImage = nil
                 print("Error reading file: \(error)")
             }
         }

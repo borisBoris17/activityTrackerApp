@@ -31,6 +31,17 @@ struct ActivityView: View {
     
     @Environment(\.displayScale) var displayScale
     
+    func removeActivityImage() {
+        let imagePath = FileManager.getDocumentsDirectory().appendingPathExtension("/activityImages").appendingPathComponent("\(activity.wrappedId).png")
+        do {
+            try FileManager.default.removeItem(at: imagePath)
+            activityImage = nil
+        } catch {
+            activityImage = nil
+            print("Error reading file: \(error)")
+        }
+    }
+    
     var body: some View {
         
         GeometryReader { geometry in
@@ -99,6 +110,15 @@ struct ActivityView: View {
                                         activityImage = Image(uiImage: uiImage)
                                     }
                                 }
+                        }
+                    }
+                }
+                
+               
+                HStack() {
+                    if activityImage != nil && mode == "edit" {
+                        Button("Remove Image", role: .destructive) {
+                            removeActivityImage()
                         }
                     }
                 }

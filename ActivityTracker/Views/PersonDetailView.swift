@@ -23,6 +23,17 @@ struct PersonDetailView: View {
     @State private var personImageData: Data?
     @State private var personImage: Image?
     
+    func removeImage() {
+        let imagePath = FileManager.getDocumentsDirectory().appendingPathExtension("/personImages").appendingPathComponent("\(person.wrappedId).png")
+        do {
+            try FileManager.default.removeItem(at: imagePath)
+            personImage = nil
+        } catch {
+            personImage = nil
+            print("Error reading file: \(error)")
+        }
+    }
+    
     var body: some View {
         VStack {
             VStack {
@@ -72,6 +83,20 @@ struct PersonDetailView: View {
                                             .resizable()
                                             .scaledToFit()
                                             .frame(width: geometry.size.width * 0.4)
+                                            .overlay(alignment: .bottomLeading) {
+                                                if mode == "edit" {
+                                                    Button() {
+                                                        removeImage()
+                                                    } label: {
+                                                        Image(systemName: "trash.circle.fill")
+                                                            .symbolRenderingMode(.multicolor)
+                                                            .font(.system(size: 30))
+                                                            .foregroundColor(.red)
+                                                    }
+                                                    .buttonStyle(.borderless)
+                                                }
+                                                
+                                            }
                                             .overlay(alignment: .bottomTrailing) {
                                                 PhotosPicker(selection: $personPhotoItem,
                                                              matching: .images,
