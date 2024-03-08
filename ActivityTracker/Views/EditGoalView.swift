@@ -19,7 +19,7 @@ struct EditGoalView: View {
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack {
                 Form {
                     Section("Goal Name") {

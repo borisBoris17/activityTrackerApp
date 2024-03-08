@@ -102,7 +102,7 @@ struct GoalDetailView: View {
                 Spacer()
             }
             .sheet(isPresented: $showActivities) {
-                NavigationView {
+                NavigationStack {
                     List {
                         Section("Activities") {
                             ForEach(goal.descendingActivityArray) {activity in

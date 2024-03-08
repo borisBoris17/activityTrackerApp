@@ -21,7 +21,7 @@ struct SaveActivityView: View {
     
     var body: some View {
         
-        NavigationView {
+        NavigationStack {
             GeometryReader { geometry in
                 Form {
                     HStack(alignment: .top) {

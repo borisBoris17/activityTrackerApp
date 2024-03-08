@@ -19,7 +19,7 @@ struct HomeView: View {
     
     var body: some View {
         
-        NavigationView {
+        NavigationStack {
             ZStack {
                 List {
                     

@@ -17,7 +17,7 @@ struct PeopleView: View {
     @FetchRequest(sortDescriptors: []) var people: FetchedResults<Person>
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             GeometryReader { geometry in
                 
                 ZStack {

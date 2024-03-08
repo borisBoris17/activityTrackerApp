@@ -18,7 +18,7 @@ struct ContentView: View {
                 }
                 .tag(1)
             
-            NavigationView {
+            NavigationStack {
                 ActivitiesView()
             }
             .tabItem {

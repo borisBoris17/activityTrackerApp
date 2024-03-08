@@ -29,7 +29,7 @@ struct AddGoalView: View {
     var body: some View {
         
         VStack {
-            NavigationView {
+            NavigationStack {
                 Form {
                     Section("Goal Name") {
                         TextField("Name", text: $newGoalName)

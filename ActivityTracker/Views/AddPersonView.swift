@@ -22,7 +22,7 @@ struct AddPersonView: View {
     var body: some View {
         GeometryReader { geometry in
             VStack {
-                NavigationView {
+                NavigationStack {
                     Form {
                         Section {
                             TextField("Name", text: $newName)

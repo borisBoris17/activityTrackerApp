@@ -177,7 +177,7 @@ struct ActivitiesView: View {
             }
         }
         .sheet(isPresented: $showAll) {
-            NavigationView() {
+            NavigationStack() {
                 ActivityListView(selectedDay: selectedDay, showAll: true)
                     .navigationTitle("Activities")
             }

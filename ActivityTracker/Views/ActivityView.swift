@@ -303,7 +303,7 @@ struct ActivityView: View {
             }
             .sheet(isPresented: $showEditGoals) {
                 VStack {
-                    NavigationView {
+                    NavigationStack {
                         GoalSelectionView(selectedGoals: $updatedGoals)
                         .navigationTitle("Edit Goals")
                         .toolbar {
