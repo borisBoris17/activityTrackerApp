@@ -9,12 +9,9 @@ import SwiftUI
 
 struct PeopleView: View {
     
-    @State private var isLoading = true
-    @State public var numPeople = 0
-    @State public var selectedPerson: Person? = nil
-    @State var showAddPerson = false
-    @State private var imageHasChanged = false
     @FetchRequest(sortDescriptors: []) var people: FetchedResults<Person>
+    
+    @State private var viewModel = ViewModel()
     
     var body: some View {
         NavigationStack {
@@ -22,10 +19,10 @@ struct PeopleView: View {
                 
                 ZStack {
                     VStack {
-                        HorizontalPeopleView(people: people, imageSize: geometry.size.width * 0.18, selectedPerson: $selectedPerson, imageHasChanged: imageHasChanged)
+                        HorizontalPeopleView(people: people, imageSize: geometry.size.width * 0.18, selectedPerson: $viewModel.selectedPerson, imageHasChanged: viewModel.imageHasChanged)
                                                     
-                        if let selectedPerson = selectedPerson {
-                            PersonDetailView(person: selectedPerson, geometry: geometry, imageHasChanged: $imageHasChanged)
+                        if let selectedPerson = viewModel.selectedPerson {
+                            PersonDetailView(person: selectedPerson, geometry: geometry, imageHasChanged: $viewModel.imageHasChanged)
                         } else {
                             Spacer()
                         }
@@ -39,7 +36,7 @@ struct PeopleView: View {
                             Spacer()
                             
                             Button() {
-                                showAddPerson = true
+                                viewModel.showAddPerson = true
                             } label : {
                                 Label("Add New Person", systemImage: "plus")
                             }
@@ -50,7 +47,7 @@ struct PeopleView: View {
                 
             }
             .navigationTitle("People")
-            .sheet(isPresented: $showAddPerson) {
+            .sheet(isPresented: $viewModel.showAddPerson) {
                 AddPersonView()
                     .presentationDetents([.medium])
             }
