@@ -44,15 +44,13 @@ struct SaveActivityView: View {
                             .background(Color.secondary)
                     }
                     HStack(alignment: .top) {
-                        if #available(iOS 17.0, *) {
-                            ImagePickerView(photoItem: $activityPhotoItem, selectedImageData: $activityImageData, imageSize: geometry.size.width * 0.15)
-                                .onChange(of: activityImageData) {
-                                    if let activityImageData,
-                                       let uiImage = UIImage(data: activityImageData) {
-                                        activityImage = Image(uiImage: uiImage)
-                                    }
+                        ImagePickerView(photoItem: $activityPhotoItem, selectedImageData: $activityImageData, imageSize: geometry.size.width * 0.15)
+                            .onChange(of: activityImageData) {
+                                if let activityImageData,
+                                   let uiImage = UIImage(data: activityImageData) {
+                                    activityImage = Image(uiImage: uiImage)
                                 }
-                        }
+                            }
                     }
                 }
             }

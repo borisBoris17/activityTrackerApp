@@ -8,7 +8,6 @@
 import SwiftUI
 import PhotosUI
 
-@available(iOS 17.0, *)
 struct ImagePickerView: View {
     @Binding var photoItem: PhotosPickerItem?
     @Binding var selectedImageData: Data?

@@ -79,15 +79,13 @@ struct ActivityView: View {
                             }
                         }
                     } else {
-                        if #available(iOS 17.0, *) {
-                            ImagePickerView(photoItem: $viewModel.activityPhotoItem, selectedImageData: $viewModel.activityImageData, imageSize: geometry.size.width * 0.15)
-                                .onChange(of: viewModel.activityImageData) {
-                                    if let activityImageData = viewModel.activityImageData,
-                                       let uiImage = UIImage(data: activityImageData) {
-                                        viewModel.activityImage = Image(uiImage: uiImage)
-                                    }
+                        ImagePickerView(photoItem: $viewModel.activityPhotoItem, selectedImageData: $viewModel.activityImageData, imageSize: geometry.size.width * 0.15)
+                            .onChange(of: viewModel.activityImageData) {
+                                if let activityImageData = viewModel.activityImageData,
+                                   let uiImage = UIImage(data: activityImageData) {
+                                    viewModel.activityImage = Image(uiImage: uiImage)
                                 }
-                        }
+                            }
                     }
                 }
                 
