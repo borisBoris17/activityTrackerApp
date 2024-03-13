@@ -21,42 +21,73 @@ struct GoalsView: View {
         
         NavigationStack {
             ZStack {
-                List {
-                    
-                    if (goals.count == 0) {
-                        Text("Add some goals...")
-                    }
-                    
+                ScrollView {
                     ForEach(people) { person in
-                        if person.goalsArray.count > 0 {
-                        Section(person.wrappedName) {
-                                ForEach(person.goalsArray) { goal in
-                                    if goal.peopleArray.contains(person) {
+                        HStack() {
+                            Text(person.wrappedName)
+                                .font(.title)
+                                .fontWeight(.bold)
+                            Spacer()
+                        }
+                        .padding(.top, 50)
+                        ScrollView(.horizontal) {
+                            HStack(spacing: 20) {
+                                if (person.goalsArray.isEmpty) {
+                                    AddGoalCardView()
+                                } else {
+                                    ForEach(person.goalsArray) { goal in
                                         NavigationLink {
                                             VStack {
                                                 GoalDetailView(goal: goal)
                                             }
                                         } label: {
-                                            HStack {
-                                                
-                                                VStack(alignment: .leading) {
-                                                    Text(goal.wrappedName)
-                                                    Text(goal.wrappedDesc)
-                                                        .foregroundColor(.secondary)
-                                                }
-                                                
-                                                Spacer()
-                                                
-                                                Text("\(goal.formattedProgress)/\(goal.target)")
-                                            }
+                                            GoalCardView(goal: goal)
                                         }
+                                        .buttonStyle(PlainButtonStyle())
                                     }
                                 }
-                                .onDelete(perform: deleteGoals)
                             }
                         }
+                        .scrollIndicators(.hidden)
                     }
                 }
+                .scrollIndicators(.hidden)
+//                List {
+//                    
+//                    if (goals.count == 0) {
+//                        Text("Add some goals...")
+//                    }
+//                    
+//                    ForEach(people) { person in
+//                        if person.goalsArray.count > 0 {
+//                        Section(person.wrappedName) {
+//                                ForEach(person.goalsArray) { goal in
+//                                    if goal.peopleArray.contains(person) {
+//                                        NavigationLink {
+//                                            VStack {
+//                                                GoalDetailView(goal: goal)
+//                                            }
+//                                        } label: {
+//                                            HStack {
+//                                                
+//                                                VStack(alignment: .leading) {
+//                                                    Text(goal.wrappedName)
+//                                                    Text(goal.wrappedDesc)
+//                                                        .foregroundColor(.secondary)
+//                                                }
+//                                                
+//                                                Spacer()
+//                                                
+//                                                Text("\(goal.formattedProgress)/\(goal.target)")
+//                                            }
+//                                        }
+//                                    }
+//                                }
+//                                .onDelete(perform: deleteGoals)
+//                            }
+//                        }
+//                    }
+//                }
                 
                 VStack {
                     Spacer()
@@ -73,10 +104,24 @@ struct GoalsView: View {
                     }
                 }
             }
+            
             .navigationTitle("Goals")
             .sheet(isPresented: $viewModel.showAddGoal) {
                 AddGoalView()
             }
+        }
+    }
+    
+    struct AddGoalCardView: View {
+        
+        var body: some View {
+            VStack(alignment: .leading) {
+                Text("Add a goal")
+                    .font(.title)
+            }
+            .padding()
+            .frame(width: 165, height: 165, alignment: .topLeading)
+            .background(.secondary, in: RoundedRectangle(cornerRadius: 16))
         }
     }
     
