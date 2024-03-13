@@ -8,14 +8,14 @@
 import SwiftUI
 
 
-struct HomeView: View {
+struct GoalsView: View {
     @Environment(\.managedObjectContext) var moc
     
     @FetchRequest(sortDescriptors: []) var people: FetchedResults<Person>
     @FetchRequest(sortDescriptors: []) var goals: FetchedResults<Goal>
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Activity.startDate, ascending: false)]) var activities: FetchedResults<Activity>
-    @State private var showAddGoal = false
-    @State private var showAddPerson = false
+    
+    @State private var viewModel = ViewModel()
     
     var body: some View {
         
@@ -65,7 +65,7 @@ struct HomeView: View {
                         Spacer()
                         
                         Button() {
-                            showAddGoal = true
+                            viewModel.showAddGoal = true
                         } label : {
                             Label("Add New Goal", systemImage: "plus")
                         }
@@ -74,7 +74,7 @@ struct HomeView: View {
                 }
             }
             .navigationTitle("Goals")
-            .sheet(isPresented: $showAddGoal) {
+            .sheet(isPresented: $viewModel.showAddGoal) {
                 AddGoalView()
             }
         }
@@ -104,6 +104,6 @@ struct HomeView: View {
 struct HomeView_Previews: PreviewProvider {
     
     static var previews: some View {
-        HomeView()
+        GoalsView()
     }
 }

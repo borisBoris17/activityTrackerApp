@@ -15,24 +15,7 @@ struct PersonDetailView: View {
     var geometry: GeometryProxy
     @Binding var imageHasChanged: Bool
     
-    @State var mode = "view"
-    @State var updatedName = ""
-    @State var showAddGoalSheet = false
-    
-    @State private var personPhotoItem: PhotosPickerItem?
-    @State private var personImageData: Data?
-    @State private var personImage: Image?
-    
-    func removeImage() {
-        let imagePath = FileManager.getDocumentsDirectory().appendingPathExtension("/personImages").appendingPathComponent("\(person.wrappedId).png")
-        do {
-            try FileManager.default.removeItem(at: imagePath)
-            personImage = nil
-        } catch {
-            personImage = nil
-            print("Error reading file: \(error)")
-        }
-    }
+    @State private var viewModel = ViewModel()
     
     var body: some View {
         VStack {
@@ -41,27 +24,17 @@ struct PersonDetailView: View {
                     Text(person.wrappedName)
                         .font(.largeTitle)
                     Spacer()
-                    if mode == "view" {
+                    if viewModel.mode == "view" {
                         Button("Edit") {
-                            updatedName = person.wrappedName
-                            mode = "edit"
+                            viewModel.updatedName = person.wrappedName
+                            viewModel.mode = "edit"
                         }
                     } else {
                         Button("Save") {
-                            personPhotoItem = nil
                             imageHasChanged.toggle()
-                            person.name = updatedName
-                            
-                            let renderer = ImageRenderer(content: personImage)
-                            if let uiImage = renderer.uiImage {
-                                if let data = uiImage.jpegData(compressionQuality: 0.2) {
-                                    let filename = FileManager.getDocumentsDirectory().appendingPathExtension("/personImages").appendingPathComponent("\(person.wrappedId).png")
-                                    try? data.write(to: filename)
-                                }
-                            }
+                            viewModel.update(person)
                             
                             try? moc.save()
-                            mode = "view"
                         }
                     }
                 }
@@ -70,24 +43,24 @@ struct PersonDetailView: View {
                 List {
                     Section("Image") {
                         HStack(alignment: .top) {
-                            if let personImage {
+                            if let selectedImage = viewModel.personImage {
                                 Spacer()
                                 NavigationLink {
                                     VStack {
-                                        personImage
+                                        selectedImage
                                             .resizable()
                                             .scaledToFit()
                                     }
                                 } label: {
                                     ZStack {
-                                        personImage
+                                        selectedImage
                                             .resizable()
                                             .scaledToFit()
                                             .frame(width: geometry.size.width * 0.4)
                                             .overlay(alignment: .bottomLeading) {
-                                                if mode == "edit" {
+                                                if viewModel.mode == "edit" {
                                                     Button() {
-                                                        removeImage()
+                                                        viewModel.removeImage(on: person)
                                                     } label: {
                                                         Image(systemName: "trash.circle.fill")
                                                             .symbolRenderingMode(.multicolor)
@@ -99,10 +72,10 @@ struct PersonDetailView: View {
                                                 
                                             }
                                             .overlay(alignment: .bottomTrailing) {
-                                                PhotosPicker(selection: $personPhotoItem,
+                                                PhotosPicker(selection: $viewModel.personPhotoItem,
                                                              matching: .images,
                                                              photoLibrary: .shared()) {
-                                                    if mode == "edit" {
+                                                    if viewModel.mode == "edit" {
                                                         Image(systemName: "pencil.circle.fill")
                                                             .symbolRenderingMode(.multicolor)
                                                             .font(.system(size: 30))
@@ -119,10 +92,10 @@ struct PersonDetailView: View {
                                     .scaledToFit()
                                     .frame(width: geometry.size.width * 0.4)
                                     .overlay(alignment: .bottomTrailing) {
-                                        PhotosPicker(selection: $personPhotoItem,
+                                        PhotosPicker(selection: $viewModel.personPhotoItem,
                                                      matching: .images,
                                                      photoLibrary: .shared()) {
-                                            if mode == "edit" {
+                                            if viewModel.mode == "edit" {
                                                 Image(systemName: "pencil.circle.fill")
                                                     .symbolRenderingMode(.multicolor)
                                                     .font(.system(size: 30))
@@ -135,20 +108,20 @@ struct PersonDetailView: View {
                             }
                         }
                     }
-                    .onChange(of: personPhotoItem) { newPhoto in
+                    .onChange(of: viewModel.personPhotoItem) {
                         Task {
-                            if let loaded = try? await newPhoto?.loadTransferable(type: Data.self) {
-                                personImageData = loaded
+                            if let loaded = try? await viewModel.personPhotoItem?.loadTransferable(type: Data.self) {
+                                viewModel.personImageData = loaded
                             } else {
                                 print("Failed")
                             }
                         }
                         
                     }
-                    .onChange(of: personImageData) { newData in
-                        if let newData,
-                           let uiImage = UIImage(data: newData) {
-                            personImage = Image(uiImage: uiImage)
+                    .onChange(of: viewModel.personImageData) {
+                        if let changedPersonImageData = viewModel.personImageData,
+                           let uiImage = UIImage(data: changedPersonImageData) {
+                            viewModel.personImage = Image(uiImage: uiImage)
                         }
                     }
                     
@@ -156,12 +129,12 @@ struct PersonDetailView: View {
                         HStack(alignment: .top) {
                             Text("Name")
                             Spacer()
-                            if mode == "view" {
+                            if viewModel.mode == "view" {
                                 Text(person.wrappedName)
                                     .foregroundColor(.secondary)
                                     .multilineTextAlignment(.trailing)
                             } else {
-                                TextField("Name", text: $updatedName)
+                                TextField("Name", text: $viewModel.updatedName)
                                     .multilineTextAlignment(.trailing)
                                     .background(Color.secondary)
                             }
@@ -185,41 +158,28 @@ struct PersonDetailView: View {
                     }
                 }
                 
-                if mode == "edit" {
+                if viewModel.mode == "edit" {
                     HStack {
                         Spacer()
                         
                         Button("Add Goal") {
-                            showAddGoalSheet = true
+                            viewModel.showAddGoalSheet = true
                         }
                     }
                     .padding(.trailing)
                 }
             }
-            .onChange(of: person) { newPerson in
-                let imagePath = FileManager.getDocumentsDirectory().appendingPathExtension("/personImages").appendingPathComponent("\(newPerson.wrappedId).png")
-                do {
-                    let foundActivityImageData = try Data(contentsOf: imagePath)
-                    let uiImage = UIImage(data: foundActivityImageData)
-                    personImage = Image(uiImage: uiImage ?? UIImage(systemName: "photo")!)
-                } catch {
-                    personImage = nil
-                    print("Error reading file: \(error)")
-                }
+            .onChange(of: person) {
+                let imagePath = FileManager.getDocumentsDirectory().appendingPathExtension("/personImages").appendingPathComponent("\(person.wrappedId).png")
+                viewModel.personImage = Utils.loadImage(from: imagePath)
             }
-            .sheet(isPresented: $showAddGoalSheet) {
+            .sheet(isPresented: $viewModel.showAddGoalSheet) {
                 AddGoalToPersonView(person: person)
             }
         }
         .onAppear {
             let imagePath = FileManager.getDocumentsDirectory().appendingPathExtension("/personImages").appendingPathComponent("\(person.wrappedId).png")
-            do {
-                let foundActivityImageData = try Data(contentsOf: imagePath)
-                let uiImage = UIImage(data: foundActivityImageData)
-                personImage = Image(uiImage: uiImage ?? UIImage(systemName: "photo")!)
-            } catch {
-                print("Error reading file: \(error)")
-            }
+            viewModel.personImage = Utils.loadImage(from: imagePath)
         }
     }
     

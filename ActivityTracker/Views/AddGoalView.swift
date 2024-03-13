@@ -8,20 +8,10 @@
 import SwiftUI
 import MultiPicker
 
-//let minuteLength: Int16 = 3
-//let hourLength: Int16 = 3
-
 struct AddGoalView: View {
     @FetchRequest(sortDescriptors: []) var people: FetchedResults<Person>
     
-    @State private var newGoalName = ""
-    @State private var newGoalDesc = ""
-    @State private var newGoalPerson = -1
-    @State private var newGoalStartDate = Date.now
-    @State private var newGoalEndDate = Calendar.current.date(byAdding: .year, value: 1, to: Date.init())!
-    @State private var newGoalTarget = ""
-    @State private var newGoalProgreess = ""
-    @State private var newGoalPeople: Set<Person> = []
+    @State private var viewModel = ViewModel()
     
     @Environment(\.dismiss) var dismiss
     @Environment(\.managedObjectContext) var moc
@@ -32,14 +22,14 @@ struct AddGoalView: View {
             NavigationStack {
                 Form {
                     Section("Goal Name") {
-                        TextField("Name", text: $newGoalName)
+                        TextField("Name", text: $viewModel.newGoalName)
                     }
                     Section("Goal Description") {
-                        TextField("Description", text: $newGoalDesc)
+                        TextField("Description", text: $viewModel.newGoalDesc)
                     }
                     
                     Section {
-                        Picker("Who's Goal?", selection: $newGoalPerson) {
+                        Picker("Who's Goal?", selection: $viewModel.newGoalPerson) {
                             Text("None").tag(-1)
                             ForEach(0 ..< people.count, id: \.self) { i in
                                 Text("\(people[i].wrappedName)")
@@ -48,22 +38,22 @@ struct AddGoalView: View {
                     }
                     
                     Section("Duration") {
-                        DatePicker(selection: $newGoalStartDate, in: ...Date.now, displayedComponents: .date) {
+                        DatePicker(selection: $viewModel.newGoalStartDate, in: ...Date.now, displayedComponents: .date) {
                             Text("Start Date")
                         }
                         
-                        DatePicker(selection: $newGoalEndDate, in: Date.now..., displayedComponents: .date) {
+                        DatePicker(selection: $viewModel.newGoalEndDate, in: Date.now..., displayedComponents: .date) {
                             Text("End Date")
                         }
                     }
                     
                     Section("Target") {
-                        TextField("Target (in hours)", text: $newGoalTarget)
+                        TextField("Target (in hours)", text: $viewModel.newGoalTarget)
                             .keyboardType(.decimalPad)
                     }
                     
                     Section("Progress") {
-                        TextField("Time already achieved (in hours)", text: $newGoalProgreess)
+                        TextField("Time already achieved (in hours)", text: $viewModel.newGoalProgreess)
                             .keyboardType(.decimalPad)
                     }
                 }
@@ -73,21 +63,13 @@ struct AddGoalView: View {
                     ToolbarItemGroup {
                         
                         Button("Save") {
-                            let newGoal = Goal(context: moc)
-                            newGoal.id = UUID()
-                            newGoal.name = newGoalName
-                            newGoal.desc = newGoalDesc
-                            newGoal.target = Int16(newGoalTarget) ?? 1000
-                            newGoal.startDate = newGoalStartDate
-                            newGoal.endDate = newGoalEndDate
-                            newGoal.progress = (Double(newGoalProgreess) ?? 1) * Double(minuteLength) * Double(hourLength)
-                            newGoal.people = [people[newGoalPerson]]
+                            viewModel.create(newGoal: Goal(context: moc), for: people[viewModel.newGoalPerson])
                             
                             try? moc.save()
                             
                             dismiss()
                         }
-                        .disabled(newGoalName.isEmpty || newGoalPerson == -1 || newGoalTarget.isEmpty)
+                        .disabled(viewModel.newGoalName.isEmpty || viewModel.newGoalPerson == -1 || viewModel.newGoalTarget.isEmpty)
                         .padding()
                     }
                 }

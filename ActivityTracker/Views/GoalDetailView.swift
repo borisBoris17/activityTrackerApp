@@ -8,19 +8,9 @@
 import SwiftUI
 
 struct GoalDetailView: View {
-    @State private var drawingStroke = false
-    @State private var showActivities = false
-    
-    @State private var refreshId = UUID()
-    @State private var showEditGoal = false
-    
-    @State private var newGoalName = ""
-    @State private var newGoalDesc = ""
-    @State private var newGoalStartDate = Date()
-    @State private var newGoalEndDate = Date()
-    @State private var newGoalTarget = ""
-    
     let goal: Goal
+    
+    @State private var viewModel = ViewModel()
     
     @Environment(\.managedObjectContext) var moc
     
@@ -43,7 +33,7 @@ struct GoalDetailView: View {
                                 
                                 Circle()
                                     .trim(from: 0,
-                                          to: drawingStroke ?
+                                          to: viewModel.drawingStroke ?
                                           goal.percentageDone
                                           : 0)
                                     .stroke(
@@ -54,7 +44,7 @@ struct GoalDetailView: View {
                                         )
                                     )
                                     .rotationEffect(.degrees(-90))
-                                    .animation(animation, value: drawingStroke)
+                                    .animation(animation, value: viewModel.drawingStroke)
                                     .frame(width: geometry.size.width * 0.7,
                                            height: geometry.size.width * 0.7)
                                 
@@ -85,7 +75,7 @@ struct GoalDetailView: View {
                             }
                             Spacer()
                             Button("Activities") {
-                                showActivities = true
+                                viewModel.showActivities = true
                             }
                         }
                         .padding(.horizontal)
@@ -101,18 +91,18 @@ struct GoalDetailView: View {
                 }
                 Spacer()
             }
-            .sheet(isPresented: $showActivities) {
+            .sheet(isPresented: $viewModel.showActivities) {
                 NavigationStack {
                     List {
                         Section("Activities") {
                             ForEach(goal.descendingActivityArray) {activity in
                                 NavigationLink {
-                                    ActivityView(activity: activity, refreshId: $refreshId)
+                                    ActivityView(activity: activity, refreshId: $viewModel.refreshId)
                                 } label: {
                                     ActivityListItemView(activity: activity)
                                 }
                             }
-                            .id(refreshId)
+                            .id(viewModel.refreshId)
                         }
                     }
                     .navigationTitle("\(goal.wrappedName) - Activities")
@@ -125,26 +115,16 @@ struct GoalDetailView: View {
         .toolbar {
             ToolbarItem {
                 Button("Edit") {
-                    newGoalName = goal.wrappedName
-                    newGoalDesc = goal.wrappedDesc
-                    newGoalStartDate = goal.wrappedStartDate
-                    newGoalEndDate = goal.wrappedEndDate
-                    newGoalTarget = "\(goal.target)"
-                    
-                    showEditGoal = true
+                    viewModel.prepareForEdit(for: goal)
                 }
             }
         }
         .onAppear {
-            drawingStroke = true
+            viewModel.drawingStroke = true
         }
-        .sheet(isPresented: $showEditGoal) {
-            EditGoalView(goal: goal, newGoalName: $newGoalName, newGoalDesc: $newGoalDesc, newGoalStartDate: $newGoalStartDate, newGoalEndDate: $newGoalEndDate, newGoalTarget: $newGoalTarget) {
-                goal.name = newGoalName
-                goal.desc = newGoalDesc
-                goal.startDate = newGoalStartDate
-                goal.endDate = newGoalEndDate
-                goal.target = Int16(newGoalTarget) ?? 1000
+        .sheet(isPresented: $viewModel.showEditGoal) {
+            EditGoalView(goal: goal, newGoalName: $viewModel.newGoalName, newGoalDesc: $viewModel.newGoalDesc, newGoalStartDate: $viewModel.newGoalStartDate, newGoalEndDate: $viewModel.newGoalEndDate, newGoalTarget: $viewModel.newGoalTarget) {
+                viewModel.update(goal)
                 
                 try? moc.save()
             }

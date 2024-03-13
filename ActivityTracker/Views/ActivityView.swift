@@ -15,39 +15,16 @@ struct ActivityView: View {
     @Environment(\.managedObjectContext) var moc
     @Environment(\.dismiss) var dismiss
     
-    @State var mode = "view"
-    @State var updatedDuration = ""
-    @State var updatedName = ""
-    @State var updatedDescription = ""
-    @State var hours = 0
-    @State var minutes = 0
-    
-    @State private var activityPhotoItem: PhotosPickerItem?
-    @State private var activityImageData: Data?
-    @State private var activityImage: Image?
-    
-    @State private var showEditGoals = false
-    @State private var updatedGoals = Set<Goal>()
+    @State private var viewModel = ViewModel()
     
     @Environment(\.displayScale) var displayScale
-    
-    func removeActivityImage() {
-        let imagePath = FileManager.getDocumentsDirectory().appendingPathExtension("/activityImages").appendingPathComponent("\(activity.wrappedId).png")
-        do {
-            try FileManager.default.removeItem(at: imagePath)
-            activityImage = nil
-        } catch {
-            activityImage = nil
-            print("Error reading file: \(error)")
-        }
-    }
     
     var body: some View {
         
         GeometryReader { geometry in
             Form {
                 HStack(alignment: .top) {
-                    if mode == "view" {
+                    if viewModel.mode == "view" {
                         Text("Name")
                             .frame(width: geometry.size.width * 0.3, alignment: .leading)
                         Spacer()
@@ -58,14 +35,14 @@ struct ActivityView: View {
                         Text("Name")
                             .frame(width: geometry.size.width * 0.3, alignment: .leading)
                         Spacer()
-                        TextField("Name", text: $updatedName)
+                        TextField("Name", text: $viewModel.updatedName)
                             .multilineTextAlignment(.trailing)
                             .background(Color.secondary)
                     }
                 }
                 
                 HStack(alignment: .top) {
-                    if mode == "view" {
+                    if viewModel.mode == "view" {
                         Text("Description")
                             .frame(width: geometry.size.width * 0.3, alignment: .leading)
                         Spacer()
@@ -76,7 +53,7 @@ struct ActivityView: View {
                         Text("Description")
                             .frame(width: geometry.size.width * 0.3, alignment: .leading)
                         Spacer()
-                        TextEditor( text: $updatedDescription)
+                        TextEditor( text: $viewModel.updatedDescription)
                             .frame(minHeight: 150,
                                    maxHeight: .infinity,
                                    alignment: .center )
@@ -86,16 +63,16 @@ struct ActivityView: View {
                 }
                 
                 HStack {
-                    if mode == "view" {
+                    if viewModel.mode == "view" {
                         NavigationLink {
                             VStack {
-                                activityImage?
+                                viewModel.activityImage?
                                     .resizable()
                                     .scaledToFit()
                             }
                         } label: {
                             HStack {
-                                activityImage?
+                                viewModel.activityImage?
                                     .resizable()
                                     .scaledToFit()
                                     .frame(width: geometry.size.width * 0.15, height: geometry.size.width * 0.15)
@@ -103,11 +80,11 @@ struct ActivityView: View {
                         }
                     } else {
                         if #available(iOS 17.0, *) {
-                            ImagePickerView(photoItem: $activityPhotoItem, selectedImageData: $activityImageData, imageSize: geometry.size.width * 0.15)
-                                .onChange(of: activityImageData) {
-                                    if let activityImageData,
+                            ImagePickerView(photoItem: $viewModel.activityPhotoItem, selectedImageData: $viewModel.activityImageData, imageSize: geometry.size.width * 0.15)
+                                .onChange(of: viewModel.activityImageData) {
+                                    if let activityImageData = viewModel.activityImageData,
                                        let uiImage = UIImage(data: activityImageData) {
-                                        activityImage = Image(uiImage: uiImage)
+                                        viewModel.activityImage = Image(uiImage: uiImage)
                                     }
                                 }
                         }
@@ -116,9 +93,9 @@ struct ActivityView: View {
                 
                
                 HStack() {
-                    if activityImage != nil && mode == "edit" {
+                    if viewModel.activityImage != nil && viewModel.mode == "edit" {
                         Button("Remove Image", role: .destructive) {
-                            removeActivityImage()
+                            viewModel.removeActivityImage(on: activity)
                         }
                     }
                 }
@@ -126,9 +103,9 @@ struct ActivityView: View {
                 HStack(alignment: .top) {
                     VStack(alignment: .leading) {
                         Text("Goals")
-                        if mode == "edit" {
+                        if viewModel.mode == "edit" {
                             Button("Edit") {
-                                showEditGoals.toggle()
+                                viewModel.showEditGoals.toggle()
                             }
                         }
                     }
@@ -146,7 +123,7 @@ struct ActivityView: View {
                 
                 HStack(alignment: .top) {
                     
-                    if mode == "view" {
+                    if viewModel.mode == "view" {
                         Text("Duration")
                             .frame(width: geometry.size.width * 0.3, alignment: .leading)
                         Spacer()
@@ -157,7 +134,7 @@ struct ActivityView: View {
                         Text("Duration")
                             .frame(width: geometry.size.width * 0.3, alignment: .leading)
                         Spacer()
-                        Picker("Hours", selection: $hours) {
+                        Picker("Hours", selection: $viewModel.hours) {
                             ForEach(0..<25) {
                                 Text("\($0)")
                             }
@@ -174,7 +151,7 @@ struct ActivityView: View {
                         .frame(maxHeight: 150)
                         .clipped()
                         
-                        Picker("Minutes", selection: $minutes) {
+                        Picker("Minutes", selection: $viewModel.minutes) {
                             ForEach(0..<60) {
                                 Text("\($0)")
                             }
@@ -206,110 +183,35 @@ struct ActivityView: View {
             .navigationBarTitle("Activity Detail", displayMode: .inline)
             .toolbar {
                 ToolbarItemGroup {
-                    if mode == "view" {
+                    if viewModel.mode == "view" {
                         Button("Edit") {
-                            updatedDuration = activity.formattedDuration
-                            updatedName = activity.wrappedName
-                            updatedDescription = activity.wrappedDesc
-                            let durationSegments = activity.formattedDuration.components(separatedBy: ".")
-                            hours = Int(durationSegments[0]) ?? 0
-                            let decimalMinutes = Double(durationSegments[1]) ?? 0
-                            let calculatedMinutes = Int(ceil((decimalMinutes / 100) * Double(minuteLength)))
-                            if calculatedMinutes < hourLength {
-                                minutes = calculatedMinutes
-                            } else {
-                                minutes = 0
-                            }
-                            
-                            
-                            updatedGoals = Set<Goal>(activity.goalArray)
-                            mode = "edit"
-                            
+                            viewModel.prepareEdit(for: activity)
                         }
                         .padding()
                     } else {
                         Button("Save") {
-                            var removedGoals = Set<Goal>()
-                            var addedGoals = Set<Goal>()
-                            var editedGoal = Set<Goal>()
-                            let newSecondsFromHour = hours * minuteLength * hourLength
-                            let newSecondsFromMinutes = minutes * hourLength
-                            let newSeconds = Double(newSecondsFromHour + newSecondsFromMinutes)
-                            let oldSeconds = Double(activity.duration)
-                            
-                            // Find the Goals that were removed
-                            for existingGoal in activity.goalArray {
-                                if !updatedGoals.contains(existingGoal) {
-                                    removedGoals.insert(existingGoal)
-                                }
-                            }
-                            
-                            // Find all the Goals that were added.
-                            for updatedGoal in updatedGoals {
-                                if !activity.goalArray.contains(updatedGoal) {
-                                    addedGoals.insert(updatedGoal)
-                                } else {
-                                    editedGoal.insert(updatedGoal)
-                                }
-                            }
-                            
-                            // take away the progress that was made toward the removed goals (using the previously saved time)
-                            for removedGoal in removedGoals {
-                                removedGoal.progress = removedGoal.progress - oldSeconds
-                            }
-                            
-                            // Add the new time to the added goals progress
-                            for addedGoal in addedGoals {
-                                addedGoal.progress = addedGoal.progress + newSeconds.rounded(.up)
-                            }
-                            
-                            // modify the goals that were neither removed or added
-                            for goal in editedGoal {
-                                goal.progress = (goal.progress - oldSeconds) + newSeconds.rounded(.up)
-                            }
-                            
-                            activity.duration = Int16(newSeconds.rounded(.up))
-                            activity.name = updatedName
-                            activity.desc = updatedDescription
-                            let renderer = ImageRenderer(content: activityImage)
-                            if let uiImage = renderer.uiImage {
-                                if let data = uiImage.pngData() {
-                                    let filename = FileManager.getDocumentsDirectory().appendingPathExtension("/activityImages").appendingPathComponent("\(activity.wrappedId).png")
-                                    try? data.write(to: filename)
-                                }
-                            }
-                            
+                            viewModel.edit(for: activity)
                             try? moc.save()
-                            updatedGoals = Set<Goal>()
                             refreshId = UUID()
-                            withAnimation {
-                                mode = "view"
-                            }
                         }
-                        .disabled(updatedDuration.isEmpty)
+                        .disabled(viewModel.updatedDuration.isEmpty)
                         .padding()
                     }
                 }
             }
             .onAppear {
                 let imagePath = FileManager.getDocumentsDirectory().appendingPathExtension("/activityImages").appendingPathComponent("\(activity.wrappedId).png")
-                do {
-                    let foundActivityImageData = try Data(contentsOf: imagePath)
-                    let uiImage = UIImage(data: foundActivityImageData)
-                    activityImage = Image(uiImage: uiImage ?? UIImage(systemName: "photo")!)
-                } catch {
-                    print("Error reading file: \(error)")
-                }
+                viewModel.activityImage = Utils.loadImage(from: imagePath)
             }
-            .sheet(isPresented: $showEditGoals) {
+            .sheet(isPresented: $viewModel.showEditGoals) {
                 VStack {
                     NavigationStack {
-                        GoalSelectionView(selectedGoals: $updatedGoals)
+                        GoalSelectionView(selectedGoals: $viewModel.updatedGoals)
                         .navigationTitle("Edit Goals")
                         .toolbar {
                             ToolbarItemGroup {
                                 Button("Back") {
-                                    showEditGoals.toggle()
+                                    viewModel.showEditGoals.toggle()
                                 }
                             }
                         }
