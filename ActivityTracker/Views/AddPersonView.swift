@@ -22,12 +22,10 @@ struct AddPersonView: View {
                     Form {
                         Section {
                             TextField("Name", text: $viewModel.newName)
-                            if #available(iOS 17.0, *) {
-                                ImagePickerView(photoItem: $viewModel.personPhotoItem, selectedImageData: $viewModel.personImageData, imageSize: geometry.size.width * 0.15)
-                                    .onChange(of: viewModel.personImageData) {
-                                        viewModel.updatePersonImage()
-                                    }
-                            }
+                            ImagePickerView(photoItem: $viewModel.personPhotoItem, selectedImageData: $viewModel.personImageData, imageSize: geometry.size.width * 0.15)
+                                .onChange(of: viewModel.personImageData) {
+                                    viewModel.updatePersonImage()
+                                }
                         }
                     }
                     .navigationBarTitle("Add Person", displayMode: .inline)

@@ -155,18 +155,16 @@ struct PersonDetailView: View {
                             }
                         }
                         
-                    }
-                }
-                
-                if viewModel.mode == "edit" {
-                    HStack {
-                        Spacer()
-                        
-                        Button("Add Goal") {
-                            viewModel.showAddGoalSheet = true
+                        if viewModel.mode == "edit" {
+                            HStack {
+                                Button("Add Goal") {
+                                    viewModel.showAddGoalSheet = true
+                                }
+                            }
+                            .padding(.trailing)
                         }
+                        
                     }
-                    .padding(.trailing)
                 }
             }
             .onChange(of: person) {
