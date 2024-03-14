@@ -25,11 +25,12 @@ struct GoalsView: View {
                     ForEach(people) { person in
                         HStack() {
                             Text(person.wrappedName)
+                                .foregroundColor(.brandColorDark)
                                 .font(.title)
                                 .fontWeight(.bold)
                             Spacer()
                         }
-                        .padding(.top, 50)
+                        .padding(.top, 30)
                         ScrollView(.horizontal) {
                             HStack(spacing: 20) {
                                 if (person.goalsArray.isEmpty) {
@@ -51,43 +52,9 @@ struct GoalsView: View {
                         .scrollIndicators(.hidden)
                     }
                 }
+                .padding(.leading)
+                .background(.neutralLight)
                 .scrollIndicators(.hidden)
-//                List {
-//                    
-//                    if (goals.count == 0) {
-//                        Text("Add some goals...")
-//                    }
-//                    
-//                    ForEach(people) { person in
-//                        if person.goalsArray.count > 0 {
-//                        Section(person.wrappedName) {
-//                                ForEach(person.goalsArray) { goal in
-//                                    if goal.peopleArray.contains(person) {
-//                                        NavigationLink {
-//                                            VStack {
-//                                                GoalDetailView(goal: goal)
-//                                            }
-//                                        } label: {
-//                                            HStack {
-//                                                
-//                                                VStack(alignment: .leading) {
-//                                                    Text(goal.wrappedName)
-//                                                    Text(goal.wrappedDesc)
-//                                                        .foregroundColor(.secondary)
-//                                                }
-//                                                
-//                                                Spacer()
-//                                                
-//                                                Text("\(goal.formattedProgress)/\(goal.target)")
-//                                            }
-//                                        }
-//                                    }
-//                                }
-//                                .onDelete(perform: deleteGoals)
-//                            }
-//                        }
-//                    }
-//                }
                 
                 VStack {
                     Spacer()
@@ -121,7 +88,7 @@ struct GoalsView: View {
             }
             .padding()
             .frame(width: 165, height: 165, alignment: .topLeading)
-            .background(.secondary, in: RoundedRectangle(cornerRadius: 16))
+            .background(.brandColorLight, in: RoundedRectangle(cornerRadius: 16))
         }
     }
     

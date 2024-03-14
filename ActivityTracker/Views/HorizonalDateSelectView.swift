@@ -16,13 +16,15 @@ struct DateComponentView: View {
     var body: some View {
         VStack {
             Text(dayOfWeek)
-                .fontWeight(.bold)
+            
             ZStack {
-                Circle()
-                    .fill(isSelectedDay ? .blue : .clear)
                 Text("\(Calendar.current.dateComponents([.day], from: day).day!)")
+                    .foregroundStyle(isSelectedDay ? .brandColorDark : .brandColorLight)
+                    .font(.title)
+                    .background(isSelectedDay ? .brandColorLight : .clear, in: Circle())
             }
         }
+        .foregroundStyle(.brandColorLight)
         .onTapGesture {
             selectedDay = day
         }
@@ -48,6 +50,8 @@ struct HorizonalDateSelectView: View {
         VStack {
             Text("\(Calendar.current.monthSymbols[startingSundayMonth - 1])")
                 .offset(y: -10)
+            .foregroundStyle(.brandColorLight)
+            
             HStack {
                 Button {
                     withAnimation {
@@ -60,15 +64,27 @@ struct HorizonalDateSelectView: View {
                 
                 DateComponentView(day: startingSunday, dayOfWeek: "S", isSelectedDay: isSameDay(first: startingSunday, second: selectedDay), selectedDay: $selectedDay)
                 
+                Spacer()
+                
                 DateComponentView(day: getDay(daysToAdd: 1, from: startingSunday), dayOfWeek: "M", isSelectedDay: isSameDay(first: getDay(daysToAdd: 1, from: startingSunday), second: selectedDay), selectedDay: $selectedDay)
+                
+                Spacer()
                 
                 DateComponentView(day: getDay(daysToAdd: 2, from: startingSunday), dayOfWeek: "T", isSelectedDay: isSameDay(first: getDay(daysToAdd: 2, from: startingSunday), second: selectedDay), selectedDay: $selectedDay)
                 
+                Spacer()
+                
                 DateComponentView(day: getDay(daysToAdd: 3, from: startingSunday), dayOfWeek: "W", isSelectedDay: isSameDay(first: getDay(daysToAdd: 3, from: startingSunday), second: selectedDay), selectedDay: $selectedDay)
+                
+                Spacer()
                 
                 DateComponentView(day: getDay(daysToAdd: 4, from: startingSunday), dayOfWeek: "T", isSelectedDay: isSameDay(first: getDay(daysToAdd: 4, from: startingSunday), second: selectedDay), selectedDay: $selectedDay)
                 
+                Spacer()
+                
                 DateComponentView(day: getDay(daysToAdd: 5, from: startingSunday), dayOfWeek: "F", isSelectedDay: isSameDay(first: getDay(daysToAdd: 5, from: startingSunday), second: selectedDay), selectedDay: $selectedDay)
+                
+                Spacer()
                 
                 DateComponentView(day: getDay(daysToAdd: 6, from: startingSunday), dayOfWeek: "S", isSelectedDay: isSameDay(first: getDay(daysToAdd: 6, from: startingSunday), second: selectedDay), selectedDay: $selectedDay)
                 
@@ -80,7 +96,7 @@ struct HorizonalDateSelectView: View {
             }
         }
         .padding()
-        .background(.secondary, in: RoundedRectangle(cornerRadius: 16))
+        .background(.neutralDark, in: RoundedRectangle(cornerRadius: 16))
     }
 }
 

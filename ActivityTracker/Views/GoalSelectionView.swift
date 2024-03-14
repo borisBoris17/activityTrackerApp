@@ -86,10 +86,10 @@ struct GoalSelectionView: View {
                 }
                 .toggleStyle(iOSCheckboxToggleStyle())
                 .accentColor(.primary)
-                .onChange(of: isSelected) { newValue in
-                    if newValue && !selectedGoals.contains(goal) {
+                .onChange(of: isSelected) {
+                    if isSelected && !selectedGoals.contains(goal) {
                         selectedGoals.insert(goal)
-                    } else if !newValue && selectedGoals.contains(goal) {
+                    } else if !isSelected && selectedGoals.contains(goal) {
                         selectedGoals.remove(goal)
                     }
                 }

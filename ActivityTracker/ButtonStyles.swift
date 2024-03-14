@@ -11,13 +11,12 @@ struct BlueButton: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .padding()
-            .background(Color(red: 0, green: 0, blue: 0.5))
+            .background(.brand, in: Circle())
             .foregroundStyle(.white)
             .font(.largeTitle)
             .fontWeight(.bold)
             .labelStyle(.iconOnly)
-            .clipShape(Circle())
             .padding()
-            .shadow(color: .gray, radius: 5)
+            .shadow(color: .brandColorLight, radius: 5)
     }
 }

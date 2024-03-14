@@ -11,11 +11,12 @@ struct ActivityListView: View {
     @Environment(\.managedObjectContext) var moc
     var selectedDay: Date
     var showAll: Bool
+    var geometry: GeometryProxy
     @FetchRequest var activities: FetchedResults<Activity>
     
     @State private var refreshingID = UUID()
     
-    init(selectedDay: Date, showAll: Bool) {
+    init(selectedDay: Date, showAll: Bool, geometry: GeometryProxy) {
         if showAll {
             _activities = FetchRequest<Activity>(sortDescriptors: [NSSortDescriptor(keyPath: \Activity.startDate, ascending: false)])
         } else {
@@ -23,6 +24,7 @@ struct ActivityListView: View {
         }
         self.selectedDay = selectedDay
         self.showAll = showAll
+        self.geometry = geometry
     }
     
     func formattedDate(from: Date) -> String {
@@ -42,40 +44,39 @@ struct ActivityListView: View {
             for goal in activity.goalArray {
                 goal.progress = goal.progress - Double(activity.duration)
             }
-
+            
             // delete it from the context
             moc.delete(activity)
         }
-
+        
         // save the context
         try? moc.save()
     }
     
     var body: some View {
-        List {
-            Section {
-                ForEach(activities) { activity in
-                    NavigationLink {
-                        VStack {
-                            ActivityView(activity: activity, refreshId: $refreshingID)
-                        }
-                    } label: {
-                        ActivityListItemView(activity: activity)
-                    }
-                }
-                .onDelete(perform: deleteActivities)
-                .id(refreshingID)
-            } header: {
-                if showAll {
-                    Text("All Activities")
-                } else {
-                    Text("\(formattedDate(from:selectedDay))")
-                }
+        VStack {
+            if showAll {
+                Text("All Activities")
+            } else {
+                Text("\(formattedDate(from:selectedDay))")
             }
         }
+        
+        ForEach(activities) { activity in
+            NavigationLink {
+                VStack {
+                    ActivityView(activity: activity, refreshId: $refreshingID)
+                }
+            } label: {
+                ActivityCardView(activity: activity, geometry: geometry)
+                    .padding(.bottom)
+            }
+        }
+        .onDelete(perform: deleteActivities)
+        .id(refreshingID)
     }
 }
 
-#Preview {
-    ActivityListView(selectedDay: Date.now, showAll: false)
-}
+//#Preview {
+//    ActivityListView(selectedDay: Date.now, showAll: false)
+//}

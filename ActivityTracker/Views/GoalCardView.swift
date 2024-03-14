@@ -15,7 +15,6 @@ struct GoalCardView: View {
             Text("\(goal.wrappedName)")
                 .font(.title)
             Text("\(goal.wrappedDesc)")
-//            Text("\(goal.wrappedName)")
             
             Spacer()
             
@@ -25,9 +24,10 @@ struct GoalCardView: View {
                 Text("\(goal.formattedProgress)/\(goal.target)")
             }
         }
+        .foregroundStyle(.brandColorDark)
         .padding()
         .frame(width: 165, height: 165)
-        .background(.secondary, in: RoundedRectangle(cornerRadius: 16))
+        .background(.brandColorLight, in: RoundedRectangle(cornerRadius: 16))
     }
 }
 

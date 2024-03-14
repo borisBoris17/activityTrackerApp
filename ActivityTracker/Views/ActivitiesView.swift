@@ -23,99 +23,97 @@ struct ActivitiesView: View {
     @State private var viewModel = ViewModel()
     
     var body: some View {
-        ZStack {
-            VStack {
-                
-                if viewModel.activityStatus != .ready {
-                    VStack {
-                        Text("\(viewModel.timerString())")
-                            .font(.system(size: 80).bold())
-                        
-                        HStack {
-                            if viewModel.activityStatus == .started {
-                                Button() {
-                                    viewModel.pauseTimer()
-                                } label: {
-                                    Label("Pause Timer", systemImage: "pause")
+        GeometryReader { geometry in
+            ZStack {
+                ScrollView {
+                    
+                    if viewModel.activityStatus != .ready {
+                        VStack {
+                            Text("\(viewModel.timerString())")
+                                .font(.system(size: 80).bold())
+                            
+                            HStack {
+                                if viewModel.activityStatus == .started {
+                                    Button() {
+                                        viewModel.pauseTimer()
+                                    } label: {
+                                        Label("Pause Timer", systemImage: "pause")
+                                    }
+                                    .buttonStyle(BlueButton())
+                                } else if viewModel.activityStatus == .paused {
+                                    Button() {
+                                        viewModel.resumeTimer()
+                                    } label: {
+                                        Label("Resume Timer", systemImage: "play")
+                                    }
+                                    .buttonStyle(BlueButton())
                                 }
-                                .buttonStyle(BlueButton())
-                            } else if viewModel.activityStatus == .paused {
+                                
                                 Button() {
-                                    viewModel.resumeTimer()
+                                    viewModel.showCompleteActivityScreen = true
                                 } label: {
-                                    Label("Resume Timer", systemImage: "play")
+                                    Label("Save Activity", systemImage: "stop")
                                 }
                                 .buttonStyle(BlueButton())
                             }
+                        }
+                    }
+                    
+                    
+                    LazyVStack {
+                        HorizonalDateSelectView(startingSunday: $viewModel.startingSunday, startingSundayDay: Calendar.current.dateComponents([.day], from: viewModel.startingSunday).day!, startingSundayMonth: Calendar.current.dateComponents([.month], from: viewModel.startingSunday).month!, selectedDay: $viewModel.selectedDay)
+                        
+                        ActivityListView(selectedDay: viewModel.selectedDay, showAll: viewModel.showAll, geometry: geometry)
+                    }
+                    .background(.neutralLight)
+                    .padding()
+                }
+                .onReceive(viewModel.timer) { _ in
+                    viewModel.handleRecieveTimer()
+                }
+                .onAppear {
+                    viewModel.updateTimer()
+                }
+                .sheet(isPresented: $viewModel.showNewActivitySheet) {
+                    StartActivityView(name: $viewModel.name, desc: $viewModel.desc, goals: $viewModel.selectedGoals, timer: $viewModel.timer, activityStatus: $viewModel.activityStatus, startTime: $viewModel.startTime)
+                }
+                .sheet(isPresented: $viewModel.showCompleteActivityScreen) {
+                    SaveActivityView(name: $viewModel.name, desc: $viewModel.desc, timer: $viewModel.timer, saveActivity: { activityImage in
+                        viewModel.create(newActivity: Activity(context: moc), with: activityImage)
+                        
+                        try? moc.save()
+                        
+                    })
+                }
+                if viewModel.activityStatus == .ready {
+                    VStack {
+                        Spacer()
+                        
+                        HStack {
+                            Spacer()
                             
                             Button() {
-                                viewModel.showCompleteActivityScreen = true
-                            } label: {
-                                Label("Save Activity", systemImage: "stop")
+                                viewModel.showNewActivitySheet = true
+                            } label : {
+                                Label("Add New Activity", systemImage: "plus")
                             }
                             .buttonStyle(BlueButton())
                         }
                     }
                 }
                 
-                
-                VStack {
-                    HorizonalDateSelectView(startingSunday: $viewModel.startingSunday, startingSundayDay: Calendar.current.dateComponents([.day], from: viewModel.startingSunday).day!, startingSundayMonth: Calendar.current.dateComponents([.month], from: viewModel.startingSunday).month!, selectedDay: $viewModel.selectedDay)
-                    
-                    ActivityListView(selectedDay: viewModel.selectedDay, showAll: false)
-                }
-                .padding(.top)
             }
-            .onReceive(viewModel.timer) { _ in
-                viewModel.handleRecieveTimer()
-            }
-            .onAppear {
-                viewModel.updateTimer()
-            }
-            .sheet(isPresented: $viewModel.showNewActivitySheet) {
-                StartActivityView(name: $viewModel.name, desc: $viewModel.desc, goals: $viewModel.selectedGoals, timer: $viewModel.timer, activityStatus: $viewModel.activityStatus, startTime: $viewModel.startTime)
-            }
-            .sheet(isPresented: $viewModel.showCompleteActivityScreen) {
-                SaveActivityView(name: $viewModel.name, desc: $viewModel.desc, timer: $viewModel.timer, saveActivity: { activityImage in
-                    viewModel.create(newActivity: Activity(context: moc), with: activityImage)                    
-                    
-                    try? moc.save()
-
-                })
-            }
-            if viewModel.activityStatus == .ready {
-                VStack {
-                    Spacer()
-                    
-                    HStack {
-                        Spacer()
-                        
-                        Button() {
-                            viewModel.showNewActivitySheet = true
-                        } label : {
-                            Label("Add New Activity", systemImage: "plus")
-                        }
-                        .buttonStyle(BlueButton())
+            .background(.neutralLight)
+            .navigationTitle("Activities")
+            .toolbar {
+                ToolbarItem {
+                    Button(viewModel.showAll ? "By Date" : "Show All") {
+                        viewModel.showAll.toggle()
                     }
+                    .foregroundStyle(.brandColorDark)
+                    .padding()
                 }
             }
-            
-        }
-        .navigationTitle("Activities")
-        .toolbar {
-            ToolbarItem {
-                Button("Show All") {
-                    viewModel.showAll.toggle()
-                }
-                .padding()
-            }
-        }
-        .sheet(isPresented: $viewModel.showAll) {
-            NavigationStack() {
-                ActivityListView(selectedDay: viewModel.selectedDay, showAll: true)
-                    .navigationTitle("Activities")
-            }
-            .presentationDetents([.medium, .large])
         }
     }
 }

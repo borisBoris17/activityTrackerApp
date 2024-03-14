@@ -33,6 +33,7 @@ struct ContentView: View {
                 .tag(3)
 
         }
+        .accentColor(.brand)
         .onAppear {
             UITabBar.appearance().scrollEdgeAppearance = UITabBarAppearance.init(idiom: .unspecified)
         }

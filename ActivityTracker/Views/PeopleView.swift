@@ -27,7 +27,7 @@ struct PeopleView: View {
                             Spacer()
                         }
                     }
-                    .padding(.top)
+                    .padding([.top, .leading])
                     
                     VStack {
                         Spacer()
@@ -46,6 +46,7 @@ struct PeopleView: View {
                 }
                 
             }
+            .background(.neutral)
             .navigationTitle("People")
             .sheet(isPresented: $viewModel.showAddPerson) {
                 AddPersonView()
