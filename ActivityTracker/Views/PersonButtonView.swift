@@ -11,7 +11,7 @@ struct PersonButtonView: View {
     var person: Person
     var imageSize: CGFloat
     @Binding var selectedPerson: Person?
-    @State private var personImage: Image? = nil
+    @State private var personImage: Image?
     var imageHasChanged: Bool
     
     var body: some View {
@@ -24,32 +24,42 @@ struct PersonButtonView: View {
                 }
             }
         } label: {
-            VStack() {
-                if personImage != nil {
-                    personImage!
-                        .resizable()
-                        .frame(width: selectedPerson == person ? imageSize * 1.25 : imageSize, height: selectedPerson == person ? imageSize * 1.25 : imageSize)
-                        .clipShape(Circle())
-                        .scaledToFill()
-                        .padding(5)
-                } else {
+            ZStack() {
+                if personImage == nil {
                     Image(systemName: "person")
                         .resizable()
                         .padding()
-                        .frame(width: imageSize, height: imageSize)
-                        .clipShape(Circle())
                         .overlay(
-                            Circle()
+                            RoundedRectangle(cornerRadius: 15)
                                 .strokeBorder(.white, lineWidth: 1)
                         )
-                        .padding(5)
+                } else {
+                    personImage?
+                        .resizable()
                 }
                 
-                Text(person.wrappedName)
-                    .font(.title2)
-                    .foregroundColor(.white)
-                    .frame(maxWidth: 100)
+                VStack {
+                    Spacer()
+                    
+                    HStack {
+                        Spacer()
+                        
+                        Text(person.wrappedName)
+                        //                            .font(.title2)
+                            .foregroundStyle(.brandText)
+                            .fontWeight(.bold)
+                            .padding(.top)
+                            .padding(.trailing, 7)
+                            .padding(.bottom, 3)
+                            .lineLimit(1)
+                    }
+                    .background(
+                        LinearGradient(gradient: Gradient(colors: [.clear, .neutral]), startPoint: .top, endPoint: .bottom)
+                    )
+                }
             }
+            .frame(width: selectedPerson == person ? imageSize * 1.25 : imageSize, height: selectedPerson == person ? imageSize * 1.25 : imageSize)
+            .clipShape(RoundedRectangle(cornerRadius: 15))
         }
         .onAppear {
             let imagePath = FileManager.getDocumentsDirectory().appendingPathExtension("/personImages").appendingPathComponent("\(person.wrappedId).png")

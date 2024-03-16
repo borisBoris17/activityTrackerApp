@@ -18,8 +18,8 @@ struct PeopleView: View {
             GeometryReader { geometry in
                 
                 ZStack {
-                    VStack {
-                        HorizontalPeopleView(people: people, imageSize: geometry.size.width * 0.18, selectedPerson: $viewModel.selectedPerson, imageHasChanged: viewModel.imageHasChanged)
+                    ScrollView {
+                        HorizontalPeopleView(people: people, imageSize: geometry.size.width * 0.33, selectedPerson: $viewModel.selectedPerson, imageHasChanged: viewModel.imageHasChanged)
                                                     
                         if let selectedPerson = viewModel.selectedPerson {
                             PersonDetailView(person: selectedPerson, geometry: geometry, imageHasChanged: $viewModel.imageHasChanged)
@@ -46,7 +46,7 @@ struct PeopleView: View {
                 }
                 
             }
-            .background(.neutral)
+            .background(.neutralLight)
             .navigationTitle("People")
             .sheet(isPresented: $viewModel.showAddPerson) {
                 AddPersonView()

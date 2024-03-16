@@ -85,10 +85,11 @@ struct GoalsView: View {
             VStack(alignment: .leading) {
                 Text("Add a goal")
                     .font(.title)
+                    .foregroundStyle(.brandText)
             }
             .padding()
             .frame(width: 165, height: 165, alignment: .topLeading)
-            .background(.brandColorLight, in: RoundedRectangle(cornerRadius: 16))
+            .background(.brandBackground, in: RoundedRectangle(cornerRadius: 16))
         }
     }
     

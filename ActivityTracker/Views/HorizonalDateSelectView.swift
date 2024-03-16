@@ -16,12 +16,15 @@ struct DateComponentView: View {
     var body: some View {
         VStack {
             Text(dayOfWeek)
+                .foregroundStyle(.brandBackground)
             
             ZStack {
                 Text("\(Calendar.current.dateComponents([.day], from: day).day!)")
-                    .foregroundStyle(isSelectedDay ? .brandColorDark : .brandColorLight)
+                    .kerning(-2)
+                    .padding(4)
+                    .foregroundStyle(.brandText)
                     .font(.title)
-                    .background(isSelectedDay ? .brandColorLight : .clear, in: Circle())
+                    .background(isSelectedDay ? .brand : .clear, in: Circle())
             }
         }
         .foregroundStyle(.brandColorLight)
@@ -48,20 +51,17 @@ struct HorizonalDateSelectView: View {
     
     var body: some View {
         VStack {
-            Text("\(Calendar.current.monthSymbols[startingSundayMonth - 1])")
-                .offset(y: -10)
-            .foregroundStyle(.brandColorLight)
+            
+            VStack {
+                Text("\(Calendar.current.monthSymbols[startingSundayMonth - 1])")
+                    .foregroundStyle(.brandText)
+                    .font(.title3)
+
+            }
+            .padding(.bottom, 5)
             
             HStack {
-                Button {
-                    withAnimation {
-                        startingSunday = Calendar.current.date(byAdding: .day, value: -7, to: startingSunday)!
-                    }
-                } label: {
-                    Image(systemName: "chevron.left")
-                }
-                
-                
+            
                 DateComponentView(day: startingSunday, dayOfWeek: "S", isSelectedDay: isSameDay(first: startingSunday, second: selectedDay), selectedDay: $selectedDay)
                 
                 Spacer()
@@ -87,16 +87,19 @@ struct HorizonalDateSelectView: View {
                 Spacer()
                 
                 DateComponentView(day: getDay(daysToAdd: 6, from: startingSunday), dayOfWeek: "S", isSelectedDay: isSameDay(first: getDay(daysToAdd: 6, from: startingSunday), second: selectedDay), selectedDay: $selectedDay)
-                
-                Button {
-                    startingSunday = Calendar.current.date(byAdding: .day, value: 7, to: startingSunday)!
-                } label: {
-                    Image(systemName: "chevron.right")
-                }
             }
         }
         .padding()
-        .background(.neutralDark, in: RoundedRectangle(cornerRadius: 16))
+        .background(.neutral, in: RoundedRectangle(cornerRadius: 16))
+        .gesture(DragGesture(minimumDistance: 3.0, coordinateSpace: .local)
+            .onEnded { value in
+                switch(value.translation.width, value.translation.height) {
+                case (...0, -30...30):  withAnimation {startingSunday = Calendar.current.date(byAdding: .day, value: 7, to: startingSunday)!}
+                case (0..., -30...30):  withAnimation {startingSunday = Calendar.current.date(byAdding: .day, value: -7, to: startingSunday)!}
+                    default:  return
+                }
+            }
+        )
     }
 }
 

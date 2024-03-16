@@ -24,10 +24,10 @@ struct GoalCardView: View {
                 Text("\(goal.formattedProgress)/\(goal.target)")
             }
         }
-        .foregroundStyle(.brandColorDark)
+        .foregroundStyle(.brandText)
         .padding()
         .frame(width: 165, height: 165)
-        .background(.brandColorLight, in: RoundedRectangle(cornerRadius: 16))
+        .background(.brandBackground, in: RoundedRectangle(cornerRadius: 16))
     }
 }
 

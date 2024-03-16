@@ -23,7 +23,7 @@ struct ActivityCardView: View {
                     Text("\(activity.wrappedName)")
                         .font(.title3)
                         .lineLimit(1)
-                        .foregroundStyle(.brandColorDark)
+                        .foregroundStyle(.brandText)
                     
                     Text("\(activity.wrappedDesc)")
                         .lineLimit(1)
@@ -33,6 +33,11 @@ struct ActivityCardView: View {
             
             HStack {
                 VStack(alignment: .leading) {
+                    Text("Goals")
+                        .foregroundStyle(.brandText)
+                        .font(.footnote)
+                        
+                    
                     ForEach(activity.goalArray) { goal in
                         if !goal.peopleArray.isEmpty {
                             Text("\(goal.peopleArray[0].wrappedName) - \(goal.wrappedName)")
@@ -53,12 +58,13 @@ struct ActivityCardView: View {
                 Spacer()
                 
                 Text("\(activity.formattedDuration) hrs")
+                    .foregroundStyle(.brandText)
+                    .font(.title)
             }
         }
-        .foregroundStyle(.brandColorDark)
         .padding()
         .frame(maxWidth: nil, minHeight: 165)
-        .background(.brandColorLight, in: RoundedRectangle(cornerRadius: 16))
+        .background(.brandBackground, in: RoundedRectangle(cornerRadius: 16))
         .onAppear {
             let imagePath = FileManager.getDocumentsDirectory().appendingPathExtension("/activityImages").appendingPathComponent("\(activity.wrappedId).png")
             activityImage = Utils.loadImage(from: imagePath)

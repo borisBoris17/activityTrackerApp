@@ -61,6 +61,7 @@ struct ActivityListView: View {
                 Text("\(formattedDate(from:selectedDay))")
             }
         }
+        .foregroundStyle(.brandColorDark)
         
         ForEach(activities) { activity in
             NavigationLink {

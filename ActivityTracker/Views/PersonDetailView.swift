@@ -15,14 +15,24 @@ struct PersonDetailView: View {
     var geometry: GeometryProxy
     @Binding var imageHasChanged: Bool
     
+    @FetchRequest var activities: FetchedResults<Activity>
+    
+    init(person: Person, geometry: GeometryProxy, imageHasChanged: Binding<Bool>) {
+        self.person = person
+        self.geometry = geometry
+        self._imageHasChanged = imageHasChanged
+        
+        _activities = FetchRequest<Activity>(sortDescriptors: [NSSortDescriptor(keyPath: \Activity.startDate, ascending: false)], predicate: NSPredicate(format: "ANY goals IN %@", person.goalsArray));
+    }
+    
     @State private var viewModel = ViewModel()
     
     var body: some View {
         VStack {
             VStack {
                 HStack {
-                    Text(person.wrappedName)
-                        .font(.largeTitle)
+                    //                    Text(person.wrappedName)
+                    //                        .font(.largeTitle)
                     Spacer()
                     if viewModel.mode == "view" {
                         Button("Edit") {
@@ -30,6 +40,11 @@ struct PersonDetailView: View {
                             viewModel.mode = "edit"
                         }
                     } else {
+                        Button("Cancel", role: .destructive) {
+                            viewModel.mode = "view"
+                        }
+                        .padding(.trailing)
+                        
                         Button("Save") {
                             imageHasChanged.toggle()
                             viewModel.update(person)
@@ -40,74 +55,95 @@ struct PersonDetailView: View {
                 }
                 .padding(.horizontal)
                 
-                List {
-                    Section("Image") {
-                        HStack(alignment: .top) {
-                            if let selectedImage = viewModel.personImage {
-                                Spacer()
-                                NavigationLink {
-                                    VStack {
-                                        selectedImage
-                                            .resizable()
-                                            .scaledToFit()
-                                    }
-                                } label: {
-                                    ZStack {
-                                        selectedImage
-                                            .resizable()
-                                            .scaledToFit()
-                                            .frame(width: geometry.size.width * 0.4)
-                                            .overlay(alignment: .bottomLeading) {
-                                                if viewModel.mode == "edit" {
-                                                    Button() {
-                                                        viewModel.removeImage(on: person)
-                                                    } label: {
-                                                        Image(systemName: "trash.circle.fill")
-                                                            .symbolRenderingMode(.multicolor)
-                                                            .font(.system(size: 30))
-                                                            .foregroundColor(.red)
-                                                    }
-                                                    .buttonStyle(.borderless)
-                                                }
-                                                
-                                            }
-                                            .overlay(alignment: .bottomTrailing) {
-                                                PhotosPicker(selection: $viewModel.personPhotoItem,
-                                                             matching: .images,
-                                                             photoLibrary: .shared()) {
-                                                    if viewModel.mode == "edit" {
-                                                        Image(systemName: "pencil.circle.fill")
-                                                            .symbolRenderingMode(.multicolor)
-                                                            .font(.system(size: 30))
-                                                            .foregroundColor(.accentColor)
-                                                    }
-                                                }
-                                                             .buttonStyle(.borderless)
-                                            }
-                                    }
+                VStack {
+                    HStack(alignment: .top) {
+                        if let selectedImage = viewModel.personImage {
+                            //                            Spacer()
+                            NavigationLink {
+                                VStack {
+                                    selectedImage
+                                        .resizable()
+                                        .scaledToFit()
                                 }
-                            } else {
-                                Image(systemName: "person.crop.rectangle.badge.plus")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: geometry.size.width * 0.4)
-                                    .overlay(alignment: .bottomTrailing) {
-                                        PhotosPicker(selection: $viewModel.personPhotoItem,
-                                                     matching: .images,
-                                                     photoLibrary: .shared()) {
+                            } label: {
+                                ZStack {
+                                    selectedImage
+                                        .resizable()
+                                        .scaledToFit()
+                                        .clipShape(RoundedRectangle(cornerRadius: 15))
+                                        .frame(width: geometry.size.width * 0.5)
+                                        .overlay(alignment: .bottomLeading) {
                                             if viewModel.mode == "edit" {
-                                                Image(systemName: "pencil.circle.fill")
-                                                    .symbolRenderingMode(.multicolor)
-                                                    .font(.system(size: 30))
-                                                    .foregroundColor(.accentColor)
+                                                Button() {
+                                                    viewModel.removeImage(on: person)
+                                                } label: {
+                                                    Image(systemName: "trash.circle.fill")
+                                                        .symbolRenderingMode(.multicolor)
+                                                        .font(.system(size: 30))
+                                                        .foregroundColor(.red)
+                                                }
+                                                .buttonStyle(.borderless)
+                                                .padding(10)
                                             }
+                                            
                                         }
-                                                     .buttonStyle(.borderless)
+                                        .overlay(alignment: .bottomTrailing) {
+                                            PhotosPicker(selection: $viewModel.personPhotoItem,
+                                                         matching: .images,
+                                                         photoLibrary: .shared()) {
+                                                if viewModel.mode == "edit" {
+                                                    Image(systemName: "pencil.circle.fill")
+                                                        .symbolRenderingMode(.multicolor)
+                                                        .font(.system(size: 30))
+                                                        .foregroundColor(.accentColor)
+                                                }
+                                            }
+                                                         .buttonStyle(.borderless)
+                                                         .padding(10)
+                                        }
+                                }
+                            }
+                        } else {
+                            Image(systemName: "person.crop.rectangle.badge.plus")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: geometry.size.width * 0.5)
+                                .overlay(alignment: .bottomTrailing) {
+                                    PhotosPicker(selection: $viewModel.personPhotoItem,
+                                                 matching: .images,
+                                                 photoLibrary: .shared()) {
+                                        if viewModel.mode == "edit" {
+                                            Image(systemName: "pencil.circle.fill")
+                                                .symbolRenderingMode(.multicolor)
+                                                .font(.system(size: 30))
+                                                .foregroundColor(.accentColor)
+                                        }
                                     }
-                                    .padding(.leading)
+                                                 .buttonStyle(.borderless)
+                                }
+                                .padding(.leading)
+                        }
+                        
+                        Spacer()
+                        
+                        VStack() {
+                            HStack() {
+                                if viewModel.mode == "view" {
+                                    Text(person.wrappedName)
+                                        .font(.title)
+                                        .fontWeight(.bold)
+                                        .foregroundStyle(.brandColorDark)
+                                    //                                        .multilineTextAlignment(.trailing)
+                                } else {
+                                    TextField("Name", text: $viewModel.updatedName)
+                                    //                                        .multilineTextAlignment(.trailing)
+                                        .background(Color.secondary)
+                                }
+                                Spacer()
                             }
                         }
                     }
+                    .padding(.bottom)
                     .onChange(of: viewModel.personPhotoItem) {
                         Task {
                             if let loaded = try? await viewModel.personPhotoItem?.loadTransferable(type: Data.self) {
@@ -125,51 +161,90 @@ struct PersonDetailView: View {
                         }
                     }
                     
-                    Section() {
-                        HStack(alignment: .top) {
-                            Text("Name")
-                            Spacer()
-                            if viewModel.mode == "view" {
-                                Text(person.wrappedName)
-                                    .foregroundColor(.secondary)
-                                    .multilineTextAlignment(.trailing)
-                            } else {
-                                TextField("Name", text: $viewModel.updatedName)
-                                    .multilineTextAlignment(.trailing)
-                                    .background(Color.secondary)
+                    //                    Section() {
+                    //                    HStack(alignment: .top) {
+                    //                        Text("Name")
+                    //                        Spacer()
+                    //                        if viewModel.mode == "view" {
+                    //                            Text(person.wrappedName)
+                    //                                .foregroundColor(.secondary)
+                    //                                .multilineTextAlignment(.trailing)
+                    //                        } else {
+                    //                            TextField("Name", text: $viewModel.updatedName)
+                    //                                .multilineTextAlignment(.trailing)
+                    //                                .background(Color.secondary)
+                    //                        }
+                    //                    }
+                    //                    }
+                    //
+                    //                    Section(header: Text("Goals")) {
+                    if person.goalsArray.count > 0 || viewModel.mode == "edit" {
+                        VStack {
+                            HStack {
+                                Text("Goals")
+                                    .font(.title)
+                                    .foregroundStyle(.brandColorDark)
+                                
+                                Spacer()
+                                
+                                if viewModel.mode == "edit" {
+                                    HStack {
+                                        Button("Add Goal") {
+                                            viewModel.showAddGoalSheet = true
+                                        }
+                                    }
+                                    .padding(.trailing)
+                                }
+                            }
+                            ScrollView(.horizontal) {
+                                HStack {
+                                    ForEach(person.goalsArray) { goal in
+                                        NavigationLink {
+                                            GoalDetailView(goal: goal)
+                                        } label: {
+                                            GoalCardView(goal: goal)
+                                        }
+                                    }
+                                }
                             }
                         }
+                        .padding(.bottom)
                     }
                     
-                    Section(header: Text("Goals")) {
-                        ForEach(person.goalsArray) { goal in
-                            NavigationLink {
-                                GoalDetailView(goal: goal)
-                            } label: {
-                                VStack(alignment: .leading) {
-                                    Text("\(goal.wrappedName)")
-                                    Text(goal.wrappedDesc)
-                                        .foregroundColor(.secondary)
-                                        .multilineTextAlignment(.trailing)
-                                }
-                            }
-                        }
-                        
-                        if viewModel.mode == "edit" {
+                    if activities.count > 0 {
+                        LazyVStack {
                             HStack {
-                                Button("Add Goal") {
-                                    viewModel.showAddGoalSheet = true
+                                Text("Recent Activities")
+                                    .font(.title)
+                                    .foregroundStyle(.brandColorDark)
+                                
+                                Spacer()
+                            }
+                            
+                            ForEach(activities) { activity in
+                                NavigationLink {
+                                    VStack {
+                                        ActivityView(activity: activity, refreshId: $viewModel.refreshingID)
+                                    }
+                                } label: {
+                                    ActivityCardView(activity: activity, geometry: geometry)
+                                        .padding([.trailing, .bottom])
                                 }
                             }
-                            .padding(.trailing)
+                            .id(viewModel.refreshingID)
                         }
-                        
+                        .padding(.bottom)
                     }
+                    
+                    
+                    //                    }
                 }
             }
+            .padding(.bottom, 50)
             .onChange(of: person) {
                 let imagePath = FileManager.getDocumentsDirectory().appendingPathExtension("/personImages").appendingPathComponent("\(person.wrappedId).png")
                 viewModel.personImage = Utils.loadImage(from: imagePath)
+                viewModel.mode = "view"
             }
             .sheet(isPresented: $viewModel.showAddGoalSheet) {
                 AddGoalToPersonView(person: person)
