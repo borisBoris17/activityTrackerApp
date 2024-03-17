@@ -37,7 +37,7 @@ struct GoalDetailView: View {
                                           goal.percentageDone
                                           : 0)
                                     .stroke(
-                                        Color.primary,
+                                        Color.brand,
                                         style: StrokeStyle(
                                             lineWidth: 20,
                                             lineCap: .round
@@ -58,59 +58,64 @@ struct GoalDetailView: View {
                         Spacer()
                     }
                     
-                    VStack {
-                        HStack {
-                            VStack(alignment: .leading) {
-                                if !goal.peopleArray.isEmpty {
-                                    Text(goal.peopleArray[0].wrappedName )
-                                        .font(.title.bold())
-                                } else {
-                                    Text("Unknown Person")
-                                        .font(.title.bold())
-                                }
-                                Text("Starting: \(goal.formattedStartDate)")
-                                    .foregroundColor(.secondary)
-                                Text("Remaining Days: \(goal.daysBetween)")
-                                    .foregroundColor(.secondary)
+                    HStack {
+                        VStack(alignment: .leading) {
+                            Text(goal.wrappedName )
+                                .font(.title.bold())
+                                .foregroundStyle(.brandColorDark)
+                            if !goal.peopleArray.isEmpty {
+                                Text("Person: \(goal.peopleArray[0].wrappedName)")
+                                    .foregroundStyle(.brandMediumLight)
+                                    .fontWeight(.bold)
+                            } else {
+                                Text("Unknown Person")
+                                    .foregroundStyle(.brandMediumLight)
+                                    .fontWeight(.bold)
                             }
-                            Spacer()
-                            Button("Activities") {
-                                viewModel.showActivities = true
-                            }
+                            
+                            Text(goal.wrappedDesc)
+                                .foregroundStyle(.brandMediumLight)
+                            
+                            Text("Starting: \(goal.formattedStartDate)")
+                                .foregroundStyle(.brandMediumLight)
+                            
+                            Text("Remaining Days: \(goal.daysBetween)")
+                                .foregroundStyle(.brandMediumLight)
                         }
-                        .padding(.horizontal)
-                        
-                        HStack {
-                            VStack(alignment: .leading) {
-                                Text(goal.wrappedDesc)
+                        Spacer()
+                    }
+                    .padding()
+                    
+                    if (goal.descendingActivityArray.count > 0) {
+                        VStack(alignment: .leading) {
+                            Text("Activities")
+                                .font(.title.bold())
+                                .foregroundStyle(.brandColorDark)
+                            
+                            ForEach(goal.descendingActivityArray) {activity in
+                                NavigationLink {
+                                    ActivityView(activity: activity, refreshId: $viewModel.refreshId)
+                                } label: {
+                                    ActivityCardView(activity: activity, geometry: geometry)
+                                        .padding(.bottom)
+                                }
                             }
-                            Spacer()
+                            .id(viewModel.refreshId)
                         }
                         .padding()
                     }
+
                 }
                 Spacer()
             }
             .sheet(isPresented: $viewModel.showActivities) {
                 NavigationStack {
-                    List {
-                        Section("Activities") {
-                            ForEach(goal.descendingActivityArray) {activity in
-                                NavigationLink {
-                                    ActivityView(activity: activity, refreshId: $viewModel.refreshId)
-                                } label: {
-                                    ActivityListItemView(activity: activity)
-                                }
-                            }
-                            .id(viewModel.refreshId)
-                        }
-                    }
-                    .navigationTitle("\(goal.wrappedName) - Activities")
+                    
                 }
                 .presentationDetents([.height(geometry.size.height * 0.45), .medium, .large])
             }
         }
-        .navigationTitle(goal.wrappedName)
+        .navigationTitle(goal.peopleArray[0].wrappedName)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem {

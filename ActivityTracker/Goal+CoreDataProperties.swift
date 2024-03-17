@@ -81,7 +81,7 @@ extension Goal {
     }
     
     public var daysBetween: Int {
-        Calendar.current.dateComponents([.day], from: wrappedStartDate, to: wrappedEndDate).day ?? 0
+        Calendar.current.dateComponents([.day], from: Date.now, to: wrappedEndDate).day ?? 0
     }
     
     public var formattedProgress: String {
