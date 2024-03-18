@@ -202,7 +202,7 @@ struct PersonDetailView: View {
                                         NavigationLink {
                                             GoalDetailView(goal: goal)
                                         } label: {
-                                            GoalCardView(goal: goal)
+                                            GoalCardView(goal: goal, showPerson: false)
                                         }
                                     }
                                 }

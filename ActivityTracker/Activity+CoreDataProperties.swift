@@ -51,6 +51,10 @@ extension Activity {
     public var wrappedStartDate: Date {
         startDate ?? Date.now
     }
+    
+    public var formattedStartDate: String {
+        startDate?.formatted(date: .abbreviated, time: .omitted) ?? "N/A"
+    }
 
 }
 

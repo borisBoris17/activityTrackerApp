@@ -9,9 +9,17 @@ import SwiftUI
 
 struct GoalCardView: View {
     var goal: Goal
+    var showPerson: Bool
     
     var body: some View {
         VStack(alignment: .leading) {
+            if (showPerson) {
+                Text(goal.peopleArray[0].wrappedName)
+                    .lineLimit(1)
+                    .font(.footnote)
+            }
+            
+            
             Text("\(goal.wrappedName)")
                 .font(.title)
             Text("\(goal.wrappedDesc)")
@@ -26,7 +34,7 @@ struct GoalCardView: View {
         }
         .foregroundStyle(.brandText)
         .padding()
-        .frame(width: 165, height: 165)
+        .frame(width: 175, height: 175)
         .background(.brandBackground, in: RoundedRectangle(cornerRadius: 16))
     }
 }

@@ -42,7 +42,7 @@ struct GoalsView: View {
                                                 GoalDetailView(goal: goal)
                                             }
                                         } label: {
-                                            GoalCardView(goal: goal)
+                                            GoalCardView(goal: goal, showPerson: false)
                                         }
                                         .buttonStyle(PlainButtonStyle())
                                     }
@@ -88,7 +88,7 @@ struct GoalsView: View {
                     .foregroundStyle(.brandText)
             }
             .padding()
-            .frame(width: 165, height: 165, alignment: .topLeading)
+            .frame(width: 175, height: 175, alignment: .topLeading)
             .background(.brandBackground, in: RoundedRectangle(cornerRadius: 16))
         }
     }
