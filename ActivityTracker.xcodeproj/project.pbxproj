@@ -51,6 +51,7 @@
 		E6DB35F52AA0ECA0001575E2 /* AddPersonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DB35F42AA0ECA0001575E2 /* AddPersonView.swift */; };
 		E6DB35F72AAD64DF001575E2 /* ActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DB35F62AAD64DF001575E2 /* ActivityView.swift */; };
 		E6DB35F92AB1657A001575E2 /* ActivitiesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DB35F82AB1657A001575E2 /* ActivitiesView.swift */; };
+		E6F07B3E2BA925A300C2B740 /* EditActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6F07B3D2BA925A300C2B740 /* EditActivityView.swift */; };
 		E6FA73AD2BA156B8002FC5D6 /* GoalCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6FA73AC2BA156B8002FC5D6 /* GoalCardView.swift */; };
 		E6FA73AF2BA2A006002FC5D6 /* ActivityCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6FA73AE2BA2A006002FC5D6 /* ActivityCardView.swift */; };
 		E6FAFA672BA14AB300700B65 /* AddGoalToPersonView-ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6FAFA662BA14AB300700B65 /* AddGoalToPersonView-ViewModel.swift */; };
@@ -101,6 +102,7 @@
 		E6DB35F42AA0ECA0001575E2 /* AddPersonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPersonView.swift; sourceTree = "<group>"; };
 		E6DB35F62AAD64DF001575E2 /* ActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityView.swift; sourceTree = "<group>"; };
 		E6DB35F82AB1657A001575E2 /* ActivitiesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivitiesView.swift; sourceTree = "<group>"; };
+		E6F07B3D2BA925A300C2B740 /* EditActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditActivityView.swift; sourceTree = "<group>"; };
 		E6FA73AC2BA156B8002FC5D6 /* GoalCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalCardView.swift; sourceTree = "<group>"; };
 		E6FA73AE2BA2A006002FC5D6 /* ActivityCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityCardView.swift; sourceTree = "<group>"; };
 		E6FAFA662BA14AB300700B65 /* AddGoalToPersonView-ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AddGoalToPersonView-ViewModel.swift"; sourceTree = "<group>"; };
@@ -214,6 +216,7 @@
 				E66B4F572B98262A0054D7AA /* EditGoalView.swift */,
 				E6FA73AC2BA156B8002FC5D6 /* GoalCardView.swift */,
 				E6FA73AE2BA2A006002FC5D6 /* ActivityCardView.swift */,
+				E6F07B3D2BA925A300C2B740 /* EditActivityView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -329,6 +332,7 @@
 				E66FF7B62A999DFA0048EB63 /* ContentView.swift in Sources */,
 				E6DB35CD2A9DA9C2001575E2 /* Goal+CoreDataClass.swift in Sources */,
 				E603BBAC2B9D79FD0049C43C /* GoalsView-ViewModel.swift in Sources */,
+				E6F07B3E2BA925A300C2B740 /* EditActivityView.swift in Sources */,
 				E6DB35D62AA0BD0E001575E2 /* GoalDetailView.swift in Sources */,
 				E603BBBA2B9EB5FC0049C43C /* ActivityView-ViewModel.swift in Sources */,
 				E66FF7B42A999DFA0048EB63 /* ActivityTrackerApp.swift in Sources */,

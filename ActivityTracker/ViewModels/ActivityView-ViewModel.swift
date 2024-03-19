@@ -25,6 +25,7 @@ extension ActivityView {
         var activityImage: Image?
         
         var showEditGoals = false
+        var showEditActivity = false
         var updatedGoals = Set<Goal>()
         
         func removeActivityImage(on activity: Activity) {
@@ -48,7 +49,7 @@ extension ActivityView {
             }
             
             updatedGoals = Set<Goal>(activity.goalArray)
-            mode = "edit"
+            showEditActivity.toggle()
             
         }
         
@@ -68,6 +69,7 @@ extension ActivityView {
                 }
             }
             
+            print(updatedGoals)
             // Find all the Goals that were added.
             for updatedGoal in updatedGoals {
                 if !activity.goalArray.contains(updatedGoal) {
@@ -95,6 +97,7 @@ extension ActivityView {
             activity.duration = Int16(newSeconds.rounded(.up))
             activity.name = updatedName
             activity.desc = updatedDescription
+            activity.goals = updatedGoals as NSSet
             let renderer = ImageRenderer(content: activityImage)
             if let uiImage = renderer.uiImage {
                 if let data = uiImage.pngData() {
