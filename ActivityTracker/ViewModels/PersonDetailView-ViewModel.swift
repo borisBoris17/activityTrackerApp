@@ -15,7 +15,7 @@ extension PersonDetailView {
         
         var mode = "view"
         var updatedName = ""
-        var showAddGoalSheet = false
+        var showEditPersonSheet = false
         
         var personPhotoItem: PhotosPickerItem?
         var personImageData: Data?

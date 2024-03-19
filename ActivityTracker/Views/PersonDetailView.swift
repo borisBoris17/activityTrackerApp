@@ -31,13 +31,11 @@ struct PersonDetailView: View {
         VStack {
             VStack {
                 HStack {
-                    //                    Text(person.wrappedName)
-                    //                        .font(.largeTitle)
                     Spacer()
                     if viewModel.mode == "view" {
                         Button("Edit") {
                             viewModel.updatedName = person.wrappedName
-                            viewModel.mode = "edit"
+                            viewModel.showEditPersonSheet.toggle()
                         }
                     } else {
                         Button("Cancel", role: .destructive) {
@@ -58,7 +56,6 @@ struct PersonDetailView: View {
                 VStack {
                     HStack(alignment: .top) {
                         if let selectedImage = viewModel.personImage {
-                            //                            Spacer()
                             NavigationLink {
                                 VStack {
                                     selectedImage
@@ -187,14 +184,14 @@ struct PersonDetailView: View {
                                 
                                 Spacer()
                                 
-                                if viewModel.mode == "edit" {
-                                    HStack {
-                                        Button("Add Goal") {
-                                            viewModel.showAddGoalSheet = true
-                                        }
-                                    }
-                                    .padding(.trailing)
-                                }
+//                                if viewModel.mode == "edit" {
+//                                    HStack {
+//                                        Button("Add Goal") {
+//                                            viewModel.showAddGoalSheet = true
+//                                        }
+//                                    }
+//                                    .padding(.trailing)
+//                                }
                             }
                             ScrollView(.horizontal) {
                                 HStack {
@@ -246,16 +243,20 @@ struct PersonDetailView: View {
                 viewModel.personImage = Utils.loadImage(from: imagePath)
                 viewModel.mode = "view"
             }
-            .sheet(isPresented: $viewModel.showAddGoalSheet) {
-                AddGoalToPersonView(person: person)
-            }
         }
         .onAppear {
             let imagePath = FileManager.getDocumentsDirectory().appendingPathExtension("/personImages").appendingPathComponent("\(person.wrappedId).png")
             viewModel.personImage = Utils.loadImage(from: imagePath)
         }
+        .sheet(isPresented: $viewModel.showEditPersonSheet) {
+            EditPersonView(person: person, geometry: geometry, newPersonName: $viewModel.updatedName, newPersonPhotoItem: $viewModel.personPhotoItem, newPersonImageData: $viewModel.personImageData, newPersonImage: $viewModel.personImage) {
+                imageHasChanged.toggle()
+                viewModel.update(person)
+                
+                try? moc.save()
+            }
+        }
     }
-    
 }
 
 //#Preview {
