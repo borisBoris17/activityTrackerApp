@@ -30,7 +30,6 @@ extension PersonDetailView {
         }
         
         @MainActor func update(_ person: Person) {
-            personPhotoItem = nil
             person.name = updatedName
             
             let renderer = ImageRenderer(content: personImage)
