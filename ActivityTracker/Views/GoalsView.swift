@@ -44,23 +44,6 @@ struct GoalsView: View {
                             HStack(spacing: 20) {
                                 if (person.goalsArray.isEmpty) {
                                     AddGoalCardView()
-//                                    Button {
-//                                        viewModel.personToAddGoal = person
-//                                        viewModel.showAddGoal = true
-//                                    } label: {
-//                                        HStack {
-//                                            Spacer()
-//                                            Image(systemName: "plus")
-//                                                .resizable()
-//                                                .padding()
-//                                                .scaledToFit()
-//                                                .foregroundStyle(.brandText)
-//                                            Spacer()
-//                                        }
-//                                        .padding()
-//                                        .frame(width: 175, height: 175)
-//                                        .background(.brandBackground, in: RoundedRectangle(cornerRadius: 16))
-//                                    }
                                 } else {
                                     ForEach(person.goalsArray) { goal in
                                         NavigationLink {
@@ -72,24 +55,6 @@ struct GoalsView: View {
                                         }
                                         .buttonStyle(PlainButtonStyle())
                                     }
-                                    
-//                                    Button {
-//                                        viewModel.personToAddGoal = person
-//                                        viewModel.showAddGoal = true
-//                                    } label: {
-//                                        HStack {
-//                                            Spacer()
-//                                            Image(systemName: "plus")
-//                                                .resizable()
-//                                                .padding()
-//                                                .scaledToFit()
-//                                                .foregroundStyle(.brandText)
-//                                            Spacer()
-//                                        }
-//                                        .padding()
-//                                        .frame(width: 175, height: 175)
-//                                        .background(.brandBackground, in: RoundedRectangle(cornerRadius: 16))
-//                                    }
                                 }
                             }
                         }
@@ -118,9 +83,7 @@ struct GoalsView: View {
             
             .navigationTitle("Goals")
             .sheet(isPresented: $viewModel.showAddGoal) {
-                if let person = viewModel.personToAddGoal {
-                    AddGoalToPersonView(person: person)
-                }
+                AddGoalView()
             }
         }
     }

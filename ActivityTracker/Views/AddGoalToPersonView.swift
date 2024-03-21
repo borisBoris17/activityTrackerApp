@@ -49,7 +49,7 @@ struct AddGoalToPersonView: View {
                     }
                 }
                 .navigationBarItems(leading: Button("Cancel") { dismiss() })
-                .navigationBarTitle("Add Goal", displayMode: .inline)
+                .navigationBarTitle("Add Goal to \(person.wrappedName)", displayMode: .inline)
                 .toolbar {
                     ToolbarItemGroup {
                         
