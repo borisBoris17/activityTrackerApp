@@ -44,7 +44,6 @@ struct PeopleView: View {
                         }
                     }
                 }
-                
             }
             .background(.neutralLight)
             .navigationTitle("People")

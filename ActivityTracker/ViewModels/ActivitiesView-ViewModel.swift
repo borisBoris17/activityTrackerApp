@@ -15,10 +15,10 @@ extension ActivitiesView {
         var showNewActivitySheet = false
         var activityStatus = ActivityStatus.ready
         
+        var activityFilter: ActivityFilter = .selectedDay
         var showAll = false
         
         var showCompleteActivityScreen = false
-        var activityToSave: Activity?
         
         var startTime =  Date()
         var pausedSeconds = 0

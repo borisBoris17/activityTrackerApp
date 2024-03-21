@@ -10,20 +10,22 @@ import SwiftUI
 struct ActivityListView: View {
     @Environment(\.managedObjectContext) var moc
     var selectedDay: Date
-    var showAll: Bool
+    var activityFilter: ActivityFilter
     var geometry: GeometryProxy
     @FetchRequest var activities: FetchedResults<Activity>
     
     @State private var refreshingID = UUID()
     
-    init(selectedDay: Date, showAll: Bool, geometry: GeometryProxy) {
-        if showAll {
-            _activities = FetchRequest<Activity>(sortDescriptors: [NSSortDescriptor(keyPath: \Activity.startDate, ascending: false)])
+    init(selectedDay: Date, activityFilter: ActivityFilter, geometry: GeometryProxy) {
+        if activityFilter == .last30 {
+            _activities = FetchRequest<Activity>(sortDescriptors: [NSSortDescriptor(keyPath: \Activity.startDate, ascending: false)], predicate: NSPredicate(format: "%K > %@", "startDate", Calendar.current.date(byAdding: .day, value: -30, to: Date.now)! as NSDate))
+        } else if activityFilter == .last7 {
+            _activities = FetchRequest<Activity>(sortDescriptors: [NSSortDescriptor(keyPath: \Activity.startDate, ascending: false)], predicate: NSPredicate(format: "%K > %@", "startDate", Calendar.current.date(byAdding: .day, value: -7, to: Date.now)! as NSDate))
         } else {
             _activities = FetchRequest<Activity>(sortDescriptors: [NSSortDescriptor(keyPath: \Activity.startDate, ascending: false)], predicate: NSPredicate(format: "%K > %@ && %K < %@", "startDate", Calendar.current.date(byAdding: .day, value: -1, to: selectedDay)! as NSDate, "startDate", Calendar.current.date(byAdding: .day, value: 1, to: selectedDay)! as NSDate))
         }
         self.selectedDay = selectedDay
-        self.showAll = showAll
+        self.activityFilter = activityFilter
         self.geometry = geometry
     }
     
@@ -55,8 +57,10 @@ struct ActivityListView: View {
     
     var body: some View {
         VStack {
-            if showAll {
-                Text("All Activities")
+            if activityFilter == .last30 {
+                Text("Last 30 Days")
+            } else if activityFilter == .last7 {
+                Text("Last 7 Days")
             } else {
                 Text("\(formattedDate(from:selectedDay))")
             }

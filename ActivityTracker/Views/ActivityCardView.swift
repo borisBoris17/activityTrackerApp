@@ -11,14 +11,21 @@ struct ActivityCardView: View {
     var activity: Activity
     var geometry: GeometryProxy
     @State private var activityImage: Image?
+    @State private var isLoading = true
     
     var body: some View {
         VStack(alignment: .leading) {
             HStack(alignment: .top) {
-                activityImage?
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: geometry.size.width * 0.15, height: geometry.size.width * 0.15)
+                if isLoading {
+                    LinearGradient(gradient: Gradient(colors: [.gray, .black]), startPoint: .topLeading, endPoint: .bottomTrailing)
+                        .opacity(0.5)
+                        .frame(width: geometry.size.width * 0.15, height: geometry.size.width * 0.15)
+                } else {
+                    activityImage?
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: geometry.size.width * 0.15, height: geometry.size.width * 0.15)
+                }
                 VStack(alignment: .leading) {
                     Text("\(activity.wrappedName)")
                         .font(.title3)
@@ -66,8 +73,11 @@ struct ActivityCardView: View {
         .frame(maxWidth: nil, minHeight: 165)
         .background(.brandBackground, in: RoundedRectangle(cornerRadius: 16))
         .onAppear {
-            let imagePath = FileManager.getDocumentsDirectory().appendingPathExtension("/activityImages").appendingPathComponent("\(activity.wrappedId).png")
-            activityImage = Utils.loadImage(from: imagePath)
+            Task {
+                let imagePath = FileManager.getDocumentsDirectory().appendingPathExtension("/activityImages").appendingPathComponent("\(activity.wrappedId).png")
+                activityImage = Utils.loadImage(from: imagePath)
+                isLoading = false
+            }
         }
     }
 }

@@ -64,40 +64,47 @@ struct PersonDetailView: View {
                                 }
                             } label: {
                                 ZStack {
-                                    selectedImage
-                                        .resizable()
-                                        .scaledToFit()
-                                        .clipShape(RoundedRectangle(cornerRadius: 15))
-                                        .frame(width: geometry.size.width * 0.5)
-                                        .overlay(alignment: .bottomLeading) {
-                                            if viewModel.mode == "edit" {
-                                                Button() {
-                                                    viewModel.removeImage(on: person)
-                                                } label: {
-                                                    Image(systemName: "trash.circle.fill")
-                                                        .symbolRenderingMode(.multicolor)
-                                                        .font(.system(size: 30))
-                                                        .foregroundColor(.red)
-                                                }
-                                                .buttonStyle(.borderless)
-                                                .padding(10)
-                                            }
-                                            
-                                        }
-                                        .overlay(alignment: .bottomTrailing) {
-                                            PhotosPicker(selection: $viewModel.personPhotoItem,
-                                                         matching: .images,
-                                                         photoLibrary: .shared()) {
+                                    if viewModel.isLoading {
+                                        LinearGradient(gradient: Gradient(colors: [.gray, .black]), startPoint: .topLeading, endPoint: .bottomTrailing)
+                                            .opacity(0.5)
+                                            .clipShape(RoundedRectangle(cornerRadius: 15))
+                                            .frame(width: geometry.size.width * 0.5, height: geometry.size.width * 0.5)
+                                    } else {
+                                        selectedImage
+                                            .resizable()
+                                            .scaledToFit()
+                                            .clipShape(RoundedRectangle(cornerRadius: 15))
+                                            .frame(width: geometry.size.width * 0.5)
+                                            .overlay(alignment: .bottomLeading) {
                                                 if viewModel.mode == "edit" {
-                                                    Image(systemName: "pencil.circle.fill")
-                                                        .symbolRenderingMode(.multicolor)
-                                                        .font(.system(size: 30))
-                                                        .foregroundColor(.accentColor)
+                                                    Button() {
+                                                        viewModel.removeImage(on: person)
+                                                    } label: {
+                                                        Image(systemName: "trash.circle.fill")
+                                                            .symbolRenderingMode(.multicolor)
+                                                            .font(.system(size: 30))
+                                                            .foregroundColor(.red)
+                                                    }
+                                                    .buttonStyle(.borderless)
+                                                    .padding(10)
                                                 }
+                                                
                                             }
-                                                         .buttonStyle(.borderless)
-                                                         .padding(10)
-                                        }
+                                            .overlay(alignment: .bottomTrailing) {
+                                                PhotosPicker(selection: $viewModel.personPhotoItem,
+                                                             matching: .images,
+                                                             photoLibrary: .shared()) {
+                                                    if viewModel.mode == "edit" {
+                                                        Image(systemName: "pencil.circle.fill")
+                                                            .symbolRenderingMode(.multicolor)
+                                                            .font(.system(size: 30))
+                                                            .foregroundColor(.accentColor)
+                                                    }
+                                                }
+                                                             .buttonStyle(.borderless)
+                                                             .padding(10)
+                                            }
+                                    }
                                 }
                             }
                         } else {
@@ -158,23 +165,6 @@ struct PersonDetailView: View {
                         }
                     }
                     
-                    //                    Section() {
-                    //                    HStack(alignment: .top) {
-                    //                        Text("Name")
-                    //                        Spacer()
-                    //                        if viewModel.mode == "view" {
-                    //                            Text(person.wrappedName)
-                    //                                .foregroundColor(.secondary)
-                    //                                .multilineTextAlignment(.trailing)
-                    //                        } else {
-                    //                            TextField("Name", text: $viewModel.updatedName)
-                    //                                .multilineTextAlignment(.trailing)
-                    //                                .background(Color.secondary)
-                    //                        }
-                    //                    }
-                    //                    }
-                    //
-                    //                    Section(header: Text("Goals")) {
                     if person.goalsArray.count > 0 || viewModel.mode == "edit" {
                         VStack {
                             HStack {
@@ -183,15 +173,6 @@ struct PersonDetailView: View {
                                     .foregroundStyle(.brandColorDark)
                                 
                                 Spacer()
-                                
-//                                if viewModel.mode == "edit" {
-//                                    HStack {
-//                                        Button("Add Goal") {
-//                                            viewModel.showAddGoalSheet = true
-//                                        }
-//                                    }
-//                                    .padding(.trailing)
-//                                }
                             }
                             ScrollView(.horizontal) {
                                 HStack {
@@ -209,7 +190,7 @@ struct PersonDetailView: View {
                     }
                     
                     if activities.count > 0 {
-                        LazyVStack {
+                        VStack {
                             HStack {
                                 Text("Recent Activities")
                                     .font(.title)
@@ -232,9 +213,6 @@ struct PersonDetailView: View {
                         }
                         .padding(.bottom)
                     }
-                    
-                    
-                    //                    }
                 }
             }
             .padding(.bottom, 50)
@@ -245,8 +223,11 @@ struct PersonDetailView: View {
             }
         }
         .onAppear {
-            let imagePath = FileManager.getDocumentsDirectory().appendingPathExtension("/personImages").appendingPathComponent("\(person.wrappedId).png")
-            viewModel.personImage = Utils.loadImage(from: imagePath)
+            Task {
+                let imagePath = FileManager.getDocumentsDirectory().appendingPathExtension("/personImages").appendingPathComponent("\(person.wrappedId).png")
+                viewModel.personImage = Utils.loadImage(from: imagePath)
+                viewModel.isLoading = false
+            }
         }
         .sheet(isPresented: $viewModel.showEditPersonSheet) {
             EditPersonView(person: person, geometry: geometry, newPersonName: $viewModel.updatedName, newPersonPhotoItem: $viewModel.personPhotoItem, newPersonImageData: $viewModel.personImageData, newPersonImage: $viewModel.personImage) {

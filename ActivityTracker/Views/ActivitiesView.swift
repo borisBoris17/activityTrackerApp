@@ -14,6 +14,10 @@ enum ActivityStatus {
     case ready, started, paused, stoped
 }
 
+enum ActivityFilter {
+    case selectedDay, last7, last30
+}
+
 struct ActivitiesView: View {
     
     @FetchRequest(sortDescriptors: []) var people: FetchedResults<Person>
@@ -60,7 +64,7 @@ struct ActivitiesView: View {
                     }
                     
                     
-                    LazyVStack {
+                    VStack {
                         HorizonalDateSelectView(startingSunday: $viewModel.startingSunday, startingSundayDay: Calendar.current.dateComponents([.day], from: viewModel.startingSunday).day!, startingSundayMonth: Calendar.current.dateComponents([.month], from: viewModel.startingSunday).month!, selectedDay: $viewModel.selectedDay)
                         
                         if viewModel.activityStatus == .ready {
@@ -80,7 +84,7 @@ struct ActivitiesView: View {
                             .buttonStyle(PlainButtonStyle())
                         }
                         
-                        ActivityListView(selectedDay: viewModel.selectedDay, showAll: viewModel.showAll, geometry: geometry)
+                        ActivityListView(selectedDay: viewModel.selectedDay, activityFilter: viewModel.activityFilter, geometry: geometry)
                     }
                     .background(.neutralLight)
                     .padding()
@@ -102,34 +106,36 @@ struct ActivitiesView: View {
                         
                     })
                 }
-//                if viewModel.activityStatus == .ready {
-//                    VStack {
-//                        Spacer()
-//                        
-//                        HStack {
-//                            Spacer()
-//                            
-//                            Button() {
-//                                viewModel.showNewActivitySheet = true
-//                            } label : {
-//                                Label("Add New Activity", systemImage: "plus")
-//                            }
-//                            .buttonStyle(BlueButton())
-//                        }
-//                    }
-//                }
                 
             }
             .background(.neutralLight)
             .navigationTitle("Activities")
             .toolbar {
                 ToolbarItem {
-                    Button(viewModel.showAll ? "By Date" : "Show All") {
-                        viewModel.showAll.toggle()
-                    }
-                    .foregroundStyle(.brandColorDark)
-                    .padding()
+                    Menu("Filter") {
+                            Button("Selected Date") {
+                                viewModel.activityFilter = .selectedDay
+                            }
+                            Button("Last 7 Days") {
+                                viewModel.activityFilter = .last7
+                            }
+                            Button("Last 30 Days") {
+                                viewModel.activityFilter = .last30
+                            }
+                        }
+//                    Button(viewModel.showAll ? "By Date" : "Show All") {
+//                        viewModel.showAll.toggle()
+//                    }
+//                    .foregroundStyle(.brandColorDark)
+//                    .padding()
                 }
+//                ToolbarItem {
+//                    Button(viewModel.showAll ? "By Date" : "Show All") {
+//                        viewModel.showAll.toggle()
+//                    }
+//                    .foregroundStyle(.brandColorDark)
+//                    .padding()
+//                }
             }
         }
     }

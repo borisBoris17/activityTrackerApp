@@ -23,6 +23,8 @@ extension PersonDetailView {
         
         var refreshingID = UUID()
         
+        var isLoading = true
+        
         func removeImage(on person: Person) {
             let imagePath = FileManager.getDocumentsDirectory().appendingPathExtension("/personImages").appendingPathComponent("\(person.wrappedId).png")
             Utils.removeImage(from: imagePath)

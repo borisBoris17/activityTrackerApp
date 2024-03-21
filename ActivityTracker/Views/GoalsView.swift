@@ -28,16 +28,7 @@ struct GoalsView: View {
                                 .foregroundColor(.brandColorDark)
                                 .font(.title)
                                 .fontWeight(.bold)
-                            Spacer()
-                            Button {
-                                viewModel.personToAddGoal = person
-                                viewModel.showAddGoal = true
-                            } label: {
-                                Image(systemName: "plus")
-                                    .fontWeight(.bold)
-                                    .font(.title)
-                                    .foregroundStyle(.brandColorDark)
-                            }
+                            
                         }
                         .padding(.top, 30)
                         ScrollView(.horizontal) {
