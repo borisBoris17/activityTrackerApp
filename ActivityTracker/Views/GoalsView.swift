@@ -29,12 +29,38 @@ struct GoalsView: View {
                                 .font(.title)
                                 .fontWeight(.bold)
                             Spacer()
+                            Button {
+                                viewModel.personToAddGoal = person
+                                viewModel.showAddGoal = true
+                            } label: {
+                                Image(systemName: "plus")
+                                    .fontWeight(.bold)
+                                    .font(.title)
+                                    .foregroundStyle(.brandColorDark)
+                            }
                         }
                         .padding(.top, 30)
                         ScrollView(.horizontal) {
                             HStack(spacing: 20) {
                                 if (person.goalsArray.isEmpty) {
                                     AddGoalCardView()
+//                                    Button {
+//                                        viewModel.personToAddGoal = person
+//                                        viewModel.showAddGoal = true
+//                                    } label: {
+//                                        HStack {
+//                                            Spacer()
+//                                            Image(systemName: "plus")
+//                                                .resizable()
+//                                                .padding()
+//                                                .scaledToFit()
+//                                                .foregroundStyle(.brandText)
+//                                            Spacer()
+//                                        }
+//                                        .padding()
+//                                        .frame(width: 175, height: 175)
+//                                        .background(.brandBackground, in: RoundedRectangle(cornerRadius: 16))
+//                                    }
                                 } else {
                                     ForEach(person.goalsArray) { goal in
                                         NavigationLink {
@@ -46,13 +72,31 @@ struct GoalsView: View {
                                         }
                                         .buttonStyle(PlainButtonStyle())
                                     }
+                                    
+//                                    Button {
+//                                        viewModel.personToAddGoal = person
+//                                        viewModel.showAddGoal = true
+//                                    } label: {
+//                                        HStack {
+//                                            Spacer()
+//                                            Image(systemName: "plus")
+//                                                .resizable()
+//                                                .padding()
+//                                                .scaledToFit()
+//                                                .foregroundStyle(.brandText)
+//                                            Spacer()
+//                                        }
+//                                        .padding()
+//                                        .frame(width: 175, height: 175)
+//                                        .background(.brandBackground, in: RoundedRectangle(cornerRadius: 16))
+//                                    }
                                 }
                             }
                         }
                         .scrollIndicators(.hidden)
                     }
                 }
-                .padding(.leading)
+                .padding(.horizontal)
                 .background(.neutralLight)
                 .scrollIndicators(.hidden)
                 
@@ -74,7 +118,9 @@ struct GoalsView: View {
             
             .navigationTitle("Goals")
             .sheet(isPresented: $viewModel.showAddGoal) {
-                AddGoalView()
+                if let person = viewModel.personToAddGoal {
+                    AddGoalToPersonView(person: person)
+                }
             }
         }
     }

@@ -13,5 +13,6 @@ extension GoalsView {
     class ViewModel {
         var showAddGoal = false
         var showAddPerson = false
+        var personToAddGoal: Person?
     }
 }

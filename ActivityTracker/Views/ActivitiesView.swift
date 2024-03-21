@@ -63,6 +63,23 @@ struct ActivitiesView: View {
                     LazyVStack {
                         HorizonalDateSelectView(startingSunday: $viewModel.startingSunday, startingSundayDay: Calendar.current.dateComponents([.day], from: viewModel.startingSunday).day!, startingSundayMonth: Calendar.current.dateComponents([.month], from: viewModel.startingSunday).month!, selectedDay: $viewModel.selectedDay)
                         
+                        if viewModel.activityStatus == .ready {
+                            Button {
+                                viewModel.showNewActivitySheet = true
+                            } label: {
+                                HStack {
+                                    Spacer()
+                                    Label("Start a new Activity", systemImage: "plus")
+                                        .font(.title)
+                                        .padding()
+                                    Spacer()
+                                }
+                                .frame(maxWidth: nil)
+                                .background(.brandBackground, in: RoundedRectangle(cornerRadius: 16))
+                            }
+                            .buttonStyle(PlainButtonStyle())
+                        }
+                        
                         ActivityListView(selectedDay: viewModel.selectedDay, showAll: viewModel.showAll, geometry: geometry)
                     }
                     .background(.neutralLight)
@@ -85,22 +102,22 @@ struct ActivitiesView: View {
                         
                     })
                 }
-                if viewModel.activityStatus == .ready {
-                    VStack {
-                        Spacer()
-                        
-                        HStack {
-                            Spacer()
-                            
-                            Button() {
-                                viewModel.showNewActivitySheet = true
-                            } label : {
-                                Label("Add New Activity", systemImage: "plus")
-                            }
-                            .buttonStyle(BlueButton())
-                        }
-                    }
-                }
+//                if viewModel.activityStatus == .ready {
+//                    VStack {
+//                        Spacer()
+//                        
+//                        HStack {
+//                            Spacer()
+//                            
+//                            Button() {
+//                                viewModel.showNewActivitySheet = true
+//                            } label : {
+//                                Label("Add New Activity", systemImage: "plus")
+//                            }
+//                            .buttonStyle(BlueButton())
+//                        }
+//                    }
+//                }
                 
             }
             .background(.neutralLight)

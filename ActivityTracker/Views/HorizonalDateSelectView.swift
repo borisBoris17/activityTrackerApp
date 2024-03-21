@@ -16,18 +16,21 @@ struct DateComponentView: View {
     var body: some View {
         VStack {
             Text(dayOfWeek)
-                .foregroundStyle(.brandBackground)
+            //                .foregroundStyle(.brandBackground)
+                .foregroundStyle(.brandColorDark)
             
-            ZStack {
-                Text("\(Calendar.current.dateComponents([.day], from: day).day!)")
-                    .kerning(-2)
-                    .padding(4)
-                    .foregroundStyle(.brandText)
-                    .font(.title)
-                    .background(isSelectedDay ? .brand : .clear, in: Circle())
-            }
+            //            ZStack {
+            Text("\(Calendar.current.dateComponents([.day], from: day).day!)")
+                .kerning(-2)
+                .padding(.horizontal,Calendar.current.dateComponents([.day], from: day).day! > 9 ? 6 : 12)
+//                .frame(minWidth: 50)
+            //                    .foregroundStyle(.brandText)
+                .foregroundStyle(isSelectedDay ? .brandColorLight : .brandColorDark)
+                .font(.title)
+                .background(isSelectedDay ? .brandColorDark : .clear, in: Circle())
+            //            }
         }
-        .foregroundStyle(.brandColorLight)
+        //        .foregroundStyle(.brandColorLight)
         .onTapGesture {
             selectedDay = day
         }
@@ -40,6 +43,8 @@ struct HorizonalDateSelectView: View {
     var startingSundayDay: Int
     var startingSundayMonth: Int
     @Binding var selectedDay: Date
+    
+    @State private var offset = CGSize.zero
     
     func getDay(daysToAdd: Int, from: Date) -> Date {
         Calendar.current.startOfDay(for: Calendar.current.date(byAdding: .day, value: daysToAdd, to: from)!)
@@ -54,14 +59,12 @@ struct HorizonalDateSelectView: View {
             
             VStack {
                 Text("\(Calendar.current.monthSymbols[startingSundayMonth - 1])")
-                    .foregroundStyle(.brandText)
-                    .font(.title3)
-
+                    .foregroundStyle(.brandColorDark)
+                    .font(.footnote)
             }
-            .padding(.bottom, 5)
             
             HStack {
-            
+                
                 DateComponentView(day: startingSunday, dayOfWeek: "S", isSelectedDay: isSameDay(first: startingSunday, second: selectedDay), selectedDay: $selectedDay)
                 
                 Spacer()
@@ -88,15 +91,43 @@ struct HorizonalDateSelectView: View {
                 
                 DateComponentView(day: getDay(daysToAdd: 6, from: startingSunday), dayOfWeek: "S", isSelectedDay: isSameDay(first: getDay(daysToAdd: 6, from: startingSunday), second: selectedDay), selectedDay: $selectedDay)
             }
+            
+            Divider()
+                .background(.brandColorDark)
+                .fontWeight(.bold)
+            
+//            SeperatorView(height: 2, color: .brandColorDark)
         }
-        .padding()
-        .background(.neutral, in: RoundedRectangle(cornerRadius: 16))
-        .gesture(DragGesture(minimumDistance: 3.0, coordinateSpace: .local)
+        .offset(x: offset.width)
+        .padding(.bottom)
+        //        .background(.neutral, in: RoundedRectangle(cornerRadius: 16))
+        .highPriorityGesture(DragGesture(minimumDistance: 3.0, coordinateSpace: .local)
+            .onChanged { gesture in
+                offset = gesture.translation
+            }
             .onEnded { value in
                 switch(value.translation.width, value.translation.height) {
-                case (...0, -30...30):  withAnimation {startingSunday = Calendar.current.date(byAdding: .day, value: 7, to: startingSunday)!}
-                case (0..., -30...30):  withAnimation {startingSunday = Calendar.current.date(byAdding: .day, value: -7, to: startingSunday)!}
-                    default:  return
+                case (...0, -60...60):
+                    startingSunday = Calendar.current.date(byAdding: .day, value: 7, to: startingSunday)!
+                    
+                    withAnimation {
+                        offset = CGSize.zero
+                    }
+                case (0..., -60...60):
+                    withAnimation {
+                        offset = CGSize.zero
+                    }
+                    startingSunday = Calendar.current.date(byAdding: .day, value: -7, to: startingSunday)!
+                    
+                    withAnimation {
+                        offset = CGSize.zero
+                    }
+                default:
+                    
+                    withAnimation {
+                        offset = CGSize.zero
+                    }
+                    return
                 }
             }
         )
