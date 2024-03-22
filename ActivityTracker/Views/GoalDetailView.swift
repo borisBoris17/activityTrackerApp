@@ -9,6 +9,7 @@ import SwiftUI
 
 struct GoalDetailView: View {
     let goal: Goal
+    @Binding var path: [Goal]
     
     @State private var viewModel = ViewModel()
     
@@ -104,7 +105,7 @@ struct GoalDetailView: View {
                         }
                         .padding()
                     }
-
+                    
                 }
                 Spacer()
             }
@@ -115,7 +116,7 @@ struct GoalDetailView: View {
                 .presentationDetents([.height(geometry.size.height * 0.45), .medium, .large])
             }
         }
-        .navigationTitle(goal.peopleArray[0].wrappedName)
+        .navigationTitle(!viewModel.isDelete ? goal.peopleArray[0].wrappedName : "")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem {
@@ -128,12 +129,27 @@ struct GoalDetailView: View {
             viewModel.drawingStroke = true
         }
         .sheet(isPresented: $viewModel.showEditGoal) {
-            EditGoalView(goal: goal, newGoalName: $viewModel.newGoalName, newGoalDesc: $viewModel.newGoalDesc, newGoalStartDate: $viewModel.newGoalStartDate, newGoalEndDate: $viewModel.newGoalEndDate, newGoalTarget: $viewModel.newGoalTarget) {
+            EditGoalView(goal: goal, newGoalName: $viewModel.newGoalName, newGoalDesc: $viewModel.newGoalDesc, newGoalStartDate: $viewModel.newGoalStartDate, newGoalEndDate: $viewModel.newGoalEndDate, newGoalTarget: $viewModel.newGoalTarget, deleteGoal: deleteGoal) {
                 viewModel.update(goal)
                 
                 try? moc.save()
             }
         }
+    }
+    
+    func deleteGoal(goal: Goal) {
+        path = [Goal]()
+        viewModel.isDelete = true
+        for activity in goal.activityArray {
+            if activity.goalArray.count == 1 && activity.goalArray.contains(goal) {
+                moc.delete(activity)
+            }
+        }
+        
+        // delete it from the context
+        moc.delete(goal)
+        
+        try? moc.save()
     }
 }
 

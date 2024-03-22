@@ -17,9 +17,11 @@ struct GoalsView: View {
     
     @State private var viewModel = ViewModel()
     
+    @State private var presentedGoals: [Goal] = []
+    
     var body: some View {
         
-        NavigationStack {
+        NavigationStack(path: $presentedGoals) {
             ZStack {
                 ScrollView {
                     ForEach(people) { person in
@@ -37,11 +39,7 @@ struct GoalsView: View {
                                     AddGoalCardView()
                                 } else {
                                     ForEach(person.goalsArray) { goal in
-                                        NavigationLink {
-                                            VStack {
-                                                GoalDetailView(goal: goal)
-                                            }
-                                        } label: {
+                                        NavigationLink(value: goal) {
                                             GoalCardView(goal: goal, showPerson: false)
                                         }
                                         .buttonStyle(PlainButtonStyle())
@@ -71,7 +69,11 @@ struct GoalsView: View {
                     }
                 }
             }
-            
+            .navigationDestination(for: Goal.self) { goal in
+                VStack {
+                    GoalDetailView(goal: goal, path: $presentedGoals)
+                }
+            }
             .navigationTitle("Goals")
             .sheet(isPresented: $viewModel.showAddGoal) {
                 AddGoalView()
@@ -92,26 +94,6 @@ struct GoalsView: View {
             .background(.brandBackground, in: RoundedRectangle(cornerRadius: 16))
         }
     }
-    
-    func deleteGoals(at offsets: IndexSet) {
-        for offset in offsets {
-            // find this book in our fetch request
-            let goal = goals[offset]
-            
-            for activity in activities {
-                if activity.goalArray.count == 1 && activity.goalArray.contains(goal) {
-                    moc.delete(activity)
-                }
-            }
-            
-            // delete it from the context
-            moc.delete(goal)
-        }
-        
-        // save the context
-        try? moc.save()
-    }
-    
 }
 
 struct HomeView_Previews: PreviewProvider {

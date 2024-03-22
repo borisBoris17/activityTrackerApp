@@ -26,6 +26,7 @@ struct PersonDetailView: View {
     }
     
     @State private var viewModel = ViewModel()
+    @State private var temp = [Goal]()
     
     var body: some View {
         VStack {
@@ -178,7 +179,7 @@ struct PersonDetailView: View {
                                 HStack {
                                     ForEach(person.goalsArray) { goal in
                                         NavigationLink {
-                                            GoalDetailView(goal: goal)
+                                            GoalDetailView(goal: goal, path: $temp)
                                         } label: {
                                             GoalCardView(goal: goal, showPerson: false)
                                         }

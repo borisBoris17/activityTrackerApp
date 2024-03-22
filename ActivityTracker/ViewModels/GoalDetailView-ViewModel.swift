@@ -21,6 +21,7 @@ extension GoalDetailView {
         var newGoalStartDate = Date()
         var newGoalEndDate = Date()
         var newGoalTarget = ""
+        var isDelete = false
         
         func prepareForEdit(for goal: Goal) {
             newGoalName = goal.wrappedName

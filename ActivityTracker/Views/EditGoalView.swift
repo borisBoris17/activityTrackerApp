@@ -14,7 +14,9 @@ struct EditGoalView: View {
     @Binding var newGoalStartDate: Date
     @Binding var newGoalEndDate: Date
     @Binding var newGoalTarget: String
+    var deleteGoal: (_ goal: Goal) -> Void
     var saveGoal: () -> Void
+    @State private var showDeleteAlert = false
     
     @Environment(\.dismiss) var dismiss
     
@@ -44,6 +46,22 @@ struct EditGoalView: View {
                         TextField("Target (in hours)", text: $newGoalTarget)
                             .keyboardType(.decimalPad)
                     }
+                    
+                    Section {
+                        Button("Delete") {
+                            showDeleteAlert = true
+                        }
+                        .alert(isPresented: $showDeleteAlert) {
+                            Alert(
+                                title: Text("Delete Goal?"),
+                                message: Text("This is a permanent action."),
+                                primaryButton: .destructive(Text("Delete")) {
+                                    deleteGoal(goal)
+                                    dismiss()
+                                },
+                                secondaryButton: .cancel())
+                        }
+                    }
                 }
             }
             .navigationTitle("Edit Goal")
@@ -51,6 +69,11 @@ struct EditGoalView: View {
                 ToolbarItem {
                     Button("Save") {
                         saveGoal()
+                        dismiss()
+                    }
+                }
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button("Back") {
                         dismiss()
                     }
                 }

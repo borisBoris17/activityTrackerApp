@@ -16,6 +16,7 @@ struct ActivityView: View {
     @Environment(\.dismiss) var dismiss
     
     @State private var viewModel = ViewModel()
+    @State private var temp = [Goal]()
     
     @Environment(\.displayScale) var displayScale
     
@@ -93,7 +94,7 @@ struct ActivityView: View {
                             ForEach(activity.goalArray) { goal in
                                 NavigationLink {
                                     VStack {
-                                        GoalDetailView(goal: goal)
+                                        GoalDetailView(goal: goal, path: $temp)
                                     }
                                 } label: {
                                     GoalCardView(goal: goal, showPerson: true)
