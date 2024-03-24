@@ -48,6 +48,7 @@ struct PersonButtonView: View {
                         } else {
                             personImage?
                                 .resizable()
+                                .scaledToFill()
                                 .frame(width: selectedPerson == person ? imageSize * 1.25 : imageSize, height: selectedPerson == person ? imageSize * 1.25 : imageSize)
                                 .clipShape(RoundedRectangle(cornerRadius: 15))
                         }
