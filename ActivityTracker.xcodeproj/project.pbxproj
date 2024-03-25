@@ -194,32 +194,56 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		E6DB35BF2A99A392001575E2 /* Views */ = {
+		E67080EE2BB139F20056EC09 /* Goals */ = {
 			isa = PBXGroup;
 			children = (
-				E6DB35F12AA0DDAE001575E2 /* Common */,
 				E6DB35C02A99A3A0001575E2 /* GoalsView.swift */,
 				E6DB35C22A99B087001575E2 /* AddGoalView.swift */,
 				E6DB35D52AA0BD0E001575E2 /* GoalDetailView.swift */,
-				E6DB35F62AAD64DF001575E2 /* ActivityView.swift */,
-				E6DB35F42AA0ECA0001575E2 /* AddPersonView.swift */,
+				E61814072AB365BE003B9F1F /* GoalSelectionView.swift */,
+				E66B4F572B98262A0054D7AA /* EditGoalView.swift */,
+				E643DE2F2B80726200ED46DA /* AddGoalToPersonView.swift */,
+				E6FA73AC2BA156B8002FC5D6 /* GoalCardView.swift */,
+			);
+			path = Goals;
+			sourceTree = "<group>";
+		};
+		E67080EF2BB13A1E0056EC09 /* Activities */ = {
+			isa = PBXGroup;
+			children = (
 				E6DB35F82AB1657A001575E2 /* ActivitiesView.swift */,
 				E61814052AB16BD6003B9F1F /* StartActivityView.swift */,
-				E61814072AB365BE003B9F1F /* GoalSelectionView.swift */,
 				E643DE1F2B43D0E700ED46DA /* ActivityListView.swift */,
-				E643DE212B60BD4F00ED46DA /* SaveActivityView.swift */,
-				E643DE272B7B234400ED46DA /* PeopleView.swift */,
-				E643DE292B7DB7E800ED46DA /* HorizontalPeopleView.swift */,
+				E6DB35F62AAD64DF001575E2 /* ActivityView.swift */,
 				E643DE1D2B33F51800ED46DA /* HorizonalDateSelectView.swift */,
-				E643DE2B2B7DC58B00ED46DA /* PersonButtonView.swift */,
-				E643DE2F2B80726200ED46DA /* AddGoalToPersonView.swift */,
-				E643DE2D2B80631D00ED46DA /* PersonDetailView.swift */,
 				E66B4F552B86FAA50054D7AA /* ActivityListItemView.swift */,
-				E66B4F572B98262A0054D7AA /* EditGoalView.swift */,
-				E6FA73AC2BA156B8002FC5D6 /* GoalCardView.swift */,
 				E6FA73AE2BA2A006002FC5D6 /* ActivityCardView.swift */,
 				E6F07B3D2BA925A300C2B740 /* EditActivityView.swift */,
+				E643DE212B60BD4F00ED46DA /* SaveActivityView.swift */,
+			);
+			path = Activities;
+			sourceTree = "<group>";
+		};
+		E67080F02BB13A440056EC09 /* People */ = {
+			isa = PBXGroup;
+			children = (
+				E6DB35F42AA0ECA0001575E2 /* AddPersonView.swift */,
+				E643DE272B7B234400ED46DA /* PeopleView.swift */,
+				E643DE292B7DB7E800ED46DA /* HorizontalPeopleView.swift */,
+				E643DE2B2B7DC58B00ED46DA /* PersonButtonView.swift */,
+				E643DE2D2B80631D00ED46DA /* PersonDetailView.swift */,
 				E6F07B3F2BA93BA300C2B740 /* EditPersonView.swift */,
+			);
+			path = People;
+			sourceTree = "<group>";
+		};
+		E6DB35BF2A99A392001575E2 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				E67080F02BB13A440056EC09 /* People */,
+				E67080EF2BB13A1E0056EC09 /* Activities */,
+				E67080EE2BB139F20056EC09 /* Goals */,
+				E6DB35F12AA0DDAE001575E2 /* Common */,
 			);
 			path = Views;
 			sourceTree = "<group>";
