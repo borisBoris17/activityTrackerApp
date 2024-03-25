@@ -112,15 +112,5 @@ extension ActivityView {
                 mode = "view"
             }
         }
-        
-        func deleteActivity(activity: Activity, @Binding _ path: NavigationPath, moc: NSManagedObjectContext) {
-            path.removeLast()
-            for goal in activity.goalArray {
-                goal.progress = goal.progress - Double(activity.duration)
-            }
-            moc.delete(activity)
-            
-            try? moc.save()
-        }
     }
 }

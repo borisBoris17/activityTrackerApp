@@ -20,6 +20,16 @@ struct ActivityView: View {
     
     @Environment(\.displayScale) var displayScale
     
+    func deleteActivity(activity: Activity) {
+        path.removeLast()
+        for goal in activity.goalArray {
+            goal.progress = goal.progress - Double(activity.duration)
+        }
+        moc.delete(activity)
+        
+        try? moc.save()
+    }
+    
     var body: some View {
         
         GeometryReader { geometry in
@@ -127,7 +137,7 @@ struct ActivityView: View {
                 viewModel.activityImage = Utils.loadImage(from: imagePath)
             }
             .sheet(isPresented: $viewModel.showEditActivity) {
-                EditActivityView(activity: activity, geometry: geometry, newActivityName: $viewModel.updatedName, newActivityDesc: $viewModel.updatedDescription, newActivityGoals: $viewModel.updatedGoals, newActivityPhotoItem: $viewModel.activityPhotoItem, newActivityImageData: $viewModel.activityImageData, newActivityImage: $viewModel.activityImage, newActivityMinutes: $viewModel.minutes, newActivityHours: $viewModel.hours) {
+                EditActivityView(activity: activity, geometry: geometry, newActivityName: $viewModel.updatedName, newActivityDesc: $viewModel.updatedDescription, newActivityGoals: $viewModel.updatedGoals, newActivityPhotoItem: $viewModel.activityPhotoItem, newActivityImageData: $viewModel.activityImageData, newActivityImage: $viewModel.activityImage, newActivityMinutes: $viewModel.minutes, newActivityHours: $viewModel.hours, deleteActivity: deleteActivity) {
                     viewModel.edit(for: activity)
                     try? moc.save()
                     refreshId = UUID()

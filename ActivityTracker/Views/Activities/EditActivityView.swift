@@ -20,9 +20,11 @@ struct EditActivityView: View {
     @Binding var newActivityImage: Image?
     @Binding var newActivityMinutes: Int
     @Binding var newActivityHours: Int
+    var deleteActivity: (_ activity: Activity) -> Void
     var saveActivity: () -> Void
     
     @State private var showEditGoals = false
+    @State private var showDeleteAlert = false
 
     @Environment(\.dismiss) var dismiss
     
@@ -108,6 +110,22 @@ struct EditActivityView: View {
                         }
                         .frame(maxHeight: 150)
                         .clipped()
+                    }
+                }
+                
+                Section {
+                    Button("Delete") {
+                        showDeleteAlert = true
+                    }
+                    .alert(isPresented: $showDeleteAlert) {
+                        Alert(
+                            title: Text("Delete Activity?"),
+                            message: Text("This is a permanent action."),
+                            primaryButton: .destructive(Text("Delete")) {
+                                deleteActivity(activity)
+                                dismiss()
+                            },
+                            secondaryButton: .cancel())
                     }
                 }
             }
