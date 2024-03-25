@@ -41,19 +41,6 @@ struct ActivityListView: View {
         return dateFormatter.string(from: from)
     }
     
-    func deleteActivities(at offsets: IndexSet) {
-        for offset in offsets {
-            let activity = activities[offset]
-            for goal in activity.goalArray {
-                goal.progress = goal.progress - Double(activity.duration)
-            }
-            
-            moc.delete(activity)
-        }
-        
-        try? moc.save()
-    }
-    
     var body: some View {
         VStack {
             if activityFilter == .last30 {
@@ -72,7 +59,6 @@ struct ActivityListView: View {
                     .padding(.bottom)
             }
         }
-        .onDelete(perform: deleteActivities)
         .id(refreshingID)
     }
 }

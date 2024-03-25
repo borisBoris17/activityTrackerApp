@@ -89,8 +89,6 @@ struct HorizonalDateSelectView: View {
             Divider()
                 .background(.brandColorDark)
                 .fontWeight(.bold)
-            
-            //            SeperatorView(height: 2, color: .brandColorDark)
         }
         .offset(x: offset.width)
         .padding(.bottom)
