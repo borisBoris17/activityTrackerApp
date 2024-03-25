@@ -9,12 +9,14 @@ import SwiftUI
 
 struct PeopleView: View {
     
+    @Binding var path: NavigationPath
+    
     @FetchRequest(sortDescriptors: []) var people: FetchedResults<Person>
     
     @State private var viewModel = ViewModel()
     
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $path) {
             GeometryReader { geometry in
                 
                 ZStack {
@@ -22,7 +24,7 @@ struct PeopleView: View {
                         HorizontalPeopleView(people: people, imageSize: geometry.size.width * 0.33, selectedPerson: $viewModel.selectedPerson, imageHasChanged: viewModel.imageHasChanged)
                                                     
                         if let selectedPerson = viewModel.selectedPerson {
-                            PersonDetailView(person: selectedPerson, geometry: geometry, imageHasChanged: $viewModel.imageHasChanged)
+                            PersonDetailView(person: selectedPerson, geometry: geometry, imageHasChanged: $viewModel.imageHasChanged, path: $path)
                         } else {
                             Spacer()
                         }
@@ -51,10 +53,18 @@ struct PeopleView: View {
                 AddPersonView()
                     .presentationDetents([.medium])
             }
+            .navigationDestination(for: Goal.self) { goal in
+                VStack {
+                    GoalDetailView(goal: goal, path: $path)
+                }
+            }
+            .navigationDestination(for: Activity.self) { activity in
+                ActivityView(activity: activity, refreshId: $viewModel.refreshId, path: $path)
+            }
         }
     }
 }
 
-#Preview {
-    PeopleView()
-}
+//#Preview {
+//    PeopleView()
+//}

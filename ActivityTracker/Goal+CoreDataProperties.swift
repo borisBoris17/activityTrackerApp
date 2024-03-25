@@ -9,9 +9,6 @@
 import Foundation
 import CoreData
 
-//let minuteLength = 3.0
-//let hourLength = 3.0
-
 extension Goal {
     
     @nonobjc public class func fetchRequest() -> NSFetchRequest<Goal> {
@@ -25,7 +22,6 @@ extension Goal {
     @NSManaged public var endDate: Date?
     @NSManaged public var target: Int16
     @NSManaged public var progress: Double
-//    @NSManaged public var person: Person?
     @NSManaged public var people: NSSet?
     
     @NSManaged public var activities: NSSet?

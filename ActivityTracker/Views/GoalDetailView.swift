@@ -6,10 +6,11 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct GoalDetailView: View {
     let goal: Goal
-    @Binding var path: [Goal]
+    @Binding var path: NavigationPath
     
     @State private var viewModel = ViewModel()
     
@@ -94,9 +95,7 @@ struct GoalDetailView: View {
                                 .foregroundStyle(.brandColorDark)
                             
                             ForEach(goal.descendingActivityArray) {activity in
-                                NavigationLink {
-                                    ActivityView(activity: activity, refreshId: $viewModel.refreshId)
-                                } label: {
+                                NavigationLink(value: activity) {
                                     ActivityCardView(activity: activity, geometry: geometry)
                                         .padding(.bottom)
                                 }
@@ -108,12 +107,6 @@ struct GoalDetailView: View {
                     
                 }
                 Spacer()
-            }
-            .sheet(isPresented: $viewModel.showActivities) {
-                NavigationStack {
-                    
-                }
-                .presentationDetents([.height(geometry.size.height * 0.45), .medium, .large])
             }
         }
         .navigationTitle(!viewModel.isDelete ? goal.peopleArray[0].wrappedName : "")
@@ -138,7 +131,7 @@ struct GoalDetailView: View {
     }
     
     func deleteGoal(goal: Goal) {
-        path = [Goal]()
+        path.removeLast()
         viewModel.isDelete = true
         for activity in goal.activityArray {
             if activity.goalArray.count == 1 && activity.goalArray.contains(goal) {

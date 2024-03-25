@@ -28,6 +28,7 @@ extension ActivitiesView {
         var desc = ""
         var selectedGoals: [Goal] = []
         var day = Date.now
+        var refreshId = UUID()
         
         var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
         

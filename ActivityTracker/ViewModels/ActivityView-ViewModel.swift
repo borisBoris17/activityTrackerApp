@@ -8,6 +8,7 @@
 import Foundation
 import _PhotosUI_SwiftUI
 import SwiftUI
+import CoreData
 
 extension ActivityView {
     
@@ -110,6 +111,16 @@ extension ActivityView {
             withAnimation {
                 mode = "view"
             }
+        }
+        
+        func deleteActivity(activity: Activity, @Binding _ path: NavigationPath, moc: NSManagedObjectContext) {
+            path.removeLast()
+            for goal in activity.goalArray {
+                goal.progress = goal.progress - Double(activity.duration)
+            }
+            moc.delete(activity)
+            
+            try? moc.save()
         }
     }
 }

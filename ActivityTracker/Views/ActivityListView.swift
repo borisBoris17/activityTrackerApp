@@ -12,11 +12,12 @@ struct ActivityListView: View {
     var selectedDay: Date
     var activityFilter: ActivityFilter
     var geometry: GeometryProxy
+    @Binding var path: NavigationPath
     @FetchRequest var activities: FetchedResults<Activity>
     
     @State private var refreshingID = UUID()
     
-    init(selectedDay: Date, activityFilter: ActivityFilter, geometry: GeometryProxy) {
+    init(selectedDay: Date, activityFilter: ActivityFilter, geometry: GeometryProxy, path: Binding<NavigationPath>) {
         if activityFilter == .last30 {
             _activities = FetchRequest<Activity>(sortDescriptors: [NSSortDescriptor(keyPath: \Activity.startDate, ascending: false)], predicate: NSPredicate(format: "%K > %@", "startDate", Calendar.current.date(byAdding: .day, value: -30, to: Date.now)! as NSDate))
         } else if activityFilter == .last7 {
@@ -27,6 +28,7 @@ struct ActivityListView: View {
         self.selectedDay = selectedDay
         self.activityFilter = activityFilter
         self.geometry = geometry
+        self._path = path
     }
     
     func formattedDate(from: Date) -> String {
@@ -41,17 +43,14 @@ struct ActivityListView: View {
     
     func deleteActivities(at offsets: IndexSet) {
         for offset in offsets {
-            // find this book in our fetch request
             let activity = activities[offset]
             for goal in activity.goalArray {
                 goal.progress = goal.progress - Double(activity.duration)
             }
             
-            // delete it from the context
             moc.delete(activity)
         }
         
-        // save the context
         try? moc.save()
     }
     
@@ -68,11 +67,7 @@ struct ActivityListView: View {
         .foregroundStyle(.brandColorDark)
         
         ForEach(activities) { activity in
-            NavigationLink {
-                VStack {
-                    ActivityView(activity: activity, refreshId: $refreshingID)
-                }
-            } label: {
+            NavigationLink(value: activity) {
                 ActivityCardView(activity: activity, geometry: geometry)
                     .padding(.bottom)
             }

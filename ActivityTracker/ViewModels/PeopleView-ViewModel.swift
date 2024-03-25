@@ -16,5 +16,6 @@ extension PeopleView {
         var selectedPerson: Person? = nil
         var showAddPerson = false
         var imageHasChanged = false
+        var refreshId = UUID()
     }
 }

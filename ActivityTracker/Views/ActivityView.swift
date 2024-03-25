@@ -12,11 +12,11 @@ struct ActivityView: View {
     
     let activity: Activity
     @Binding var refreshId: UUID
+    @Binding var path: NavigationPath
     @Environment(\.managedObjectContext) var moc
     @Environment(\.dismiss) var dismiss
     
     @State private var viewModel = ViewModel()
-    @State private var temp = [Goal]()
     
     @Environment(\.displayScale) var displayScale
     
@@ -92,11 +92,7 @@ struct ActivityView: View {
                     ScrollView(.horizontal) {
                         HStack {
                             ForEach(activity.goalArray) { goal in
-                                NavigationLink {
-                                    VStack {
-                                        GoalDetailView(goal: goal, path: $temp)
-                                    }
-                                } label: {
+                                NavigationLink(value: goal) {
                                     GoalCardView(goal: goal, showPerson: true)
                                 }
                                 .buttonStyle(PlainButtonStyle())

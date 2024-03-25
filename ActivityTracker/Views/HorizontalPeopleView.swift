@@ -22,7 +22,6 @@ struct HorizontalPeopleView: View {
                     }
                 }
                 .padding()
-//                .background(.neutralDark, in: RoundedRectangle(cornerRadius: 16))
             }
         }
     }

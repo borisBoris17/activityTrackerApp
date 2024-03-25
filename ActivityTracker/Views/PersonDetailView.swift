@@ -14,19 +14,22 @@ struct PersonDetailView: View {
     var person: Person
     var geometry: GeometryProxy
     @Binding var imageHasChanged: Bool
+    @Binding var path: NavigationPath
     
     @FetchRequest var activities: FetchedResults<Activity>
     
-    init(person: Person, geometry: GeometryProxy, imageHasChanged: Binding<Bool>) {
+    init(person: Person, geometry: GeometryProxy, imageHasChanged: Binding<Bool>, path: Binding<NavigationPath>) {
         self.person = person
         self.geometry = geometry
         self._imageHasChanged = imageHasChanged
+        self._path = path
         
         _activities = FetchRequest<Activity>(sortDescriptors: [NSSortDescriptor(keyPath: \Activity.startDate, ascending: false)], predicate: NSPredicate(format: "ANY goals IN %@", person.goalsArray));
     }
     
     @State private var viewModel = ViewModel()
-    @State private var temp = [Goal]()
+    @State private var temp = NavigationPath()
+    
     
     var body: some View {
         VStack {
@@ -138,10 +141,8 @@ struct PersonDetailView: View {
                                         .font(.title)
                                         .fontWeight(.bold)
                                         .foregroundStyle(.brandColorDark)
-                                    //                                        .multilineTextAlignment(.trailing)
                                 } else {
                                     TextField("Name", text: $viewModel.updatedName)
-                                    //                                        .multilineTextAlignment(.trailing)
                                         .background(Color.secondary)
                                 }
                                 Spacer()
@@ -178,9 +179,7 @@ struct PersonDetailView: View {
                             ScrollView(.horizontal) {
                                 HStack {
                                     ForEach(person.goalsArray) { goal in
-                                        NavigationLink {
-                                            GoalDetailView(goal: goal, path: $temp)
-                                        } label: {
+                                        NavigationLink(value: goal) {
                                             GoalCardView(goal: goal, showPerson: false)
                                         }
                                     }
@@ -201,11 +200,7 @@ struct PersonDetailView: View {
                             }
                             
                             ForEach(activities) { activity in
-                                NavigationLink {
-                                    VStack {
-                                        ActivityView(activity: activity, refreshId: $viewModel.refreshingID)
-                                    }
-                                } label: {
+                                NavigationLink(value: activity) {
                                     ActivityCardView(activity: activity, geometry: geometry)
                                         .padding([.trailing, .bottom])
                                 }

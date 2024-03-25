@@ -6,22 +6,22 @@
 //
 
 import SwiftUI
+import CoreData
 
 
 struct GoalsView: View {
     @Environment(\.managedObjectContext) var moc
     
+    @Binding var path: NavigationPath
     @FetchRequest(sortDescriptors: []) var people: FetchedResults<Person>
     @FetchRequest(sortDescriptors: []) var goals: FetchedResults<Goal>
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Activity.startDate, ascending: false)]) var activities: FetchedResults<Activity>
     
     @State private var viewModel = ViewModel()
-    
-    @State private var presentedGoals: [Goal] = []
-    
+        
     var body: some View {
         
-        NavigationStack(path: $presentedGoals) {
+        NavigationStack(path: $path) {
             ZStack {
                 ScrollView {
                     ForEach(people) { person in
@@ -71,8 +71,11 @@ struct GoalsView: View {
             }
             .navigationDestination(for: Goal.self) { goal in
                 VStack {
-                    GoalDetailView(goal: goal, path: $presentedGoals)
+                    GoalDetailView(goal: goal, path: $path)
                 }
+            }
+            .navigationDestination(for: Activity.self) { activity in
+                ActivityView(activity: activity, refreshId: $viewModel.refreshId, path: $path)
             }
             .navigationTitle("Goals")
             .sheet(isPresented: $viewModel.showAddGoal) {
@@ -96,9 +99,9 @@ struct GoalsView: View {
     }
 }
 
-struct HomeView_Previews: PreviewProvider {
-    
-    static var previews: some View {
-        GoalsView()
-    }
-}
+//struct HomeView_Previews: PreviewProvider {
+//    
+//    static var previews: some View {
+//        GoalsView()
+//    }
+//}

@@ -16,21 +16,15 @@ struct DateComponentView: View {
     var body: some View {
         VStack {
             Text(dayOfWeek)
-            //                .foregroundStyle(.brandBackground)
                 .foregroundStyle(.brandColorDark)
             
-            //            ZStack {
             Text("\(Calendar.current.dateComponents([.day], from: day).day!)")
                 .kerning(-2)
                 .padding(.horizontal,Calendar.current.dateComponents([.day], from: day).day! > 9 ? 6 : 12)
-//                .frame(minWidth: 50)
-            //                    .foregroundStyle(.brandText)
                 .foregroundStyle(isSelectedDay ? .brandColorLight : .brandColorDark)
                 .font(.title)
                 .background(isSelectedDay ? .brandColorDark : .clear, in: Circle())
-            //            }
         }
-        //        .foregroundStyle(.brandColorLight)
         .onTapGesture {
             selectedDay = day
         }
@@ -96,7 +90,7 @@ struct HorizonalDateSelectView: View {
                 .background(.brandColorDark)
                 .fontWeight(.bold)
             
-//            SeperatorView(height: 2, color: .brandColorDark)
+            //            SeperatorView(height: 2, color: .brandColorDark)
         }
         .offset(x: offset.width)
         .padding(.bottom)

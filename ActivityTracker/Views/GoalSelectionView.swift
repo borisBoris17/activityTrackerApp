@@ -9,7 +9,6 @@ import SwiftUI
 
 
 struct GoalSelectionView: View {
-    // Refactor this to be a Set instead of an array
     @Binding var selectedGoals: Set<Goal>
     
     @FetchRequest(sortDescriptors: []) var people: FetchedResults<Person>
