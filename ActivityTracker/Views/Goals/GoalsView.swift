@@ -31,6 +31,7 @@ struct GoalsView: View {
                                 .font(.title)
                                 .fontWeight(.bold)
                             
+                            Spacer()
                         }
                         .padding(.top, 30)
                         ScrollView(.horizontal) {
