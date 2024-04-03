@@ -15,9 +15,11 @@ struct EditPersonView: View {
     @Binding var newPersonPhotoItem: PhotosPickerItem?
     @Binding var newPersonImageData: Data?
     @Binding var newPersonImage: Image?
+    var deletePerson: (_ person: Person) -> Void
     var savePerson: () -> Void
     
     @State private var showAddGoalSheet = false
+    @State private var showDeleteAlert = false
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
@@ -49,6 +51,22 @@ struct EditPersonView: View {
                 
                 Button("Add Goal") {
                     showAddGoalSheet.toggle()
+                }
+                
+                Section {
+                    Button("Delete") {
+                        showDeleteAlert = true
+                    }
+                    .alert(isPresented: $showDeleteAlert) {
+                        Alert(
+                            title: Text("Delete \(person.wrappedName)?"),
+                            message: Text("This is a permanent action."),
+                            primaryButton: .destructive(Text("Delete")) {
+                                deletePerson(person)
+                                dismiss()
+                            },
+                            secondaryButton: .cancel())
+                    }
                 }
             }
             .navigationTitle("Edit Person")

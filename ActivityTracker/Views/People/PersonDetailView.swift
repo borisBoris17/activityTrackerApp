@@ -15,20 +15,39 @@ struct PersonDetailView: View {
     var geometry: GeometryProxy
     @Binding var imageHasChanged: Bool
     @Binding var path: NavigationPath
+    var clearPerson: () -> Void
     
     @FetchRequest var activities: FetchedResults<Activity>
     
-    init(person: Person, geometry: GeometryProxy, imageHasChanged: Binding<Bool>, path: Binding<NavigationPath>) {
+    init(person: Person, geometry: GeometryProxy, imageHasChanged: Binding<Bool>, path: Binding<NavigationPath>, clearPerson: @escaping () -> Void) {
         self.person = person
         self.geometry = geometry
         self._imageHasChanged = imageHasChanged
         self._path = path
+        self.clearPerson = clearPerson
         
         _activities = FetchRequest<Activity>(sortDescriptors: [NSSortDescriptor(keyPath: \Activity.startDate, ascending: false)], predicate: NSPredicate(format: "ANY goals IN %@", person.goalsArray));
     }
     
     @State private var viewModel = ViewModel()
     @State private var temp = NavigationPath()
+    
+    func deletePerson(person: Person) {
+        clearPerson()
+        for goal in person.goalsArray {
+            for activity in goal.activityArray {
+                if activity.goalArray.count == 1 && activity.goalArray.contains(goal) {
+                    moc.delete(activity)
+                }
+            }
+            
+            moc.delete(goal)
+        }
+        
+        moc.delete(person)
+        
+        try? moc.save()
+    }
     
     
     var body: some View {
@@ -226,7 +245,7 @@ struct PersonDetailView: View {
             }
         }
         .sheet(isPresented: $viewModel.showEditPersonSheet) {
-            EditPersonView(person: person, geometry: geometry, newPersonName: $viewModel.updatedName, newPersonPhotoItem: $viewModel.personPhotoItem, newPersonImageData: $viewModel.personImageData, newPersonImage: $viewModel.personImage) {
+            EditPersonView(person: person, geometry: geometry, newPersonName: $viewModel.updatedName, newPersonPhotoItem: $viewModel.personPhotoItem, newPersonImageData: $viewModel.personImageData, newPersonImage: $viewModel.personImage, deletePerson: deletePerson) {
                 imageHasChanged.toggle()
                 viewModel.update(person)
                 

@@ -24,7 +24,7 @@ struct PeopleView: View {
                         HorizontalPeopleView(people: people, imageSize: geometry.size.width * 0.33, selectedPerson: $viewModel.selectedPerson, imageHasChanged: viewModel.imageHasChanged)
                                                     
                         if let selectedPerson = viewModel.selectedPerson {
-                            PersonDetailView(person: selectedPerson, geometry: geometry, imageHasChanged: $viewModel.imageHasChanged, path: $path)
+                            PersonDetailView(person: selectedPerson, geometry: geometry, imageHasChanged: $viewModel.imageHasChanged, path: $path, clearPerson: viewModel.clearPerson)
                         } else {
                             Spacer()
                         }
