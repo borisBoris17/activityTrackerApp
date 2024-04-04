@@ -19,7 +19,7 @@ extension Activity {
     @NSManaged public var id: UUID?
     @NSManaged public var name: String?
     @NSManaged public var desc: String?
-    @NSManaged public var duration: Int16
+    @NSManaged public var duration: Int32
     @NSManaged public var goals: NSSet?
     @NSManaged public var startDate: Date?
     

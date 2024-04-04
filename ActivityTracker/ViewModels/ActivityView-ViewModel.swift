@@ -95,7 +95,7 @@ extension ActivityView {
                 goal.progress = (goal.progress - oldSeconds) + newSeconds.rounded(.up)
             }
             
-            activity.duration = Int16(newSeconds.rounded(.up))
+            activity.duration = Int32(newSeconds.rounded(.up))
             activity.name = updatedName
             activity.desc = updatedDescription
             activity.goals = updatedGoals as NSSet

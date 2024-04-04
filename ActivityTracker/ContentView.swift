@@ -14,8 +14,25 @@ struct ContentView: View {
     @State private var activitiesPath = NavigationPath()
     @State private var peoplePath = NavigationPath()
     
+    private func tabSelection() -> Binding<Int> {
+        Binding {
+         self.selection
+        } set: { tappedTab in
+         if tappedTab == self.selection {
+             if tappedTab == 1 {
+                 goalsPath = NavigationPath()
+             } else if tappedTab == 2 {
+                 activitiesPath = NavigationPath()
+             } else {
+                 peoplePath = NavigationPath()
+             }
+         }
+         self.selection = tappedTab
+        }
+     }
+    
     var body: some View {
-        TabView(selection: $selection) {
+        TabView(selection: tabSelection()) {
             GoalsView(path: $goalsPath)
                 .tabItem {
                     Label("Goals", systemImage: "list.clipboard")

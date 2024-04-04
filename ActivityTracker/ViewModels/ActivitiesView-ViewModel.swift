@@ -73,7 +73,7 @@ extension ActivitiesView {
             activity.name = name
             activity.desc = desc
             activity.goals = NSSet(array: selectedGoals)
-            activity.duration = Int16(totalSeconds)
+            activity.duration = Int32(totalSeconds)
             activity.startDate = Calendar.current.startOfDay(for: Date.now)
                                 
             if activityImage != nil {
