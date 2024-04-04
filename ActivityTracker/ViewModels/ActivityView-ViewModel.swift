@@ -105,6 +105,13 @@ extension ActivityView {
                     let filename = FileManager.getDocumentsDirectory().appendingPathExtension("/activityImages").appendingPathComponent("\(activity.wrappedId).png")
                     try? data.write(to: filename)
                 }
+                let size = CGSize(width: 200, height: 200)
+                if let thumbImage = uiImage.preparingThumbnail(of: size) {
+                    if let data = thumbImage.jpegData(compressionQuality: 1.0) {
+                        let filename = FileManager.getDocumentsDirectory().appendingPathExtension("/activityImages").appendingPathComponent("\(activity.wrappedId)Thumb.png")
+                        try? data.write(to: filename)
+                    }
+                }
             }
             
             updatedGoals = Set<Goal>()

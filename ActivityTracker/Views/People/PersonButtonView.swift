@@ -79,13 +79,13 @@ struct PersonButtonView: View {
         }
         .onAppear {
             Task {
-                let imagePath = FileManager.getDocumentsDirectory().appendingPathExtension("/personImages").appendingPathComponent("\(person.wrappedId).png")
+                let imagePath = FileManager.getDocumentsDirectory().appendingPathExtension("/personImages").appendingPathComponent("\(person.wrappedId)Thumb.png")
                 personImage = Utils.loadImage(from: imagePath)
                 isLoading = false
             }
         }
         .onChange(of: imageHasChanged) {
-            let imagePath = FileManager.getDocumentsDirectory().appendingPathExtension("/personImages").appendingPathComponent("\(person.wrappedId).png")
+            let imagePath = FileManager.getDocumentsDirectory().appendingPathExtension("/personImages").appendingPathComponent("\(person.wrappedId)Thumb.png")
             personImage = Utils.loadImage(from: imagePath)
         }
     }

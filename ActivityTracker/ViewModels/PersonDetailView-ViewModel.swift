@@ -40,6 +40,13 @@ extension PersonDetailView {
                     let filename = FileManager.getDocumentsDirectory().appendingPathExtension("/personImages").appendingPathComponent("\(person.wrappedId).png")
                     try? data.write(to: filename)
                 }
+                let size = CGSize(width: 300, height: 300)
+                if let thumbImage = uiImage.preparingThumbnail(of: size) {
+                    if let data = thumbImage.jpegData(compressionQuality: 1.0) {
+                        let filename = FileManager.getDocumentsDirectory().appendingPathExtension("/personImages").appendingPathComponent("\(person.wrappedId)Thumb.png")
+                        try? data.write(to: filename)
+                    }
+                }
             }
             
             mode = "view"

@@ -20,11 +20,13 @@ struct ActivityCardView: View {
                     LinearGradient(gradient: Gradient(colors: [.gray, .black]), startPoint: .topLeading, endPoint: .bottomTrailing)
                         .opacity(0.5)
                         .frame(width: geometry.size.width * 0.15, height: geometry.size.width * 0.15)
+                        .clipShape(RoundedRectangle(cornerRadius: 3))
                 } else {
                     activityImage?
                         .resizable()
                         .scaledToFit()
-                        .frame(width: geometry.size.width * 0.15, height: geometry.size.width * 0.15)
+                        .frame(width: geometry.size.width * 0.2)
+                        .clipShape(RoundedRectangle(cornerRadius: 15))
                 }
                 VStack(alignment: .leading) {
                     Text("\(activity.wrappedName)")
@@ -74,7 +76,7 @@ struct ActivityCardView: View {
         .background(.brandBackground, in: RoundedRectangle(cornerRadius: 16))
         .onAppear {
             Task {
-                let imagePath = FileManager.getDocumentsDirectory().appendingPathExtension("/activityImages").appendingPathComponent("\(activity.wrappedId).png")
+                let imagePath = FileManager.getDocumentsDirectory().appendingPathExtension("/activityImages").appendingPathComponent("\(activity.wrappedId)Thumb.png")
                 activityImage = Utils.loadImage(from: imagePath)
                 isLoading = false
             }
