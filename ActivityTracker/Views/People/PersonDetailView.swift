@@ -27,8 +27,6 @@ struct PersonDetailView: View {
         self.clearPerson = clearPerson
         
         _activities = FetchRequest<Activity>(sortDescriptors: [NSSortDescriptor(keyPath: \Activity.startDate, ascending: false)], predicate: NSPredicate(format: "ANY goals IN %@", person.goalsArray));
-        
-        print("end of init")
     }
     
     @State private var viewModel = ViewModel()

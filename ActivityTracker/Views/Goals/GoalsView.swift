@@ -78,7 +78,7 @@ struct GoalsView: View {
             .navigationDestination(for: Activity.self) { activity in
                 ActivityView(activity: activity, refreshId: $viewModel.refreshId, path: $path)
             }
-            .navigationTitle("Goals")
+            .navigationBarTitle("Goals", displayMode: .inline)
             .sheet(isPresented: $viewModel.showAddGoal) {
                 AddGoalView()
             }

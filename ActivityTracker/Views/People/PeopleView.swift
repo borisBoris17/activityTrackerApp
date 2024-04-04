@@ -48,7 +48,7 @@ struct PeopleView: View {
                 }
             }
             .background(.neutralLight)
-            .navigationTitle("People")
+            .navigationBarTitle("People", displayMode: .inline)
             .sheet(isPresented: $viewModel.showAddPerson) {
                 AddPersonView()
                     .presentationDetents([.medium])

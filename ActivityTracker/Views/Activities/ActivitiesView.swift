@@ -112,7 +112,7 @@ struct ActivitiesView: View {
                     
                 }
                 .background(.neutralLight)
-                .navigationTitle("Activities")
+                .navigationBarTitle("Activities", displayMode: .inline)
                 .toolbar {
                     ToolbarItem {
                         Menu("Filter") {
