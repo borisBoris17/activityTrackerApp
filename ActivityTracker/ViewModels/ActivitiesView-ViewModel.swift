@@ -27,6 +27,8 @@ extension ActivitiesView {
         var name = ""
         var desc = ""
         var selectedGoals: [Goal] = []
+        var manualHours = 0
+        var manualMinutes = 0
         var day = Date.now
         var refreshId = UUID()
         
@@ -68,12 +70,19 @@ extension ActivitiesView {
             }
         }
         
-        @MainActor func create(newActivity activity: Activity, with activityImage: Image?) {
+        @MainActor func create(newActivity activity: Activity, with activityImage: Image?, isManual: Bool) {
             activity.id = UUID()
             activity.name = name
             activity.desc = desc
             activity.goals = NSSet(array: selectedGoals)
-            activity.duration = Int32(totalSeconds)
+            var durationInSeconds = totalSeconds
+            if isManual {
+                let newSecondsFromHour = manualHours * minuteLength * hourLength
+                let newSecondsFromMinutes = manualMinutes * minuteLength
+                let newSeconds = newSecondsFromHour + newSecondsFromMinutes
+                durationInSeconds = newSeconds
+            }
+            activity.duration = Int32(durationInSeconds)
             activity.startDate = Calendar.current.startOfDay(for: Date.now)
                                 
             if activityImage != nil {
@@ -83,12 +92,19 @@ extension ActivitiesView {
                         let filename = FileManager.getDocumentsDirectory().appendingPathExtension("/activityImages").appendingPathComponent("\(activity.id!).png")
                         try? data.write(to: filename)
                     }
+                    let size = CGSize(width: 200, height: 200)
+                    if let thumbImage = uiImage.preparingThumbnail(of: size) {
+                        if let data = thumbImage.jpegData(compressionQuality: 1.0) {
+                            let filename = FileManager.getDocumentsDirectory().appendingPathExtension("/activityImages").appendingPathComponent("\(activity.wrappedId)Thumb.png")
+                            try? data.write(to: filename)
+                        }
+                    }
                 }
             }
             
             // Update all of the Goals. Add the duration to the progress
             for goal in selectedGoals {
-                goal.progress = goal.progress + Double(totalSeconds)
+                goal.progress = goal.progress + Double(durationInSeconds)
             }
                                 
             pausedSeconds = 0
@@ -96,6 +112,8 @@ extension ActivitiesView {
             activityStatus = .ready
             name = ""
             desc = ""
+            manualHours = 0
+            manualMinutes = 0
             timer.upstream.connect().cancel()
         }
     }

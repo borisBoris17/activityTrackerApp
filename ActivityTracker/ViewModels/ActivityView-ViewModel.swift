@@ -70,7 +70,6 @@ extension ActivityView {
                 }
             }
             
-            print(updatedGoals)
             // Find all the Goals that were added.
             for updatedGoal in updatedGoals {
                 if !activity.goalArray.contains(updatedGoal) {

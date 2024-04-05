@@ -7,8 +7,10 @@
 
 import SwiftUI
 import Combine
+import _PhotosUI_SwiftUI
 
 struct StartActivityView: View {
+    var geometry: GeometryProxy
     @Binding var name: String
     @Binding var desc: String
     @Binding var goals: [Goal]
@@ -16,14 +18,21 @@ struct StartActivityView: View {
     @Binding var timer: Publishers.Autoconnect<Timer.TimerPublisher>
     @Binding var activityStatus: ActivityStatus
     @Binding var startTime: Date
-
+    @Binding var manualDurationHours: Int
+    @Binding var manualDurationMinutes: Int
+    var saveActivity: ( _ activityImage: Image?) -> Void
+    
     @State private var selectedGoals = Set<Goal>()
+    @State private var isManaualAdd = false
+    @State private var activityPhotoItem: PhotosPickerItem?
+    @State private var activityImageData: Data?
+    @State private var activityImage: Image?
     
     @FetchRequest(sortDescriptors: []) var people: FetchedResults<Person>
     @FetchRequest(sortDescriptors: []) var allGoals: FetchedResults<Goal>
     
     @Environment(\.dismiss) var dismiss
-
+    
     var body: some View {
         
         NavigationStack {
@@ -37,16 +46,53 @@ struct StartActivityView: View {
                     Section("Goals") {
                         GoalSelectionView(selectedGoals: $selectedGoals)
                     }
+                    
+                    Section {
+                        withAnimation {
+                            Toggle("Manual Add", isOn: $isManaualAdd.animation())
+                        }
+                        
+                    }
+                    if isManaualAdd {
+                        Section("Image") {
+                            HStack {
+                                ImagePickerView(photoItem: $activityPhotoItem, selectedImageData: $activityImageData, imageSize: geometry.size.width * 0.15)
+                                    .onChange(of: activityImageData) {
+                                        if let activityImageData = activityImageData,
+                                           let uiImage = UIImage(data: activityImageData) {
+                                            activityImage = Image(uiImage: uiImage)
+                                        }
+                                    }
+                                
+                                if activityPhotoItem == nil {
+                                    Spacer()
+                                    activityImage?
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: geometry.size.width * 0.15, height: geometry.size.width * 0.15)
+                                }
+                            }
+                        }
+                        
+                        Section("Duration") {
+                            DurationPickerView(hours: $manualDurationHours, minutes: $manualDurationMinutes)
+                        }
+                    }
+                    
                 }
             }
             .navigationTitle("Start New Activity")
             .toolbar {
                 ToolbarItem {
-                    Button("Start") {
+                    Button(isManaualAdd ? "Save" : "Start") {
                         goals = Array(selectedGoals)
-                        activityStatus = .started
-                        startTime = Date()
-                        timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+                        if isManaualAdd {
+                            saveActivity(activityImage)
+                        } else {
+                            activityStatus = .started
+                            startTime = Date()
+                            timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+                        }
                         dismiss()
                     }
                     .disabled(name.isEmpty || desc.isEmpty || selectedGoals.count < 1)

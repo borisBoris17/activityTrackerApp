@@ -78,41 +78,7 @@ struct EditActivityView: View {
                     }
                     
                     Section("Duration") {
-                        HStack {
-                            Picker("Hours", selection: $newActivityHours) {
-                                ForEach(0..<25) {
-                                    Text("\($0)")
-                                }
-                            }
-                            .pickerStyle(.wheel)
-                            .frame(maxHeight: 150)
-                            .clipped()
-                            
-                            VStack {
-                                Spacer()
-                                Text("Hrs")
-                                Spacer()
-                            }
-                            .frame(maxHeight: 150)
-                            .clipped()
-                            
-                            Picker("Minutes", selection: $newActivityMinutes) {
-                                ForEach(0..<60) {
-                                    Text("\($0)")
-                                }
-                            }
-                            .pickerStyle(.wheel)
-                            .frame(maxHeight: 150)
-                            .clipped()
-                            
-                            VStack {
-                                Spacer()
-                                Text("Min")
-                                Spacer()
-                            }
-                            .frame(maxHeight: 150)
-                            .clipped()
-                        }
+                        DurationPickerView(hours: $newActivityHours, minutes: $newActivityMinutes)
                     }
                     
                     Section {

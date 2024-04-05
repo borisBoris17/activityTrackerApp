@@ -99,11 +99,16 @@ struct ActivitiesView: View {
                         viewModel.updateTimer()
                     }
                     .sheet(isPresented: $viewModel.showNewActivitySheet) {
-                        StartActivityView(name: $viewModel.name, desc: $viewModel.desc, goals: $viewModel.selectedGoals, timer: $viewModel.timer, activityStatus: $viewModel.activityStatus, startTime: $viewModel.startTime)
+                        StartActivityView(geometry: geometry, name: $viewModel.name, desc: $viewModel.desc, goals: $viewModel.selectedGoals, timer: $viewModel.timer, activityStatus: $viewModel.activityStatus, startTime: $viewModel.startTime, manualDurationHours: $viewModel.manualHours, manualDurationMinutes: $viewModel.manualMinutes, saveActivity: { activityImage in
+                            viewModel.create(newActivity: Activity(context: moc), with: activityImage, isManual: true)
+                            
+                            try? moc.save()
+                            
+                        })
                     }
                     .sheet(isPresented: $viewModel.showCompleteActivityScreen) {
                         SaveActivityView(name: $viewModel.name, desc: $viewModel.desc, timer: $viewModel.timer, saveActivity: { activityImage in
-                            viewModel.create(newActivity: Activity(context: moc), with: activityImage)
+                            viewModel.create(newActivity: Activity(context: moc), with: activityImage, isManual: false)
                             
                             try? moc.save()
                             
