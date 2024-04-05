@@ -45,6 +45,7 @@ struct GoalsView: View {
                                         }
                                         .buttonStyle(PlainButtonStyle())
                                     }
+                                    .id(viewModel.refreshId)
                                 }
                             }
                         }
