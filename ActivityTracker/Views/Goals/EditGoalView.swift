@@ -71,6 +71,8 @@ struct EditGoalView: View {
                         saveGoal()
                         dismiss()
                     }
+                    .padding()
+                    .disabled(newGoalName.isEmpty || newGoalDesc.isEmpty || newGoalTarget.isEmpty)
                 }
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button("Back") {

@@ -29,7 +29,7 @@ struct StartActivityView: View {
     @State private var activityImage: Image?
     
     @FetchRequest(sortDescriptors: []) var people: FetchedResults<Person>
-    @FetchRequest(sortDescriptors: []) var allGoals: FetchedResults<Goal>
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Goal.startDate, ascending: false), NSSortDescriptor(keyPath: \Goal.name, ascending: true)]) var allGoals: FetchedResults<Goal>
     
     @Environment(\.dismiss) var dismiss
     

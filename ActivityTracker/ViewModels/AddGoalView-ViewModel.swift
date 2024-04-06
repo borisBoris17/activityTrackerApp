@@ -26,7 +26,7 @@ extension AddGoalView {
             goal.target = Int16(newGoalTarget) ?? 1000
             goal.startDate = newGoalStartDate
             goal.endDate = newGoalEndDate
-            goal.progress = (Double(newGoalProgreess) ?? 1) * Double(minuteLength) * Double(hourLength)
+            goal.progress = (Double(newGoalProgreess) ?? 0) * Double(minuteLength) * Double(hourLength)
             goal.people = [person]
         }
     }

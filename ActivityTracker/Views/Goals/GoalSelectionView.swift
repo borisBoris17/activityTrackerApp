@@ -12,7 +12,7 @@ struct GoalSelectionView: View {
     @Binding var selectedGoals: Set<Goal>
     
     @FetchRequest(sortDescriptors: []) var people: FetchedResults<Person>
-    @FetchRequest(sortDescriptors: []) var goals: FetchedResults<Goal>
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Goal.startDate, ascending: false), NSSortDescriptor(keyPath: \Goal.name, ascending: true)]) var goals: FetchedResults<Goal>
     
     @Environment(\.dismiss) var dismiss
     

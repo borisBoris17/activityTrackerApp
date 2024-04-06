@@ -21,7 +21,7 @@ enum ActivityFilter {
 struct ActivitiesView: View {
     
     @FetchRequest(sortDescriptors: []) var people: FetchedResults<Person>
-    @FetchRequest(sortDescriptors: []) var goals: FetchedResults<Goal>
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Goal.startDate, ascending: false), NSSortDescriptor(keyPath: \Goal.name, ascending: true)]) var goals: FetchedResults<Goal>
     @Environment(\.managedObjectContext) var moc
     
     @Binding var path: NavigationPath

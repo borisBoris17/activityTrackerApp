@@ -58,8 +58,8 @@ extension ActivitiesView {
         }
         
         func handleRecieveTimer() {
-            //totalSeconds = pausedSeconds + Int(Date().timeIntervalSince(startTime)) -- add one second to the timer (normal case)
-            totalSeconds = pausedSeconds + (Int(Date().timeIntervalSince(startTime)) * 900) // add 15 minutes at a time
+            totalSeconds = pausedSeconds + Int(Date().timeIntervalSince(startTime)) // add one second to the timer (normal case)
+//            totalSeconds = pausedSeconds + (Int(Date().timeIntervalSince(startTime)) * 900) // add 15 minutes at a time
         }
         
         func updateTimer() {

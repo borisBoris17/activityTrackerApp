@@ -19,11 +19,11 @@ struct ActivityListView: View {
     
     init(selectedDay: Date, activityFilter: ActivityFilter, geometry: GeometryProxy, path: Binding<NavigationPath>) {
         if activityFilter == .last30 {
-            _activities = FetchRequest<Activity>(sortDescriptors: [NSSortDescriptor(keyPath: \Activity.startDate, ascending: false)], predicate: NSPredicate(format: "%K > %@", "startDate", Calendar.current.date(byAdding: .day, value: -30, to: Date.now)! as NSDate))
+            _activities = FetchRequest<Activity>(sortDescriptors: [NSSortDescriptor(keyPath: \Activity.startDate, ascending: false), NSSortDescriptor(keyPath: \Activity.duration, ascending: false)], predicate: NSPredicate(format: "%K > %@", "startDate", Calendar.current.date(byAdding: .day, value: -30, to: Date.now)! as NSDate))
         } else if activityFilter == .last7 {
-            _activities = FetchRequest<Activity>(sortDescriptors: [NSSortDescriptor(keyPath: \Activity.startDate, ascending: false)], predicate: NSPredicate(format: "%K > %@", "startDate", Calendar.current.date(byAdding: .day, value: -7, to: Date.now)! as NSDate))
+            _activities = FetchRequest<Activity>(sortDescriptors: [NSSortDescriptor(keyPath: \Activity.startDate, ascending: false), NSSortDescriptor(keyPath: \Activity.duration, ascending: false)], predicate: NSPredicate(format: "%K > %@", "startDate", Calendar.current.date(byAdding: .day, value: -7, to: Date.now)! as NSDate))
         } else {
-            _activities = FetchRequest<Activity>(sortDescriptors: [NSSortDescriptor(keyPath: \Activity.startDate, ascending: false)], predicate: NSPredicate(format: "%K > %@ && %K < %@", "startDate", Calendar.current.date(byAdding: .day, value: -1, to: selectedDay)! as NSDate, "startDate", Calendar.current.date(byAdding: .day, value: 1, to: selectedDay)! as NSDate))
+            _activities = FetchRequest<Activity>(sortDescriptors: [NSSortDescriptor(keyPath: \Activity.startDate, ascending: false), NSSortDescriptor(keyPath: \Activity.duration, ascending: false)], predicate: NSPredicate(format: "%K > %@ && %K < %@", "startDate", Calendar.current.date(byAdding: .day, value: -1, to: selectedDay)! as NSDate, "startDate", Calendar.current.date(byAdding: .day, value: 1, to: selectedDay)! as NSDate))
         }
         self.selectedDay = selectedDay
         self.activityFilter = activityFilter

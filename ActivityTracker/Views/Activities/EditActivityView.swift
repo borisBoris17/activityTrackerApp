@@ -104,6 +104,7 @@ struct EditActivityView: View {
                             isSaving = true
                         }
                         .padding()
+                        .disabled(newActivityName.isEmpty || newActivityDesc.isEmpty || newActivityGoals.isEmpty)
                     }
                     ToolbarItem(placement: .navigationBarLeading) {
                         Button("Back") {

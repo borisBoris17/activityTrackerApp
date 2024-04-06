@@ -79,6 +79,7 @@ struct EditPersonView: View {
                             isSaving = true
                         }
                         .padding()
+                        .disabled(newPersonName.isEmpty)
                     }
                     ToolbarItem(placement: .navigationBarLeading) {
                         Button("Back") {

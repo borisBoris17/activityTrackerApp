@@ -14,8 +14,8 @@ struct GoalsView: View {
     
     @Binding var path: NavigationPath
     @FetchRequest(sortDescriptors: []) var people: FetchedResults<Person>
-    @FetchRequest(sortDescriptors: []) var goals: FetchedResults<Goal>
-    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Activity.startDate, ascending: false)]) var activities: FetchedResults<Activity>
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Goal.startDate, ascending: false), NSSortDescriptor(keyPath: \Goal.name, ascending: true)]) var goals: FetchedResults<Goal>
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Activity.startDate, ascending: false), NSSortDescriptor(keyPath: \Activity.duration, ascending: false)]) var activities: FetchedResults<Activity>
     
     @State private var viewModel = ViewModel()
         
