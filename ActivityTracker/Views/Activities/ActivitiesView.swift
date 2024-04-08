@@ -28,6 +28,8 @@ struct ActivitiesView: View {
     
     @State private var viewModel = ViewModel()
     
+    @EnvironmentObject var refreshData: RefreshData
+    
     var body: some View {
         NavigationStack(path: $path) {
             GeometryReader { geometry in
@@ -103,7 +105,8 @@ struct ActivitiesView: View {
                             viewModel.create(newActivity: Activity(context: moc), with: activityImage, isManual: true)
                             
                             try? moc.save()
-                            
+                            refreshData.goalRefreshId = UUID()
+                            refreshData.activityRefreshId = UUID()
                         })
                     }
                     .sheet(isPresented: $viewModel.showCompleteActivityScreen) {
@@ -111,6 +114,8 @@ struct ActivitiesView: View {
                             viewModel.create(newActivity: Activity(context: moc), with: activityImage, isManual: false)
                             
                             try? moc.save()
+                            refreshData.goalRefreshId = UUID()
+                            refreshData.activityRefreshId = UUID()
                             
                         })
                     }
@@ -140,7 +145,7 @@ struct ActivitiesView: View {
                 }
             }
             .navigationDestination(for: Activity.self) { activity in
-                ActivityView(activity: activity, refreshId: $viewModel.refreshId, path: $path)
+                ActivityView(activity: activity, path: $path)
             }
         }
     }

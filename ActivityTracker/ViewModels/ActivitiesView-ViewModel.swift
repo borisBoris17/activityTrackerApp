@@ -30,7 +30,6 @@ extension ActivitiesView {
         var manualHours = 0
         var manualMinutes = 0
         var day = Date.now
-        var refreshId = UUID()
         
         var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
         

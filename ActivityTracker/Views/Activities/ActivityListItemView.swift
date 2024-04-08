@@ -10,6 +10,8 @@ import SwiftUI
 struct ActivityListItemView: View {
     var activity: Activity
     
+    @EnvironmentObject var refreshData: RefreshData
+    
     var body: some View {
         VStack(alignment:.leading) {
             HStack {
@@ -33,6 +35,7 @@ struct ActivityListItemView: View {
                                 .foregroundColor(.primary)
                         }
                     }
+                    .id(refreshData.goalRefreshId)
                 }
             }
             Text("\(activity.formattedDuration) hour")

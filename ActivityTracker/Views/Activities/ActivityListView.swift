@@ -15,7 +15,7 @@ struct ActivityListView: View {
     @Binding var path: NavigationPath
     @FetchRequest var activities: FetchedResults<Activity>
     
-    @State private var refreshingID = UUID()
+    @EnvironmentObject var refreshData: RefreshData
     
     init(selectedDay: Date, activityFilter: ActivityFilter, geometry: GeometryProxy, path: Binding<NavigationPath>) {
         if activityFilter == .last30 {
@@ -59,7 +59,7 @@ struct ActivityListView: View {
                     .padding(.bottom)
             }
         }
-        .id(refreshingID)
+        .id(refreshData.activityRefreshId)
     }
 }
 

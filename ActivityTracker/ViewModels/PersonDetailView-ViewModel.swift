@@ -21,8 +21,6 @@ extension PersonDetailView {
         var personImageData: Data?
         var personImage: Image?
         
-        var refreshingID = UUID()
-        
         var isLoading = true
         
         func removeImage(on person: Person) {

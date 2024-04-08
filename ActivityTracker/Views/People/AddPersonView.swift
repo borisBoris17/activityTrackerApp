@@ -15,6 +15,8 @@ struct AddPersonView: View {
     
     @State private var viewModel = ViewModel()
     
+    @EnvironmentObject var refreshData: RefreshData
+    
     var body: some View {
         GeometryReader { geometry in
             VStack {
@@ -34,6 +36,8 @@ struct AddPersonView: View {
                             Button("Save") {
                                 viewModel.savePerson(newPerson: Person(context: moc))
                                 try? moc.save()
+                                refreshData.goalRefreshId = UUID()
+                                refreshData.activityRefreshId = UUID()
                                 dismiss()
                             }
                             .disabled(viewModel.newName.isEmpty)

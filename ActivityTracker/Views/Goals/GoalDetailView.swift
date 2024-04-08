@@ -16,6 +16,8 @@ struct GoalDetailView: View {
     
     @Environment(\.managedObjectContext) var moc
     
+    @EnvironmentObject var refreshData: RefreshData
+    
     let animation = Animation
         .easeOut(duration: 1)
         .delay(0.25)
@@ -100,7 +102,7 @@ struct GoalDetailView: View {
                                         .padding(.bottom)
                                 }
                             }
-                            .id(viewModel.refreshId)
+                            .id(refreshData.activityRefreshId)
                         }
                         .padding()
                     }
@@ -126,6 +128,8 @@ struct GoalDetailView: View {
                 viewModel.update(goal)
                 
                 try? moc.save()
+                refreshData.goalRefreshId = UUID()
+                refreshData.activityRefreshId = UUID()
             }
         }
     }
@@ -143,6 +147,8 @@ struct GoalDetailView: View {
         moc.delete(goal)
         
         try? moc.save()
+        refreshData.goalRefreshId = UUID()
+        refreshData.activityRefreshId = UUID()
     }
 }
 

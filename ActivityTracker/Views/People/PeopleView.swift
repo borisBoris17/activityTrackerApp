@@ -59,7 +59,7 @@ struct PeopleView: View {
                 }
             }
             .navigationDestination(for: Activity.self) { activity in
-                ActivityView(activity: activity, refreshId: $viewModel.refreshId, path: $path)
+                ActivityView(activity: activity, path: $path)
             }
             .onAppear {
                 if people.count > 0 && viewModel.selectedPerson == nil {

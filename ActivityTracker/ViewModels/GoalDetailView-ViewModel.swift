@@ -13,7 +13,6 @@ extension GoalDetailView {
         var drawingStroke = false
         var showActivities = false
         
-        var refreshId = UUID()
         var showEditGoal = false
         
         var newGoalName = ""

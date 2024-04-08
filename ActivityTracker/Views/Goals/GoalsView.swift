@@ -12,6 +12,8 @@ import CoreData
 struct GoalsView: View {
     @Environment(\.managedObjectContext) var moc
     
+    @EnvironmentObject var refreshData: RefreshData
+    
     @Binding var path: NavigationPath
     @FetchRequest(sortDescriptors: []) var people: FetchedResults<Person>
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Goal.startDate, ascending: false), NSSortDescriptor(keyPath: \Goal.name, ascending: true)]) var goals: FetchedResults<Goal>
@@ -45,7 +47,7 @@ struct GoalsView: View {
                                         }
                                         .buttonStyle(PlainButtonStyle())
                                     }
-                                    .id(viewModel.refreshId)
+                                    .id(refreshData.goalRefreshId)
                                 }
                             }
                         }
@@ -77,7 +79,7 @@ struct GoalsView: View {
                 }
             }
             .navigationDestination(for: Activity.self) { activity in
-                ActivityView(activity: activity, refreshId: $viewModel.refreshId, path: $path)
+                ActivityView(activity: activity, path: $path)
             }
             .navigationBarTitle("Goals", displayMode: .inline)
             .sheet(isPresented: $viewModel.showAddGoal) {

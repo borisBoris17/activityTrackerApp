@@ -11,7 +11,6 @@ import PhotosUI
 struct ActivityView: View {
     
     let activity: Activity
-    @Binding var refreshId: UUID
     @Binding var path: NavigationPath
     @Environment(\.managedObjectContext) var moc
     @Environment(\.dismiss) var dismiss
@@ -19,6 +18,8 @@ struct ActivityView: View {
     @State private var viewModel = ViewModel()
     
     @Environment(\.displayScale) var displayScale
+    
+    @EnvironmentObject var refreshData: RefreshData
     
     func deleteActivity(activity: Activity) {
         path.removeLast()
@@ -28,6 +29,8 @@ struct ActivityView: View {
         moc.delete(activity)
         
         try? moc.save()
+        refreshData.goalRefreshId = UUID()
+        refreshData.activityRefreshId = UUID()
     }
     
     var body: some View {
@@ -107,6 +110,7 @@ struct ActivityView: View {
                                 }
                                 .buttonStyle(PlainButtonStyle())
                             }
+                            .id(refreshData.goalRefreshId)
                         }
                     }
                     .scrollIndicators(.hidden)
@@ -140,7 +144,8 @@ struct ActivityView: View {
                 EditActivityView(activity: activity, geometry: geometry, newActivityName: $viewModel.updatedName, newActivityDesc: $viewModel.updatedDescription, newActivityGoals: $viewModel.updatedGoals, newActivityPhotoItem: $viewModel.activityPhotoItem, newActivityImageData: $viewModel.activityImageData, newActivityImage: $viewModel.activityImage, newActivityMinutes: $viewModel.minutes, newActivityHours: $viewModel.hours, deleteActivity: deleteActivity) {
                     viewModel.edit(for: activity)
                     try? moc.save()
-                    refreshId = UUID()
+                    refreshData.goalRefreshId = UUID()
+                    refreshData.activityRefreshId = UUID()
                 }
             }
         }

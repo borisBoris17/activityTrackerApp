@@ -19,6 +19,8 @@ struct PersonDetailView: View {
     
     @FetchRequest var activities: FetchedResults<Activity>
     
+    @EnvironmentObject var refreshData: RefreshData
+    
     init(person: Person, geometry: GeometryProxy, imageHasChanged: Binding<Bool>, path: Binding<NavigationPath>, clearPerson: @escaping () -> Void) {
         self.person = person
         self.geometry = geometry
@@ -47,6 +49,8 @@ struct PersonDetailView: View {
         moc.delete(person)
         
         try? moc.save()
+        refreshData.goalRefreshId = UUID()
+        refreshData.activityRefreshId = UUID()
     }
     
     
@@ -71,6 +75,8 @@ struct PersonDetailView: View {
                             viewModel.update(person)
                             
                             try? moc.save()
+                            refreshData.goalRefreshId = UUID()
+                            refreshData.activityRefreshId = UUID()
                         }
                     }
                 }
@@ -202,6 +208,7 @@ struct PersonDetailView: View {
                                             GoalCardView(goal: goal, showPerson: false)
                                         }
                                     }
+                                    .id(refreshData.goalRefreshId)
                                 }
                             }
                         }
@@ -224,7 +231,7 @@ struct PersonDetailView: View {
                                         .padding([.trailing, .bottom])
                                 }
                             }
-                            .id(viewModel.refreshingID)
+                            .id(refreshData.activityRefreshId)
                         }
                         .padding(.bottom)
                     }
@@ -250,6 +257,8 @@ struct PersonDetailView: View {
                 viewModel.update(person)
                 
                 try? moc.save()
+                refreshData.goalRefreshId = UUID()
+                refreshData.activityRefreshId = UUID()
             }
         }
     }

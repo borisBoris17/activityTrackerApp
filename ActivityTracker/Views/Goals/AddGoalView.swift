@@ -16,6 +16,8 @@ struct AddGoalView: View {
     @Environment(\.dismiss) var dismiss
     @Environment(\.managedObjectContext) var moc
     
+    @EnvironmentObject var refreshData: RefreshData
+    
     var body: some View {
         
         VStack {
@@ -66,6 +68,8 @@ struct AddGoalView: View {
                             viewModel.create(newGoal: Goal(context: moc), for: people[viewModel.newGoalPerson])
                             
                             try? moc.save()
+                            refreshData.goalRefreshId = UUID()
+                            refreshData.activityRefreshId = UUID()
                             
                             dismiss()
                         }

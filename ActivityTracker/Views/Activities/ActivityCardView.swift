@@ -13,6 +13,8 @@ struct ActivityCardView: View {
     @State private var activityImage: Image?
     @State private var isLoading = true
     
+    @EnvironmentObject var refreshData: RefreshData
+    
     var body: some View {
         VStack(alignment: .leading) {
             HStack(alignment: .top) {
@@ -57,6 +59,7 @@ struct ActivityCardView: View {
                                 .foregroundColor(.brandMediumLight)
                         }
                     }
+                    .id(refreshData.goalRefreshId)
                 }
                 Spacer()
             }
