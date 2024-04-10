@@ -5,6 +5,7 @@
 //  Created by tucker bichsel on 10/03/2024.
 //
 
+import ActivityKit
 import Foundation
 import SwiftUI
 
@@ -30,6 +31,8 @@ extension ActivitiesView {
         var manualHours = 0
         var manualMinutes = 0
         var day = Date.now
+        
+        var activityWidget: ActivityKit.Activity<ActivityTimerAttributes>? = nil
         
         var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
         
@@ -57,8 +60,58 @@ extension ActivitiesView {
         }
         
         func handleRecieveTimer() {
+            if activityWidget == nil {
+                startActivityWidget()
+            } else {
+                updateActivityWidget()
+            }
             totalSeconds = pausedSeconds + Int(Date().timeIntervalSince(startTime)) // add one second to the timer (normal case)
-//            totalSeconds = pausedSeconds + (Int(Date().timeIntervalSince(startTime)) * 900) // add 15 minutes at a time
+            //            totalSeconds = pausedSeconds + (Int(Date().timeIntervalSince(startTime)) * 900) // add 15 minutes at a time
+        }
+        
+        func updateActivityWidget() {
+            guard let activityWidget = activityWidget else {
+                return
+            }
+            
+            let contentState = ActivityTimerAttributes.ContentState(currentTimePassed: timerString())
+            Task {
+                await activityWidget.update(
+                    ActivityContent<ActivityTimerAttributes.ContentState>(
+                        state: contentState,
+                        staleDate: Date.now + 15,
+                        relevanceScore: 50
+                    ),
+                    alertConfiguration: nil
+                )
+            }
+        }
+        
+        func stopActivityWidget() {
+            let finalContent = ActivityTimerAttributes.ContentState(
+                currentTimePassed: timerString()
+            )
+            
+            Task {
+                await activityWidget?.end(ActivityContent(state: finalContent, staleDate: nil), dismissalPolicy: .immediate)
+            }
+        }
+        
+        func startActivityWidget() {
+            let attributes = ActivityTimerAttributes(activityName: name, activityDescription: desc)
+            let initialState = ActivityTimerAttributes.ContentState(currentTimePassed: timerString())
+            
+            do {
+                let activity = try ActivityKit.Activity.request(
+                    attributes: attributes,
+                    content: .init(state: initialState, staleDate: nil),
+                    pushType: .token
+                )
+                
+                activityWidget = activity
+            } catch (let error) {
+                print("Error Starting the Activity Widget.", error)
+            }
         }
         
         func updateTimer() {
@@ -83,7 +136,7 @@ extension ActivitiesView {
             }
             activity.duration = Int32(durationInSeconds)
             activity.startDate = Calendar.current.startOfDay(for: Date.now)
-                                
+            
             if activityImage != nil {
                 let renderer = ImageRenderer(content: activityImage)
                 if let uiImage = renderer.uiImage {
@@ -105,7 +158,7 @@ extension ActivitiesView {
             for goal in selectedGoals {
                 goal.progress = goal.progress + Double(durationInSeconds)
             }
-                                
+            
             pausedSeconds = 0
             totalSeconds = 0
             activityStatus = .ready
@@ -114,6 +167,7 @@ extension ActivitiesView {
             manualHours = 0
             manualMinutes = 0
             timer.upstream.connect().cancel()
+            stopActivityWidget()
         }
     }
 }

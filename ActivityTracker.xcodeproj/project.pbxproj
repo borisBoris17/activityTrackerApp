@@ -36,6 +36,16 @@
 		E66FF7B82A999DFB0048EB63 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E66FF7B72A999DFB0048EB63 /* Assets.xcassets */; };
 		E66FF7BB2A999DFB0048EB63 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E66FF7BA2A999DFB0048EB63 /* Preview Assets.xcassets */; };
 		E67080F22BBFAC310056EC09 /* DurationPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E67080F12BBFAC310056EC09 /* DurationPickerView.swift */; };
+		E67080FA2BC3A1880056EC09 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E67080F92BC3A1880056EC09 /* WidgetKit.framework */; };
+		E67080FC2BC3A1880056EC09 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E67080FB2BC3A1880056EC09 /* SwiftUI.framework */; };
+		E67080FF2BC3A1880056EC09 /* ActivityTimerWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = E67080FE2BC3A1880056EC09 /* ActivityTimerWidgetBundle.swift */; };
+		E67081012BC3A1880056EC09 /* ActivityTimerWidgetLiveActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = E67081002BC3A1880056EC09 /* ActivityTimerWidgetLiveActivity.swift */; };
+		E67081032BC3A1880056EC09 /* ActivityTimerWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = E67081022BC3A1880056EC09 /* ActivityTimerWidget.swift */; };
+		E67081052BC3A18A0056EC09 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E67081042BC3A18A0056EC09 /* Assets.xcassets */; };
+		E67081092BC3A18A0056EC09 /* ActivityTimerWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = E67080F72BC3A1880056EC09 /* ActivityTimerWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		E67081112BC3A6EF0056EC09 /* ActivityTimerAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = E67081102BC3A6EF0056EC09 /* ActivityTimerAttributes.swift */; };
+		E67081122BC3A6EF0056EC09 /* ActivityTimerAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = E67081102BC3A6EF0056EC09 /* ActivityTimerAttributes.swift */; };
+		E67081152BC6271C0056EC09 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E66FF7B72A999DFB0048EB63 /* Assets.xcassets */; };
 		E67A3EAC2B26C05900A6CFB7 /* MultiPicker in Frameworks */ = {isa = PBXBuildFile; productRef = E67A3EAB2B26C05900A6CFB7 /* MultiPicker */; };
 		E6DB35C12A99A3A0001575E2 /* GoalsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DB35C02A99A3A0001575E2 /* GoalsView.swift */; };
 		E6DB35C32A99B087001575E2 /* AddGoalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DB35C22A99B087001575E2 /* AddGoalView.swift */; };
@@ -58,6 +68,30 @@
 		E6FA73AF2BA2A006002FC5D6 /* ActivityCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6FA73AE2BA2A006002FC5D6 /* ActivityCardView.swift */; };
 		E6FAFA672BA14AB300700B65 /* AddGoalToPersonView-ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6FAFA662BA14AB300700B65 /* AddGoalToPersonView-ViewModel.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		E67081072BC3A18A0056EC09 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E66FF7A82A999DFA0048EB63 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E67080F62BC3A1880056EC09;
+			remoteInfo = ActivityTimerWidgetExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		E670810D2BC3A18A0056EC09 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				E67081092BC3A18A0056EC09 /* ActivityTimerWidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		E603BBA82B9D6A720049C43C /* AddPersonView-ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AddPersonView-ViewModel.swift"; sourceTree = "<group>"; };
@@ -90,6 +124,17 @@
 		E66FF7B72A999DFB0048EB63 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E66FF7BA2A999DFB0048EB63 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		E67080F12BBFAC310056EC09 /* DurationPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DurationPickerView.swift; sourceTree = "<group>"; };
+		E67080F72BC3A1880056EC09 /* ActivityTimerWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ActivityTimerWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		E67080F92BC3A1880056EC09 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		E67080FB2BC3A1880056EC09 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		E67080FE2BC3A1880056EC09 /* ActivityTimerWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityTimerWidgetBundle.swift; sourceTree = "<group>"; };
+		E67081002BC3A1880056EC09 /* ActivityTimerWidgetLiveActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityTimerWidgetLiveActivity.swift; sourceTree = "<group>"; };
+		E67081022BC3A1880056EC09 /* ActivityTimerWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityTimerWidget.swift; sourceTree = "<group>"; };
+		E67081042BC3A18A0056EC09 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		E67081062BC3A18A0056EC09 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E67081102BC3A6EF0056EC09 /* ActivityTimerAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityTimerAttributes.swift; sourceTree = "<group>"; };
+		E67081132BC3B8780056EC09 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		E67081142BC45C140056EC09 /* ActivityTracker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ActivityTracker.entitlements; sourceTree = "<group>"; };
 		E6DB35C02A99A3A0001575E2 /* GoalsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsView.swift; sourceTree = "<group>"; };
 		E6DB35C22A99B087001575E2 /* AddGoalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddGoalView.swift; sourceTree = "<group>"; };
 		E6DB35C52A9DA25C001575E2 /* ActivityTracker.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ActivityTracker.xcdatamodel; sourceTree = "<group>"; };
@@ -118,6 +163,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				E67A3EAC2B26C05900A6CFB7 /* MultiPicker in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E67080F42BC3A1880056EC09 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E67080FC2BC3A1880056EC09 /* SwiftUI.framework in Frameworks */,
+				E67080FA2BC3A1880056EC09 /* WidgetKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -155,6 +209,8 @@
 				E6DB35D32A9DAD77001575E2 /* DataController.swift */,
 				E6DB35C42A9DA25C001575E2 /* ActivityTracker.xcdatamodeld */,
 				E66FF7B22A999DFA0048EB63 /* ActivityTracker */,
+				E67080FD2BC3A1880056EC09 /* ActivityTimerWidget */,
+				E67080F82BC3A1880056EC09 /* Frameworks */,
 				E66FF7B12A999DFA0048EB63 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -163,6 +219,7 @@
 			isa = PBXGroup;
 			children = (
 				E66FF7B02A999DFA0048EB63 /* ActivityTracker.app */,
+				E67080F72BC3A1880056EC09 /* ActivityTimerWidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -170,6 +227,8 @@
 		E66FF7B22A999DFA0048EB63 /* ActivityTracker */ = {
 			isa = PBXGroup;
 			children = (
+				E67081142BC45C140056EC09 /* ActivityTracker.entitlements */,
+				E67081132BC3B8780056EC09 /* Info.plist */,
 				E603BBB32B9EA2D20049C43C /* Utilities */,
 				E603BBAA2B9D6A8C0049C43C /* ViewModels */,
 				E6DB35C72A9DA9C2001575E2 /* Goal+CoreDataClass.swift */,
@@ -184,6 +243,7 @@
 				E66FF7B72A999DFB0048EB63 /* Assets.xcassets */,
 				E66FF7B92A999DFB0048EB63 /* Preview Content */,
 				E61814032AB16776003B9F1F /* ButtonStyles.swift */,
+				E67081102BC3A6EF0056EC09 /* ActivityTimerAttributes.swift */,
 			);
 			path = ActivityTracker;
 			sourceTree = "<group>";
@@ -240,6 +300,27 @@
 			path = People;
 			sourceTree = "<group>";
 		};
+		E67080F82BC3A1880056EC09 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E67080F92BC3A1880056EC09 /* WidgetKit.framework */,
+				E67080FB2BC3A1880056EC09 /* SwiftUI.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E67080FD2BC3A1880056EC09 /* ActivityTimerWidget */ = {
+			isa = PBXGroup;
+			children = (
+				E67080FE2BC3A1880056EC09 /* ActivityTimerWidgetBundle.swift */,
+				E67081002BC3A1880056EC09 /* ActivityTimerWidgetLiveActivity.swift */,
+				E67081022BC3A1880056EC09 /* ActivityTimerWidget.swift */,
+				E67081042BC3A18A0056EC09 /* Assets.xcassets */,
+				E67081062BC3A18A0056EC09 /* Info.plist */,
+			);
+			path = ActivityTimerWidget;
+			sourceTree = "<group>";
+		};
 		E6DB35BF2A99A392001575E2 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -270,10 +351,12 @@
 				E66FF7AC2A999DFA0048EB63 /* Sources */,
 				E66FF7AD2A999DFA0048EB63 /* Frameworks */,
 				E66FF7AE2A999DFA0048EB63 /* Resources */,
+				E670810D2BC3A18A0056EC09 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				E67081082BC3A18A0056EC09 /* PBXTargetDependency */,
 			);
 			name = ActivityTracker;
 			packageProductDependencies = (
@@ -283,6 +366,23 @@
 			productReference = E66FF7B02A999DFA0048EB63 /* ActivityTracker.app */;
 			productType = "com.apple.product-type.application";
 		};
+		E67080F62BC3A1880056EC09 /* ActivityTimerWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E670810A2BC3A18A0056EC09 /* Build configuration list for PBXNativeTarget "ActivityTimerWidgetExtension" */;
+			buildPhases = (
+				E67080F32BC3A1880056EC09 /* Sources */,
+				E67080F42BC3A1880056EC09 /* Frameworks */,
+				E67080F52BC3A1880056EC09 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ActivityTimerWidgetExtension;
+			productName = ActivityTimerWidgetExtension;
+			productReference = E67080F72BC3A1880056EC09 /* ActivityTimerWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -290,11 +390,14 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1430;
+				LastSwiftUpdateCheck = 1500;
 				LastUpgradeCheck = 1500;
 				TargetAttributes = {
 					E66FF7AF2A999DFA0048EB63 = {
 						CreatedOnToolsVersion = 14.3.1;
+					};
+					E67080F62BC3A1880056EC09 = {
+						CreatedOnToolsVersion = 15.0.1;
 					};
 				};
 			};
@@ -315,6 +418,7 @@
 			projectRoot = "";
 			targets = (
 				E66FF7AF2A999DFA0048EB63 /* ActivityTracker */,
+				E67080F62BC3A1880056EC09 /* ActivityTimerWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -326,6 +430,15 @@
 			files = (
 				E66FF7BB2A999DFB0048EB63 /* Preview Assets.xcassets in Resources */,
 				E66FF7B82A999DFB0048EB63 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E67080F52BC3A1880056EC09 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E67081152BC6271C0056EC09 /* Assets.xcassets in Resources */,
+				E67081052BC3A18A0056EC09 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -349,6 +462,7 @@
 				E643DE202B43D0E700ED46DA /* ActivityListView.swift in Sources */,
 				E66B4F562B86FAA50054D7AA /* ActivityListItemView.swift in Sources */,
 				E603BBA92B9D6A720049C43C /* AddPersonView-ViewModel.swift in Sources */,
+				E67081112BC3A6EF0056EC09 /* ActivityTimerAttributes.swift in Sources */,
 				E603BBB22B9EA0EF0049C43C /* PeopleView-ViewModel.swift in Sources */,
 				E643DE262B7B1CF300ED46DA /* FileManager+DocDirectory.swift in Sources */,
 				E6DB35F32AA0DDC1001575E2 /* SeperatorView.swift in Sources */,
@@ -386,7 +500,26 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		E67080F32BC3A1880056EC09 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E67080FF2BC3A1880056EC09 /* ActivityTimerWidgetBundle.swift in Sources */,
+				E67081122BC3A6EF0056EC09 /* ActivityTimerAttributes.swift in Sources */,
+				E67081012BC3A1880056EC09 /* ActivityTimerWidgetLiveActivity.swift in Sources */,
+				E67081032BC3A1880056EC09 /* ActivityTimerWidget.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		E67081082BC3A18A0056EC09 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E67080F62BC3A1880056EC09 /* ActivityTimerWidgetExtension */;
+			targetProxy = E67081072BC3A18A0056EC09 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		E66FF7BC2A999DFB0048EB63 /* Debug */ = {
@@ -510,15 +643,21 @@
 		E66FF7BF2A999DFB0048EB63 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = ActivityTracker/ActivityTracker.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ActivityTracker/Preview Content\"";
 				DEVELOPMENT_TEAM = YB46Q2GKPA;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ActivityTracker/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Ticker;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
+				INFOPLIST_KEY_NSSupportsLiveActivitiesFrequentUpdates = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -541,15 +680,21 @@
 		E66FF7C02A999DFB0048EB63 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = ActivityTracker/ActivityTracker.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ActivityTracker/Preview Content\"";
 				DEVELOPMENT_TEAM = YB46Q2GKPA;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ActivityTracker/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Ticker;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
+				INFOPLIST_KEY_NSSupportsLiveActivitiesFrequentUpdates = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -563,6 +708,69 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.tucker-dev.ActivityTracker";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		E670810B2BC3A18A0056EC09 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = YB46Q2GKPA;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ActivityTimerWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = ActivityTimerWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.tucker-dev.ActivityTracker.ActivityTimerWidget";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		E670810C2BC3A18A0056EC09 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = YB46Q2GKPA;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ActivityTimerWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = ActivityTimerWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.tucker-dev.ActivityTracker.ActivityTimerWidget";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -586,6 +794,15 @@
 			buildConfigurations = (
 				E66FF7BF2A999DFB0048EB63 /* Debug */,
 				E66FF7C02A999DFB0048EB63 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E670810A2BC3A18A0056EC09 /* Build configuration list for PBXNativeTarget "ActivityTimerWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E670810B2BC3A18A0056EC09 /* Debug */,
+				E670810C2BC3A18A0056EC09 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
