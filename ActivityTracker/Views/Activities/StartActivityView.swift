@@ -20,7 +20,7 @@ struct StartActivityView: View {
     @Binding var startTime: Date
     @Binding var manualDurationHours: Int
     @Binding var manualDurationMinutes: Int
-    var saveActivity: ( _ activityImage: Image?) -> Void
+    var saveActivity: ( _ activityImage: Image?, _ isManual: Bool) -> Void
     
     @State private var selectedGoals = Set<Goal>()
     @State private var isManaualAdd = false
@@ -87,8 +87,9 @@ struct StartActivityView: View {
                     Button(isManaualAdd ? "Save" : "Start") {
                         goals = Array(selectedGoals)
                         if isManaualAdd {
-                            saveActivity(activityImage)
+                            saveActivity(activityImage, true)
                         } else {
+                            saveActivity(activityImage, false)
                             activityStatus = .started
                             startTime = Date()
                             timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()

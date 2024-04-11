@@ -89,20 +89,26 @@ struct ActivitiesView: View {
                                 .buttonStyle(PlainButtonStyle())
                             }
                             
-                            ActivityListView(selectedDay: viewModel.selectedDay, activityFilter: viewModel.activityFilter, geometry: geometry, path: $path)
+                            ActivityListView(selectedDay: viewModel.selectedDay, activityFilter: viewModel.activityFilter, geometry: geometry, currentActivity: viewModel.currentActivty, path: $path)
                         }
                         .background(.neutralLight)
                         .padding()
                     }
                     .onReceive(viewModel.timer) { _ in
-                        viewModel.handleRecieveTimer()
+                        if viewModel.handleRecieveTimer() {
+                            try? moc.save()
+                        }
                     }
                     .onAppear {
                         viewModel.updateTimer()
                     }
                     .sheet(isPresented: $viewModel.showNewActivitySheet) {
-                        StartActivityView(geometry: geometry, name: $viewModel.name, desc: $viewModel.desc, goals: $viewModel.selectedGoals, timer: $viewModel.timer, activityStatus: $viewModel.activityStatus, startTime: $viewModel.startTime, manualDurationHours: $viewModel.manualHours, manualDurationMinutes: $viewModel.manualMinutes, saveActivity: { activityImage in
-                            viewModel.create(newActivity: Activity(context: moc), with: activityImage, isManual: true)
+                        StartActivityView(geometry: geometry, name: $viewModel.name, desc: $viewModel.desc, goals: $viewModel.selectedGoals, timer: $viewModel.timer, activityStatus: $viewModel.activityStatus, startTime: $viewModel.startTime, manualDurationHours: $viewModel.manualHours, manualDurationMinutes: $viewModel.manualMinutes, saveActivity: { activityImage, isManual in
+                            
+                            viewModel.create(activity: Activity(context: moc))
+                            if isManual {
+                                viewModel.complete(activity: viewModel.currentActivty!, with: activityImage, isManual: true)
+                            }
                             
                             try? moc.save()
                             refreshData.goalRefreshId = UUID()
@@ -111,12 +117,14 @@ struct ActivitiesView: View {
                     }
                     .sheet(isPresented: $viewModel.showCompleteActivityScreen) {
                         SaveActivityView(name: $viewModel.name, desc: $viewModel.desc, timer: $viewModel.timer, saveActivity: { activityImage in
-                            viewModel.create(newActivity: Activity(context: moc), with: activityImage, isManual: false)
-                            
-                            try? moc.save()
-                            refreshData.goalRefreshId = UUID()
-                            refreshData.activityRefreshId = UUID()
-                            
+//                            if let activity = viewModel.currentActivty {
+                            viewModel.complete(activity: viewModel.currentActivty!, with: activityImage, isManual: false)
+                                
+                                
+                                try? moc.save()
+                                refreshData.goalRefreshId = UUID()
+                                refreshData.activityRefreshId = UUID()
+//                            }
                         })
                     }
                     

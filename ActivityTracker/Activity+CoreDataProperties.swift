@@ -36,7 +36,7 @@ extension Activity {
     }
     
     public var formattedDuration: String {
-        var durationInHours = Double(duration) / (Double(minuteLength) * Double(hourLength))
+        let durationInHours = Double(duration) / (Double(minuteLength) * Double(hourLength))
         return String(format: "%.2f", durationInHours)
     }
     

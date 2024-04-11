@@ -32,6 +32,8 @@ extension ActivitiesView {
         var manualMinutes = 0
         var day = Date.now
         
+        var currentActivty: Activity? = nil
+        
         var activityWidget: ActivityKit.Activity<ActivityTimerAttributes>? = nil
         
         var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
@@ -59,7 +61,7 @@ extension ActivitiesView {
             timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
         }
         
-        func handleRecieveTimer() {
+        func handleRecieveTimer() -> Bool {
             if activityWidget == nil {
                 startActivityWidget()
             } else {
@@ -67,6 +69,7 @@ extension ActivitiesView {
             }
             totalSeconds = pausedSeconds + Int(Date().timeIntervalSince(startTime)) // add one second to the timer (normal case)
             //            totalSeconds = pausedSeconds + (Int(Date().timeIntervalSince(startTime)) * 900) // add 15 minutes at a time
+            return totalSeconds % 60 == 0
         }
         
         func updateActivityWidget() {
@@ -122,11 +125,16 @@ extension ActivitiesView {
             }
         }
         
-        @MainActor func create(newActivity activity: Activity, with activityImage: Image?, isManual: Bool) {
+        @MainActor func create(activity: Activity) {
             activity.id = UUID()
             activity.name = name
             activity.desc = desc
             activity.goals = NSSet(array: selectedGoals)
+            activity.startDate = Calendar.current.startOfDay(for: Date.now)
+            currentActivty = activity
+        }
+        
+        @MainActor func updateDuration(activity: Activity, isManual: Bool) {
             var durationInSeconds = totalSeconds
             if isManual {
                 let newSecondsFromHour = manualHours * minuteLength * hourLength
@@ -135,7 +143,16 @@ extension ActivitiesView {
                 durationInSeconds = newSeconds
             }
             activity.duration = Int32(durationInSeconds)
-            activity.startDate = Calendar.current.startOfDay(for: Date.now)
+            
+            // Update all of the Goals. Add the duration to the progress
+            for goal in selectedGoals {
+                goal.progress = goal.progress + Double(durationInSeconds)
+            }
+        }
+        
+        
+        @MainActor func complete(activity: Activity, with activityImage: Image?, isManual: Bool) {
+            updateDuration(activity: activity, isManual: isManual)
             
             if activityImage != nil {
                 let renderer = ImageRenderer(content: activityImage)
@@ -154,11 +171,6 @@ extension ActivitiesView {
                 }
             }
             
-            // Update all of the Goals. Add the duration to the progress
-            for goal in selectedGoals {
-                goal.progress = goal.progress + Double(durationInSeconds)
-            }
-            
             pausedSeconds = 0
             totalSeconds = 0
             activityStatus = .ready
@@ -166,6 +178,7 @@ extension ActivitiesView {
             desc = ""
             manualHours = 0
             manualMinutes = 0
+            currentActivty = nil
             timer.upstream.connect().cancel()
             stopActivityWidget()
         }
