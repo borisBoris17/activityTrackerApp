@@ -117,14 +117,14 @@ struct ActivitiesView: View {
                     }
                     .sheet(isPresented: $viewModel.showCompleteActivityScreen) {
                         SaveActivityView(name: $viewModel.name, desc: $viewModel.desc, timer: $viewModel.timer, saveActivity: { activityImage in
-//                            if let activity = viewModel.currentActivty {
+                            //                            if let activity = viewModel.currentActivty {
                             viewModel.complete(activity: viewModel.currentActivty!, with: activityImage, isManual: false)
-                                
-                                
-                                try? moc.save()
-                                refreshData.goalRefreshId = UUID()
-                                refreshData.activityRefreshId = UUID()
-//                            }
+                            
+                            
+                            try? moc.save()
+                            refreshData.goalRefreshId = UUID()
+                            refreshData.activityRefreshId = UUID()
+                            //                            }
                         })
                     }
                     
@@ -132,6 +132,17 @@ struct ActivitiesView: View {
                 .background(.neutralLight)
                 .navigationBarTitle("Activities", displayMode: .inline)
                 .toolbar {
+                    if viewModel.activityFilter == .selectedDay {
+                        ToolbarItem(placement: .navigationBarLeading) {
+                            DatePicker(
+                                "Select Day",
+                                selection: $viewModel.selectedDay,
+                                displayedComponents: [.date]
+                            )
+                            .labelsHidden()
+                        }
+                    }
+                    
                     ToolbarItem {
                         Menu("Filter") {
                             Button("Selected Date") {
