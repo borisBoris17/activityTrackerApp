@@ -24,33 +24,35 @@ struct SaveActivityView: View {
         NavigationStack {
             GeometryReader { geometry in
                 Form {
-                    HStack(alignment: .top) {
-                        Text("Name")
-                            .frame(width: geometry.size.width * 0.3, alignment: .leading)
-                        Spacer()
+                    Section("Activity Name") {
                         TextField("Name", text: $name)
-                            .multilineTextAlignment(.trailing)
-                            .background(Color.secondary)
                     }
-                    HStack(alignment: .top) {
-                        Text("Description")
-                            .frame(width: geometry.size.width * 0.3, alignment: .leading)
-                        Spacer()
+                    
+                    Section("description") {
                         TextEditor( text: $desc)
                             .frame(minHeight: 150,
                                    maxHeight: .infinity,
                                    alignment: .center )
-                            .multilineTextAlignment(.trailing)
-                            .background(Color.secondary)
                     }
-                    HStack(alignment: .top) {
-                        ImagePickerView(photoItem: $activityPhotoItem, selectedImageData: $activityImageData, imageSize: geometry.size.width * 0.15)
-                            .onChange(of: activityImageData) {
-                                if let activityImageData,
-                                   let uiImage = UIImage(data: activityImageData) {
-                                    activityImage = Image(uiImage: uiImage)
+                    
+                    Section("Image") {
+                        HStack {
+                            ImagePickerView(photoItem: $activityPhotoItem, selectedImageData: $activityImageData, imageSize: geometry.size.width * 0.15)
+                                .onChange(of: activityImageData) {
+                                    if let activityImageData = activityImageData,
+                                       let uiImage = UIImage(data: activityImageData) {
+                                        activityImage = Image(uiImage: uiImage)
+                                    }
                                 }
+                            
+                            if activityPhotoItem == nil {
+                                Spacer()
+                                activityImage?
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: geometry.size.width * 0.15, height: geometry.size.width * 0.15)
                             }
+                        }
                     }
                 }
             }
