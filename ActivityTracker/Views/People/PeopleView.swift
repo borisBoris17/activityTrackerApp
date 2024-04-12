@@ -21,6 +21,14 @@ struct PeopleView: View {
                 
                 ZStack {
                     ScrollView {
+                        if people.count == 0 {
+                            HStack {
+                                AddPersonCardView(showAddPerson: $viewModel.showAddPerson)
+                                
+                                Spacer()
+                            }
+                        }
+                        
                         HorizontalPeopleView(people: people, imageSize: geometry.size.width * 0.33, selectedPerson: $viewModel.selectedPerson, imageHasChanged: viewModel.imageHasChanged)
                                                     
                         if let selectedPerson = viewModel.selectedPerson {
@@ -65,6 +73,25 @@ struct PeopleView: View {
                 if people.count > 0 && viewModel.selectedPerson == nil {
                     viewModel.selectedPerson = people[0]
                 }
+            }
+        }
+    }
+    
+    struct AddPersonCardView: View {
+        @Binding var showAddPerson: Bool
+        
+        var body: some View {
+            Button() {
+                showAddPerson.toggle()
+            } label : {
+                VStack(alignment: .leading) {
+                    Text("Add a Person")
+                        .font(.title)
+                        .foregroundStyle(.brandText)
+                }
+                .padding()
+                .frame(width: 175, height: 175, alignment: .topLeading)
+                .background(.brandBackground, in: RoundedRectangle(cornerRadius: 16))
             }
         }
     }

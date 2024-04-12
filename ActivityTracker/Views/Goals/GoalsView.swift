@@ -20,43 +20,59 @@ struct GoalsView: View {
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Activity.startDate, ascending: false), NSSortDescriptor(keyPath: \Activity.duration, ascending: false)]) var activities: FetchedResults<Activity>
     
     @State private var viewModel = ViewModel()
-        
+    
     var body: some View {
         
         NavigationStack(path: $path) {
             ZStack {
-                ScrollView {
-                    ForEach(people) { person in
-                        HStack() {
-                            Text(person.wrappedName)
-                                .foregroundColor(.brandColorDark)
+                if people.count == 0 {
+                    VStack() {
+                        HStack {
+                            Text("Add People And Give them Goals...")
                                 .font(.title)
                                 .fontWeight(.bold)
+                                .foregroundStyle(.brandColorDark)
                             
                             Spacer()
                         }
-                        .padding(.top, 30)
-                        ScrollView(.horizontal) {
-                            HStack(spacing: 20) {
-                                if (person.goalsArray.isEmpty) {
-                                    AddGoalCardView()
-                                } else {
-                                    ForEach(person.goalsArray) { goal in
-                                        NavigationLink(value: goal) {
-                                            GoalCardView(goal: goal, showPerson: false)
+                        
+                        Spacer()
+                    }
+                } else {
+                    ScrollView {
+                        
+                        ForEach(people) { person in
+                            HStack() {
+                                Text(person.wrappedName)
+                                    .foregroundColor(.brandColorDark)
+                                    .font(.title)
+                                    .fontWeight(.bold)
+                                
+                                Spacer()
+                            }
+                            .padding(.top, 30)
+                            ScrollView(.horizontal) {
+                                HStack(spacing: 20) {
+                                    if (person.goalsArray.isEmpty) {
+                                        AddGoalCardView(showAddGoal: $viewModel.showAddGoal)
+                                    } else {
+                                        ForEach(person.goalsArray) { goal in
+                                            NavigationLink(value: goal) {
+                                                GoalCardView(goal: goal, showPerson: false)
+                                            }
+                                            .buttonStyle(PlainButtonStyle())
                                         }
-                                        .buttonStyle(PlainButtonStyle())
+                                        .id(refreshData.goalRefreshId)
                                     }
-                                    .id(refreshData.goalRefreshId)
                                 }
                             }
+                            .scrollIndicators(.hidden)
                         }
-                        .scrollIndicators(.hidden)
                     }
+                    .padding(.horizontal)
+                    .background(.neutralLight)
+                    .scrollIndicators(.hidden)
                 }
-                .padding(.horizontal)
-                .background(.neutralLight)
-                .scrollIndicators(.hidden)
                 
                 VStack {
                     Spacer()
@@ -89,22 +105,27 @@ struct GoalsView: View {
     }
     
     struct AddGoalCardView: View {
+        @Binding var showAddGoal: Bool
         
         var body: some View {
-            VStack(alignment: .leading) {
-                Text("Add a goal")
-                    .font(.title)
-                    .foregroundStyle(.brandText)
+            Button() {
+                showAddGoal.toggle()
+            } label : {
+                VStack(alignment: .leading) {
+                    Text("Add a goal")
+                        .font(.title)
+                        .foregroundStyle(.brandText)
+                }
+                .padding()
+                .frame(width: 175, height: 175, alignment: .topLeading)
+                .background(.brandBackground, in: RoundedRectangle(cornerRadius: 16))
             }
-            .padding()
-            .frame(width: 175, height: 175, alignment: .topLeading)
-            .background(.brandBackground, in: RoundedRectangle(cornerRadius: 16))
         }
     }
 }
 
 //struct HomeView_Previews: PreviewProvider {
-//    
+//
 //    static var previews: some View {
 //        GoalsView()
 //    }
