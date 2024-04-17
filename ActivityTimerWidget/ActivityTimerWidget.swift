@@ -43,7 +43,7 @@ struct ActivityTimerWidgetView: View {
     let context: ActivityViewContext<ActivityTimerAttributes>
     
     var body: some View {
-        HStack {
+        HStack() {
             
             Image("icon")
                 .resizable()
@@ -56,10 +56,33 @@ struct ActivityTimerWidgetView: View {
             
             Spacer()
             
-            Text(context.state.currentTimePassed)
-                .contentTransition(.identity)
-                .font(.system(size: 45))
-                .fontWeight(.bold)
+            HStack(alignment: .lastTextBaseline) {
+                if context.state.hours > 0 {
+                    Text("\(context.state.hours)")
+                        .contentTransition(.identity)
+                        .font(.system(size: 45))
+                        .fontWeight(.bold)
+                    
+                    VStack {
+                        Spacer()
+                        
+                        Text("hr")
+                            .contentTransition(.identity)
+                            .fontWeight(.bold)
+                    }
+                    
+                }
+                Text("\(context.state.minutes)")
+                    .contentTransition(.identity)
+                    .font(.system(size: 45))
+                    .fontWeight(.bold)
+                
+                
+                Text("min")
+                    .contentTransition(.identity)
+                    .fontWeight(.bold)
+            }
+            
         }
     }
 }
@@ -78,11 +101,11 @@ struct ActivityTimerWidget: Widget {
                 }
                 DynamicIslandExpandedRegion(.trailing) {
                     
-                        Image("icon")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 45, height: 45)
-                            .clipShape(Circle())
+                    Image("icon")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 45, height: 45)
+                        .clipShape(Circle())
                 }
                 DynamicIslandExpandedRegion(.center) {
                     

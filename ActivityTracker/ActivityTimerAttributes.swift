@@ -13,6 +13,8 @@ struct ActivityTimerAttributes: ActivityAttributes {
     
     public struct ContentState: Codable, Hashable {
         var currentTimePassed: String
+        var hours: Int
+        var minutes: Int
     }
     
     var activityName: String

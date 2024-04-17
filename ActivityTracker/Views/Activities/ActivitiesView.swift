@@ -95,9 +95,7 @@ struct ActivitiesView: View {
                         .padding()
                     }
                     .onReceive(viewModel.timer) { _ in
-                        if viewModel.handleRecieveTimer() {
-                            try? moc.save()
-                        }
+                        viewModel.handleRecieveTimer(moc)
                     }
                     .onAppear {
                         viewModel.updateTimer()
@@ -107,7 +105,7 @@ struct ActivitiesView: View {
                             
                             viewModel.create(activity: Activity(context: moc))
                             if isManual {
-                                viewModel.complete(activity: viewModel.currentActivty!, with: activityImage, isManual: true)
+                                viewModel.complete(with: activityImage, isManual: true)
                             }
                             
                             try? moc.save()
@@ -118,7 +116,7 @@ struct ActivitiesView: View {
                     .sheet(isPresented: $viewModel.showCompleteActivityScreen) {
                         SaveActivityView(name: $viewModel.name, desc: $viewModel.desc, timer: $viewModel.timer, saveActivity: { activityImage in
                             //                            if let activity = viewModel.currentActivty {
-                            viewModel.complete(activity: viewModel.currentActivty!, with: activityImage, isManual: false)
+                            viewModel.complete(with: activityImage, isManual: false)
                             
                             
                             try? moc.save()

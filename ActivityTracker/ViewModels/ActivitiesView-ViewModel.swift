@@ -8,6 +8,7 @@
 import ActivityKit
 import Foundation
 import SwiftUI
+import CoreData
 
 extension ActivitiesView {
     
@@ -61,15 +62,18 @@ extension ActivitiesView {
             timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
         }
         
-        func handleRecieveTimer() -> Bool {
+        func handleRecieveTimer(_ moc: NSManagedObjectContext) {
             if activityWidget == nil {
                 startActivityWidget()
-            } else {
-                updateActivityWidget()
             }
-            totalSeconds = pausedSeconds + Int(Date().timeIntervalSince(startTime)) // add one second to the timer (normal case)
-            //            totalSeconds = pausedSeconds + (Int(Date().timeIntervalSince(startTime)) * 900) // add 15 minutes at a time
-            return totalSeconds % 60 == 0
+            totalSeconds = pausedSeconds + Int(Date().timeIntervalSince(startTime))
+            if totalSeconds % 60 == 0 {                
+                updateDuration(activity: currentActivty!, isManual: false)
+                if activityWidget != nil {
+                    updateActivityWidget()
+                }
+                try? moc.save()
+            }
         }
         
         func updateActivityWidget() {
@@ -77,7 +81,7 @@ extension ActivitiesView {
                 return
             }
             
-            let contentState = ActivityTimerAttributes.ContentState(currentTimePassed: timerString())
+            let contentState = ActivityTimerAttributes.ContentState(currentTimePassed: Utils.formatedElapsedTime(seconds: totalSeconds), hours: numHours(), minutes: numMinutes())
             Task {
                 await activityWidget.update(
                     ActivityContent<ActivityTimerAttributes.ContentState>(
@@ -90,9 +94,19 @@ extension ActivitiesView {
             }
         }
         
+        func numHours() -> Int {
+            return totalSeconds / 3600
+        }
+        
+        func numMinutes() -> Int {
+            return (totalSeconds - (numHours() * 3600)) / 60
+        }
+        
         func stopActivityWidget() {
             let finalContent = ActivityTimerAttributes.ContentState(
-                currentTimePassed: timerString()
+                currentTimePassed: timerString(),
+                hours: 0,
+                minutes: 0
             )
             
             Task {
@@ -102,7 +116,7 @@ extension ActivitiesView {
         
         func startActivityWidget() {
             let attributes = ActivityTimerAttributes(activityName: name, activityDescription: desc)
-            let initialState = ActivityTimerAttributes.ContentState(currentTimePassed: timerString())
+            let initialState = ActivityTimerAttributes.ContentState(currentTimePassed: timerString(), hours: 0, minutes: 0)
             
             do {
                 let activity = try ActivityKit.Activity.request(
@@ -134,7 +148,7 @@ extension ActivitiesView {
             currentActivty = activity
         }
         
-        @MainActor func updateDuration(activity: Activity, isManual: Bool) {
+        func updateDuration(activity: Activity, isManual: Bool) {
             var durationInSeconds = totalSeconds
             if isManual {
                 let newSecondsFromHour = manualHours * minuteLength * hourLength
@@ -151,8 +165,11 @@ extension ActivitiesView {
         }
         
         
-        @MainActor func complete(activity: Activity, with activityImage: Image?, isManual: Bool) {
+        @MainActor func complete(with activityImage: Image?, isManual: Bool) {
+            guard let activity = currentActivty else { print("Error completeing the activity."); return }
             updateDuration(activity: activity, isManual: isManual)
+            activity.name = name
+            activity.desc = desc
             
             if activityImage != nil {
                 let renderer = ImageRenderer(content: activityImage)
