@@ -69,9 +69,9 @@ extension ActivitiesView {
             totalSeconds = pausedSeconds + Int(Date().timeIntervalSince(startTime))
             if totalSeconds % 60 == 0 {                
                 updateDuration(activity: currentActivty!, isManual: false)
-                if activityWidget != nil {
-                    updateActivityWidget()
-                }
+//                if activityWidget != nil {
+//                    updateActivityWidget()
+//                }
                 try? moc.save()
             }
         }
@@ -81,7 +81,7 @@ extension ActivitiesView {
                 return
             }
             
-            let contentState = ActivityTimerAttributes.ContentState(currentTimePassed: Utils.formatedElapsedTime(seconds: totalSeconds), hours: numHours(), minutes: numMinutes())
+            let contentState = ActivityTimerAttributes.ContentState(hours: numHours(), minutes: numMinutes())
             Task {
                 await activityWidget.update(
                     ActivityContent<ActivityTimerAttributes.ContentState>(
@@ -104,19 +104,19 @@ extension ActivitiesView {
         
         func stopActivityWidget() {
             let finalContent = ActivityTimerAttributes.ContentState(
-                currentTimePassed: timerString(),
                 hours: 0,
                 minutes: 0
             )
             
             Task {
                 await activityWidget?.end(ActivityContent(state: finalContent, staleDate: nil), dismissalPolicy: .immediate)
+                activityWidget = nil
             }
         }
         
         func startActivityWidget() {
             let attributes = ActivityTimerAttributes(activityName: name, activityDescription: desc)
-            let initialState = ActivityTimerAttributes.ContentState(currentTimePassed: timerString(), hours: 0, minutes: 0)
+            let initialState = ActivityTimerAttributes.ContentState(hours: 0, minutes: 0)
             
             do {
                 let activity = try ActivityKit.Activity.request(
@@ -198,6 +198,7 @@ extension ActivitiesView {
             currentActivty = nil
             timer.upstream.connect().cancel()
             stopActivityWidget()
+//            activityWidget = nil 
         }
     }
 }

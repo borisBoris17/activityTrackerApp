@@ -12,7 +12,6 @@ struct ActivityTimerAttributes: ActivityAttributes {
     public typealias TimerStatus = ContentState
     
     public struct ContentState: Codable, Hashable {
-        var currentTimePassed: String
         var hours: Int
         var minutes: Int
     }

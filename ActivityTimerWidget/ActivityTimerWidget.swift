@@ -51,37 +51,43 @@ struct ActivityTimerWidgetView: View {
                 .frame(width: 45, height: 45)
                 .clipShape(Circle())
             
-            Text(context.attributes.activityName)
-                .font(.headline)
+            VStack(alignment: .leading) {
+                Text(context.attributes.activityName)
+                    .font(.headline)
+                
+                Text(context.attributes.activityDescription)
+            }
             
             Spacer()
             
-            HStack(alignment: .lastTextBaseline) {
-                if context.state.hours > 0 {
-                    Text("\(context.state.hours)")
-                        .contentTransition(.identity)
-                        .font(.system(size: 45))
-                        .fontWeight(.bold)
-                    
-                    VStack {
-                        Spacer()
-                        
-                        Text("hr")
-                            .contentTransition(.identity)
-                            .fontWeight(.bold)
-                    }
-                    
-                }
-                Text("\(context.state.minutes)")
-                    .contentTransition(.identity)
-                    .font(.system(size: 45))
-                    .fontWeight(.bold)
-                
-                
-                Text("min")
-                    .contentTransition(.identity)
-                    .fontWeight(.bold)
-            }
+//          layout for when there is a time on the live activity
+//          Spacer()
+//            HStack(alignment: .lastTextBaseline) {
+//                if context.state.hours > 0 {
+//                    Text("\(context.state.hours)")
+//                        .contentTransition(.identity)
+//                        .font(.system(size: 45))
+//                        .fontWeight(.bold)
+//                    
+//                    VStack {
+//                        Spacer()
+//                        
+//                        Text("hr")
+//                            .contentTransition(.identity)
+//                            .fontWeight(.bold)
+//                    }
+//                    
+//                }
+//                Text("\(context.state.minutes)")
+//                    .contentTransition(.identity)
+//                    .font(.system(size: 45))
+//                    .fontWeight(.bold)
+//                
+//                
+//                Text("min")
+//                    .contentTransition(.identity)
+//                    .fontWeight(.bold)
+//            }
             
         }
     }
@@ -98,8 +104,6 @@ struct ActivityTimerWidget: Widget {
         } dynamicIsland: { context in
             DynamicIsland {
                 DynamicIslandExpandedRegion(.leading) {
-                }
-                DynamicIslandExpandedRegion(.trailing) {
                     
                     Image("icon")
                         .resizable()
@@ -107,21 +111,30 @@ struct ActivityTimerWidget: Widget {
                         .frame(width: 45, height: 45)
                         .clipShape(Circle())
                 }
-                DynamicIslandExpandedRegion(.center) {
+                DynamicIslandExpandedRegion(.trailing) {
                     
                 }
-                DynamicIslandExpandedRegion(.bottom) {
+                DynamicIslandExpandedRegion(.center) {
                     VStack(alignment: .leading) {
                         Text(context.attributes.activityName)
                             .font(.headline)
                             .fontWeight(.bold)
+                    }
+                }
+                DynamicIslandExpandedRegion(.bottom) {
+                    VStack(alignment: .leading) {
+                        
                         Text(context.attributes.activityDescription)
                     }
                 }
             } compactLeading: {
-                
+                Image("icon")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 25, height: 25)
+                    .clipShape(Circle())
             } compactTrailing: {
-                
+                Text(context.attributes.activityName.count < 6 ? context.attributes.activityName : String(context.attributes.activityName.prefix(5)) + "...")
             } minimal: {
                 
             }
