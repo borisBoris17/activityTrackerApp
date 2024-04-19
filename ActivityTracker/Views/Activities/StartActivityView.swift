@@ -38,9 +38,16 @@ struct StartActivityView: View {
         NavigationStack {
             VStack {
                 Form {
-                    Section {
+                    Section("Name") {
                         TextField("Name", text: $name)
-                        TextField("Description", text: $desc)
+                            .labelsHidden()
+                    }
+                    
+                    Section("Description") {
+                        TextEditor(text: $desc)
+                            .frame(minHeight: 150,
+                                   maxHeight: .infinity,
+                                   alignment: .center )
                     }
                     
                     Section("Goals") {

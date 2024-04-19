@@ -38,6 +38,9 @@ struct ActivitiesView: View {
                         
                         if viewModel.activityStatus != .ready {
                             VStack {
+                                Text(viewModel.name)
+                                    .fontWeight(.bold)
+                                
                                 Text("\(viewModel.timerString())")
                                     .font(.system(size: 80).bold())
                                 
@@ -66,6 +69,7 @@ struct ActivitiesView: View {
                                     .buttonStyle(BlueButton())
                                 }
                             }
+                            .padding(.top)
                         }
                         
                         
