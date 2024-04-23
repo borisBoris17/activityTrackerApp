@@ -69,7 +69,7 @@ struct ActivityCardView: View {
             HStack {
                 Spacer()
                 
-                Text("\(activity.formattedDuration) hrs")
+                Text("\(activity.formattedHrsMinsDuration)")
                     .foregroundStyle(.brandText)
                     .font(.title)
             }

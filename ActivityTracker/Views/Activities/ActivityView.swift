@@ -60,7 +60,7 @@ struct ActivityView: View {
                             .fontWeight(.bold)
                             .foregroundStyle(.brandColorDark)
                         
-                        Text("\(activity.formattedDuration) hrs")
+                        Text("\(activity.formattedHrsMinsDuration)")
                             .foregroundStyle(.brandMediumLight)
                         
                         Text(activity.formattedStartDate)
@@ -127,11 +127,6 @@ struct ActivityView: View {
                         Button("Edit") {
                             viewModel.prepareEdit(for: activity)
                         }
-                        .padding()
-                    } else {
-                        Button("Save") {
-                        }
-                        .disabled(viewModel.updatedDuration.isEmpty)
                         .padding()
                     }
                 }

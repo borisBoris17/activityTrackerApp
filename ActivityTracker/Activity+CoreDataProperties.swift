@@ -40,6 +40,24 @@ extension Activity {
         return String(format: "%.2f", durationInHours)
     }
     
+    public var formattedHrsMinsDuration: String {
+        let hoursInDuration = durationHours
+        if hoursInDuration > 0 {
+            let hoursLabel = hoursInDuration == 1 ? "hr" : "hrs"
+            return "\(durationHours) \(hoursLabel) \(durationMinutes) min"
+        } else {
+            return "\(durationMinutes) min"
+        }
+    }
+    
+    public var durationHours: Int {
+        Int(duration / Int32(minuteLength * hourLength))
+    }
+    
+    public var durationMinutes: Int {
+        Int((duration % Int32(minuteLength * hourLength)) / Int32(minuteLength))
+    }
+    
     public var goalArray: [Goal] {
         let set = goals as? Set<Goal> ?? []
         

@@ -207,10 +207,12 @@ struct PersonDetailView: View {
                                         NavigationLink(value: goal) {
                                             GoalCardView(goal: goal, showPerson: false)
                                         }
+                                        .buttonStyle(PlainButtonStyle())
                                     }
                                     .id(refreshData.goalRefreshId)
                                 }
                             }
+                            .scrollIndicators(.hidden)
                         }
                         .padding(.bottom)
                     }

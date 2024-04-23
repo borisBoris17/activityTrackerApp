@@ -29,7 +29,6 @@
 		E643DE2C2B7DC58B00ED46DA /* PersonButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E643DE2B2B7DC58B00ED46DA /* PersonButtonView.swift */; };
 		E643DE2E2B80631D00ED46DA /* PersonDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E643DE2D2B80631D00ED46DA /* PersonDetailView.swift */; };
 		E643DE302B80726200ED46DA /* AddGoalToPersonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E643DE2F2B80726200ED46DA /* AddGoalToPersonView.swift */; };
-		E66B4F562B86FAA50054D7AA /* ActivityListItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66B4F552B86FAA50054D7AA /* ActivityListItemView.swift */; };
 		E66B4F582B98262A0054D7AA /* EditGoalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66B4F572B98262A0054D7AA /* EditGoalView.swift */; };
 		E66FF7B42A999DFA0048EB63 /* ActivityTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66FF7B32A999DFA0048EB63 /* ActivityTrackerApp.swift */; };
 		E66FF7B62A999DFA0048EB63 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66FF7B52A999DFA0048EB63 /* ContentView.swift */; };
@@ -46,7 +45,6 @@
 		E67081112BC3A6EF0056EC09 /* ActivityTimerAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = E67081102BC3A6EF0056EC09 /* ActivityTimerAttributes.swift */; };
 		E67081122BC3A6EF0056EC09 /* ActivityTimerAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = E67081102BC3A6EF0056EC09 /* ActivityTimerAttributes.swift */; };
 		E67081152BC6271C0056EC09 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E66FF7B72A999DFB0048EB63 /* Assets.xcassets */; };
-		E67A3EAC2B26C05900A6CFB7 /* MultiPicker in Frameworks */ = {isa = PBXBuildFile; productRef = E67A3EAB2B26C05900A6CFB7 /* MultiPicker */; };
 		E6DB35C12A99A3A0001575E2 /* GoalsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DB35C02A99A3A0001575E2 /* GoalsView.swift */; };
 		E6DB35C32A99B087001575E2 /* AddGoalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DB35C22A99B087001575E2 /* AddGoalView.swift */; };
 		E6DB35C62A9DA25C001575E2 /* ActivityTracker.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E6DB35C42A9DA25C001575E2 /* ActivityTracker.xcdatamodeld */; };
@@ -116,7 +114,6 @@
 		E643DE2B2B7DC58B00ED46DA /* PersonButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonButtonView.swift; sourceTree = "<group>"; };
 		E643DE2D2B80631D00ED46DA /* PersonDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonDetailView.swift; sourceTree = "<group>"; };
 		E643DE2F2B80726200ED46DA /* AddGoalToPersonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddGoalToPersonView.swift; sourceTree = "<group>"; };
-		E66B4F552B86FAA50054D7AA /* ActivityListItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityListItemView.swift; sourceTree = "<group>"; };
 		E66B4F572B98262A0054D7AA /* EditGoalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditGoalView.swift; sourceTree = "<group>"; };
 		E66FF7B02A999DFA0048EB63 /* ActivityTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ActivityTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E66FF7B32A999DFA0048EB63 /* ActivityTrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityTrackerApp.swift; sourceTree = "<group>"; };
@@ -162,7 +159,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E67A3EAC2B26C05900A6CFB7 /* MultiPicker in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -278,7 +274,6 @@
 				E643DE1F2B43D0E700ED46DA /* ActivityListView.swift */,
 				E6DB35F62AAD64DF001575E2 /* ActivityView.swift */,
 				E643DE1D2B33F51800ED46DA /* HorizonalDateSelectView.swift */,
-				E66B4F552B86FAA50054D7AA /* ActivityListItemView.swift */,
 				E6FA73AE2BA2A006002FC5D6 /* ActivityCardView.swift */,
 				E6F07B3D2BA925A300C2B740 /* EditActivityView.swift */,
 				E643DE212B60BD4F00ED46DA /* SaveActivityView.swift */,
@@ -360,7 +355,6 @@
 			);
 			name = ActivityTracker;
 			packageProductDependencies = (
-				E67A3EAB2B26C05900A6CFB7 /* MultiPicker */,
 			);
 			productName = ActivityTracker;
 			productReference = E66FF7B02A999DFA0048EB63 /* ActivityTracker.app */;
@@ -411,7 +405,6 @@
 			);
 			mainGroup = E66FF7A72A999DFA0048EB63;
 			packageReferences = (
-				E67A3EAA2B26C05900A6CFB7 /* XCRemoteSwiftPackageReference "MultiPicker" */,
 			);
 			productRefGroup = E66FF7B12A999DFA0048EB63 /* Products */;
 			projectDirPath = "";
@@ -460,7 +453,6 @@
 				E643DE2C2B7DC58B00ED46DA /* PersonButtonView.swift in Sources */,
 				E6FA73AD2BA156B8002FC5D6 /* GoalCardView.swift in Sources */,
 				E643DE202B43D0E700ED46DA /* ActivityListView.swift in Sources */,
-				E66B4F562B86FAA50054D7AA /* ActivityListItemView.swift in Sources */,
 				E603BBA92B9D6A720049C43C /* AddPersonView-ViewModel.swift in Sources */,
 				E67081112BC3A6EF0056EC09 /* ActivityTimerAttributes.swift in Sources */,
 				E603BBB22B9EA0EF0049C43C /* PeopleView-ViewModel.swift in Sources */,
@@ -808,25 +800,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		E67A3EAA2B26C05900A6CFB7 /* XCRemoteSwiftPackageReference "MultiPicker" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/toastersocks/MultiPicker.git";
-			requirement = {
-				branch = main;
-				kind = branch;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		E67A3EAB2B26C05900A6CFB7 /* MultiPicker */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = E67A3EAA2B26C05900A6CFB7 /* XCRemoteSwiftPackageReference "MultiPicker" */;
-			productName = MultiPicker;
-		};
-/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		E6DB35C42A9DA25C001575E2 /* ActivityTracker.xcdatamodeld */ = {

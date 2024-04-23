@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import MultiPicker
 
 struct AddGoalView: View {
     @FetchRequest(sortDescriptors: []) var people: FetchedResults<Person>

@@ -15,7 +15,6 @@ extension ActivityView {
     @Observable
     class ViewModel {
         var mode = "view"
-        var updatedDuration = ""
         var updatedName = ""
         var updatedDescription = ""
         var hours = 0
@@ -36,18 +35,10 @@ extension ActivityView {
         }
         
         func prepareEdit(for activity: Activity) {
-            updatedDuration = activity.formattedDuration
             updatedName = activity.wrappedName
             updatedDescription = activity.wrappedDesc
-            let durationSegments = activity.formattedDuration.components(separatedBy: ".")
-            hours = Int(durationSegments[0]) ?? 0
-            let decimalMinutes = Double(durationSegments[1]) ?? 0
-            let calculatedMinutes = Int(ceil((decimalMinutes / 100) * Double(minuteLength)))
-            if calculatedMinutes < hourLength {
-                minutes = calculatedMinutes
-            } else {
-                minutes = 0
-            }
+            hours = activity.durationHours
+            minutes = activity.durationMinutes
             
             updatedGoals = Set<Goal>(activity.goalArray)
             showEditActivity.toggle()
