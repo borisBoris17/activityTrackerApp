@@ -33,13 +33,13 @@ struct ContentView: View {
     
     var body: some View {
         TabView(selection: tabSelection()) {
-            GoalsView(path: $goalsPath)
+            GoalsView(path: $goalsPath, selection: tabSelection())
                 .tabItem {
                     Label("Goals", systemImage: "list.clipboard")
                 }
                 .tag(1)
             
-            ActivitiesView(path: $activitiesPath)
+            ActivitiesView(path: $activitiesPath, selection: tabSelection())
                 .tabItem {
                     Label("Activities", systemImage: "timer")
                 }

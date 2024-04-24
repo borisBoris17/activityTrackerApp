@@ -25,6 +25,7 @@ struct ActivitiesView: View {
     @Environment(\.managedObjectContext) var moc
     
     @Binding var path: NavigationPath
+    @Binding var selection: Int
     
     @State private var viewModel = ViewModel()
     
@@ -76,24 +77,62 @@ struct ActivitiesView: View {
                         VStack {
                             HorizonalDateSelectView(startingSunday: $viewModel.startingSunday, startingSundayDay: Calendar.current.dateComponents([.day], from: viewModel.startingSunday).day!, startingSundayMonth: Calendar.current.dateComponents([.month], from: viewModel.startingSunday).month!, selectedDay: $viewModel.selectedDay)
                             
-                            if viewModel.activityStatus == .ready {
-                                Button {
-                                    viewModel.showNewActivitySheet = true
-                                } label: {
-                                    HStack {
-                                        Spacer()
-                                        Label("Start a new Activity", systemImage: "plus")
-                                            .font(.title)
-                                            .padding()
-                                        Spacer()
+                            if goals.count == 0 {
+                                Text("Before Starting An Activity A Person And Goal Must Be Added.")
+                                    .fontWeight(.bold)
+                                    .foregroundStyle(.brandColorDark)
+                                
+                                if people.count == 0 {
+                                    Button {
+                                        selection = 3
+                                    } label: {
+                                        HStack {
+                                            Spacer()
+                                            Label("Add a Person", systemImage: "plus")
+                                                .font(.title)
+                                                .padding()
+                                            Spacer()
+                                        }
+                                        .frame(maxWidth: nil)
+                                        .background(.brand, in: RoundedRectangle(cornerRadius: 16))
                                     }
-                                    .frame(maxWidth: nil)
-                                    .background(.brand, in: RoundedRectangle(cornerRadius: 16))
+                                    .buttonStyle(PlainButtonStyle())
+                                } else {
+                                    Button {
+                                        selection = 1
+                                    } label: {
+                                        HStack {
+                                            Spacer()
+                                            Label("Add a Goal", systemImage: "plus")
+                                                .font(.title)
+                                                .padding()
+                                            Spacer()
+                                        }
+                                        .frame(maxWidth: nil)
+                                        .background(.brand, in: RoundedRectangle(cornerRadius: 16))
+                                    }
+                                    .buttonStyle(PlainButtonStyle())
                                 }
-                                .buttonStyle(PlainButtonStyle())
+                            } else {
+                                if viewModel.activityStatus == .ready {
+                                    Button {
+                                        viewModel.showNewActivitySheet = true
+                                    } label: {
+                                        HStack {
+                                            Spacer()
+                                            Label("Start a new Activity", systemImage: "plus")
+                                                .font(.title)
+                                                .padding()
+                                            Spacer()
+                                        }
+                                        .frame(maxWidth: nil)
+                                        .background(.brand, in: RoundedRectangle(cornerRadius: 16))
+                                    }
+                                    .buttonStyle(PlainButtonStyle())
+                                }
+                                
+                                ActivityListView(selectedDay: viewModel.selectedDay, activityFilter: viewModel.activityFilter, geometry: geometry, currentActivity: viewModel.currentActivty, path: $path)
                             }
-                            
-                            ActivityListView(selectedDay: viewModel.selectedDay, activityFilter: viewModel.activityFilter, geometry: geometry, currentActivity: viewModel.currentActivty, path: $path)
                         }
                         .background(.neutralLight)
                         .padding()

@@ -15,6 +15,7 @@ struct GoalsView: View {
     @EnvironmentObject var refreshData: RefreshData
     
     @Binding var path: NavigationPath
+    @Binding var selection: Int
     @FetchRequest(sortDescriptors: []) var people: FetchedResults<Person>
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Goal.startDate, ascending: false), NSSortDescriptor(keyPath: \Goal.name, ascending: true)]) var goals: FetchedResults<Goal>
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Activity.startDate, ascending: false), NSSortDescriptor(keyPath: \Activity.duration, ascending: false)]) var activities: FetchedResults<Activity>
@@ -28,16 +29,32 @@ struct GoalsView: View {
                 if people.count == 0 {
                     VStack() {
                         HStack {
-                            Text("Add People And Give them Goals...")
-                                .font(.title)
+                            Text("Before Adding A Goal A Person Must Be Added.")
                                 .fontWeight(.bold)
                                 .foregroundStyle(.brandColorDark)
                             
                             Spacer()
                         }
                         
+                        Button {
+                            selection = 3
+                        } label: {
+                            HStack {
+                                Spacer()
+                                Label("Add a Person", systemImage: "plus")
+                                    .font(.title)
+                                    .padding()
+                                Spacer()
+                            }
+                            .frame(maxWidth: nil)
+                            .background(.brand, in: RoundedRectangle(cornerRadius: 16))
+                        }
+                        .buttonStyle(PlainButtonStyle())
+                        
                         Spacer()
                     }
+                    .padding(.horizontal)
+                    .background(.neutralLight)
                 } else {
                     ScrollView {
                         

@@ -29,7 +29,7 @@ struct GoalSelectionView: View {
         var person: Person
         var goals: FetchedResults<Goal>
         
-        @State private var isExpanded = false
+        @State private var isExpanded = true
         
         func filteredGoals(for person: Person) -> [Goal] {
             return goals.filter { goal in
