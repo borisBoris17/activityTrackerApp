@@ -24,13 +24,36 @@ struct EditPersonView: View {
     
     @Environment(\.dismiss) var dismiss
     
+    @State private var nameBlankOnSave = false
+    
+    func validateSave() -> Bool {
+        var valid = true
+        if newPersonName.isEmpty {
+            nameBlankOnSave = true
+            valid = false
+        } else {
+            nameBlankOnSave = true
+            valid = true
+        }
+        return valid
+    }
+    
     var body: some View {
         ZStack {
             NavigationStack {
                 Form {
-                    Section("Activity Name") {
+                    Section {
                         TextField("Name", text: $newPersonName)
+                    } header: {
+                        Text("Activity Name")
+                        
+                    } footer: {
+                        if nameBlankOnSave {
+                            Text("Name is required.")
+                                .foregroundColor(Color.red)
+                        }
                     }
+                    .listRowBackground(nameBlankOnSave ? Color.red.opacity(0.25) : Color(UIColor.secondarySystemGroupedBackground))
                     
                     Section("Image") {
                         HStack {
@@ -76,10 +99,11 @@ struct EditPersonView: View {
                 .toolbar {
                     ToolbarItem {
                         Button("Save") {
-                            isSaving = true
+                            if validateSave() {
+                                isSaving = true
+                            }
                         }
                         .padding()
-                        .disabled(newPersonName.isEmpty)
                     }
                     ToolbarItem(placement: .navigationBarLeading) {
                         Button("Back") {

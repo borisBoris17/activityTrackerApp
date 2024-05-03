@@ -84,6 +84,24 @@ extension Goal {
         String(format: "%.2f", progressInHours)
     }
     
+    public var formattedHrsMinsProgress: String {
+        let hoursInProgress = progressHours
+        if hoursInProgress > 0 {
+            let hoursLabel = hoursInProgress == 1 ? "hr" : "hrs"
+            return "\(hoursInProgress) \(hoursLabel) \(progressMinutes) min"
+        } else {
+            return "\(progressMinutes) min"
+        }
+    }
+    
+    public var progressHours: Int {
+        Int(Int(progress) / Int(minuteLength * hourLength))
+    }
+    
+    public var progressMinutes: Int {
+        Int((Int(progress) % Int(minuteLength * hourLength)) / Int(minuteLength))
+    }
+    
     public var progressInHours: CGFloat {
         progress / (Double(minuteLength * hourLength) )
     }

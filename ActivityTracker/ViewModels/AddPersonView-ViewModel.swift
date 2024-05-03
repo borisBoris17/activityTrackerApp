@@ -17,6 +17,19 @@ extension AddPersonView {
         var personPhotoItem: PhotosPickerItem?
         var personImageData: Data?
         var personImage: Image?
+        var nameBlankOnSave = false
+        
+        func validateSave() -> Bool {
+            var valid = true
+            if newName.isEmpty {
+                nameBlankOnSave = true
+                valid = false
+            } else {
+                nameBlankOnSave = true
+                valid = true
+            }
+            return valid
+        }
         
         func updatePersonImage() {
             if let selectedImageData = personImageData,

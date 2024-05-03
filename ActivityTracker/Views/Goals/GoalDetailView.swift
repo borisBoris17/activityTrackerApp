@@ -80,6 +80,9 @@ struct GoalDetailView: View {
                             Text(goal.wrappedDesc)
                                 .foregroundStyle(.brandMediumLight)
                             
+                            Text("Progress: \(goal.formattedHrsMinsProgress)")
+                                .foregroundStyle(.brandMediumLight)
+                            
                             Text("Starting: \(goal.formattedStartDate)")
                                 .foregroundStyle(.brandMediumLight)
                             

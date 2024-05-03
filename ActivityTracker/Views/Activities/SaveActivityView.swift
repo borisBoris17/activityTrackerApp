@@ -19,14 +19,36 @@ struct SaveActivityView: View {
     @State private var activityImageData: Data?
     @State private var activityImage: Image?
     
+    @State private var nameBlankOnSave = false
+    
+    func validateSave() -> Bool {
+        var valid = true
+        if name.isEmpty {
+            nameBlankOnSave = true
+            valid = false
+        } else {
+            nameBlankOnSave = true
+            valid = true
+        }
+        return valid
+    }
+    
     var body: some View {
         
         NavigationStack {
             GeometryReader { geometry in
                 Form {
-                    Section("Activity Name") {
+                    Section {
                         TextField("Name", text: $name)
+                    } header: {
+                        Text("Activity Name")
+                    } footer: {
+                        if nameBlankOnSave {
+                            Text("Name is required.")
+                                .foregroundColor(Color.red)
+                        }
                     }
+                    .listRowBackground(nameBlankOnSave ? Color.red.opacity(0.25) : Color(UIColor.secondarySystemGroupedBackground))
                     
                     Section("description") {
                         TextEditor( text: $desc)
@@ -60,10 +82,11 @@ struct SaveActivityView: View {
             .toolbar {
                 ToolbarItem {
                     Button("Save") {
-                        saveActivity(activityImage)
-                        dismiss()
+                        if validateSave() {
+                            saveActivity(activityImage)
+                            dismiss()
+                        }
                     }
-                    .disabled(name.isEmpty)
                     .padding()
                 }
             }.onAppear {

@@ -18,15 +18,53 @@ struct EditGoalView: View {
     var saveGoal: () -> Void
     @State private var showDeleteAlert = false
     
+    @State private var goalNameBlankOnSave = false
+    @State private var goalTargetBlankOnSave = false
+    
     @Environment(\.dismiss) var dismiss
+    
+    func validateSave() -> Bool {
+        var valid = true
+        if newGoalName.isEmpty {
+            goalNameBlankOnSave = true
+            valid = false
+        } else {
+            goalNameBlankOnSave = false
+        }
+        if newGoalTarget.isEmpty {
+            goalTargetBlankOnSave = true
+            valid = false
+        } else {
+            if let parsedTarget = Int16(newGoalTarget) {
+                if parsedTarget >= 0 {
+                    goalTargetBlankOnSave = false
+                } else {
+                    goalTargetBlankOnSave = true
+                    valid = false
+                }
+            } else {
+                goalTargetBlankOnSave = true
+                valid = false
+            }
+        }
+        return valid
+    }
     
     var body: some View {
         NavigationStack {
             VStack {
                 Form {
-                    Section("Goal Name") {
+                    Section {
                         TextField("Name", text: $newGoalName)
+                    } header: {
+                        Text("Goal Name")
+                    } footer: {
+                        if goalNameBlankOnSave {
+                            Text("Name is required.")
+                                .foregroundColor(Color.red)
+                        }
                     }
+                    .listRowBackground(goalNameBlankOnSave ? Color.red.opacity(0.25) : Color(UIColor.secondarySystemGroupedBackground))
                     
                     Section("Goal Description") {
                         TextField("Description", text: $newGoalDesc)
@@ -42,10 +80,22 @@ struct EditGoalView: View {
                         }
                     }
                     
-                    Section("Target") {
+                    Section {
                         TextField("Target (in hours)", text: $newGoalTarget)
                             .keyboardType(.decimalPad)
+                    } header: {
+                        Text("Target")
+                    } footer: {
+                        VStack(alignment: .leading) {
+                            if goalTargetBlankOnSave {
+                                Text("Target is required and must be a positive number.")
+                                    .foregroundColor(Color.red)
+                            }
+                            Text("Enter number of Hours that completes the Goal.")
+                        }
                     }
+                    .listRowBackground(goalTargetBlankOnSave ? Color.red.opacity(0.25) : Color(UIColor.secondarySystemGroupedBackground))
+                    
                     
                     Section {
                         Button("Delete") {
@@ -68,11 +118,12 @@ struct EditGoalView: View {
             .toolbar {
                 ToolbarItem {
                     Button("Save") {
-                        saveGoal()
-                        dismiss()
+                        if validateSave() {
+                            saveGoal()
+                            dismiss()
+                        }
                     }
                     .padding()
-                    .disabled(newGoalName.isEmpty || newGoalDesc.isEmpty || newGoalTarget.isEmpty)
                 }
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button("Back") {

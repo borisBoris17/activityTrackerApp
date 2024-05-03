@@ -27,32 +27,82 @@ struct StartActivityView: View {
     @State private var activityPhotoItem: PhotosPickerItem?
     @State private var activityImageData: Data?
     @State private var activityImage: Image?
+    @State private var nameBlankOnSave = false
+    @State private var descBlankOnSave = false
+    @State private var goalsBlankOnSave = false
     
     @FetchRequest(sortDescriptors: []) var people: FetchedResults<Person>
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Goal.startDate, ascending: false), NSSortDescriptor(keyPath: \Goal.name, ascending: true)]) var allGoals: FetchedResults<Goal>
     
     @Environment(\.dismiss) var dismiss
     
+    func validateSave() -> Bool {
+        var valid = true
+        if selectedGoals.count < 1 {
+            goalsBlankOnSave = true
+            valid = false
+        } else {
+            goalsBlankOnSave = false
+        }
+        if name.isEmpty {
+            nameBlankOnSave = true
+            valid = false
+        } else {
+            nameBlankOnSave = false
+        }
+        if desc.isEmpty {
+            descBlankOnSave = true
+            valid = false
+        } else {
+            descBlankOnSave = false
+        }
+        return valid
+    }
+    
     var body: some View {
         
         NavigationStack {
             VStack {
                 Form {
-                    Section("Name") {
+                    Section {
                         TextField("Name", text: $name)
                             .labelsHidden()
+                    } header: {
+                        Text("Activity Name")
+                    } footer: {
+                        if nameBlankOnSave {
+                            Text("Name is required.")
+                                .foregroundColor(Color.red)
+                        }
                     }
+                    .listRowBackground(nameBlankOnSave ? Color.red.opacity(0.25) : Color(UIColor.secondarySystemGroupedBackground))
                     
-                    Section("Description") {
+                    Section {
                         TextEditor(text: $desc)
                             .frame(minHeight: 150,
                                    maxHeight: .infinity,
                                    alignment: .center )
+                    } header: {
+                        Text("Description")
+                    } footer: {
+                        if descBlankOnSave {
+                            Text("Description is required.")
+                                .foregroundColor(Color.red)
+                        }
                     }
+                    .listRowBackground(descBlankOnSave ? Color.red.opacity(0.25) : Color(UIColor.secondarySystemGroupedBackground))
                     
-                    Section("Goals") {
+                    Section {
                         GoalSelectionView(selectedGoals: $selectedGoals)
+                    } header: {
+                        Text("Goals")
+                    } footer: {
+                        if goalsBlankOnSave {
+                            Text("Must select at least one Goal.")
+                                .foregroundColor(Color.red)
+                        }
                     }
+                    .listRowBackground(goalsBlankOnSave ? Color.red.opacity(0.25) : Color(UIColor.secondarySystemGroupedBackground))
                     
                     Section {
                         withAnimation {
@@ -92,18 +142,19 @@ struct StartActivityView: View {
             .toolbar {
                 ToolbarItem {
                     Button(isManaualAdd ? "Save" : "Start") {
-                        goals = Array(selectedGoals)
-                        if isManaualAdd {
-                            saveActivity(activityImage, true)
-                        } else {
-                            saveActivity(activityImage, false)
-                            activityStatus = .started
-                            startTime = Date()
-                            timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+                        if (validateSave()) {
+                            goals = Array(selectedGoals)
+                            if isManaualAdd {
+                                saveActivity(activityImage, true)
+                            } else {
+                                saveActivity(activityImage, false)
+                                activityStatus = .started
+                                startTime = Date()
+                                timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+                            }
+                            dismiss()
                         }
-                        dismiss()
                     }
-                    .disabled(name.isEmpty || desc.isEmpty || selectedGoals.count < 1)
                     .padding()
                 }
             }

@@ -29,7 +29,7 @@ struct GoalCardView: View {
             HStack {
                 Spacer()
                 
-                Text("\(goal.formattedProgress)/\(goal.target)")
+                Text("\(goal.formattedProgress) hrs / \(goal.target) hrs")
             }
         }
         .foregroundStyle(.brandText)

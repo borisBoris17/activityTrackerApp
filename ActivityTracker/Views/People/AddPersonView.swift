@@ -24,6 +24,18 @@ struct AddPersonView: View {
                     Form {
                         Section {
                             TextField("Name", text: $viewModel.newName)
+                            
+                        } header: {
+                            
+                        } footer: {
+                            if viewModel.nameBlankOnSave {
+                                Text("Name is required.")
+                                    .foregroundColor(Color.red)
+                            }
+                        }
+                        .listRowBackground(viewModel.nameBlankOnSave ? Color.red.opacity(0.25) : Color(UIColor.secondarySystemGroupedBackground))
+                        
+                        Section {
                             ImagePickerView(photoItem: $viewModel.personPhotoItem, selectedImageData: $viewModel.personImageData, imageSize: geometry.size.width * 0.15)
                                 .onChange(of: viewModel.personImageData) {
                                     viewModel.updatePersonImage()
@@ -34,13 +46,14 @@ struct AddPersonView: View {
                     .toolbar {
                         ToolbarItem {
                             Button("Save") {
-                                viewModel.savePerson(newPerson: Person(context: moc))
-                                try? moc.save()
-                                refreshData.goalRefreshId = UUID()
-                                refreshData.activityRefreshId = UUID()
-                                dismiss()
+                                if viewModel.validateSave() {
+                                    viewModel.savePerson(newPerson: Person(context: moc))
+                                    try? moc.save()
+                                    refreshData.goalRefreshId = UUID()
+                                    refreshData.activityRefreshId = UUID()
+                                    dismiss()
+                                }
                             }
-                            .disabled(viewModel.newName.isEmpty)
                             .padding()
                         }
                     }

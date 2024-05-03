@@ -149,6 +149,7 @@ extension ActivitiesView {
         }
         
         func updateDuration(activity: Activity, isManual: Bool) {
+            var previousActivityDuration = activity.duration
             var durationInSeconds = totalSeconds
             if isManual {
                 let newSecondsFromHour = manualHours * minuteLength * hourLength
@@ -160,7 +161,7 @@ extension ActivitiesView {
             
             // Update all of the Goals. Add the duration to the progress
             for goal in selectedGoals {
-                goal.progress = goal.progress + Double(durationInSeconds)
+                goal.progress = goal.progress - Double(previousActivityDuration) + Double(durationInSeconds)
             }
         }
         

@@ -27,22 +27,65 @@ struct EditActivityView: View {
     @State private var showDeleteAlert = false
     @State private var isSaving = false
     
+    @State private var goalsBlankOnSave = false
+    @State private var nameBlankOnSave = false
+    @State private var descBlankOnSave = false
+    
     @Environment(\.dismiss) var dismiss
+    
+    func validateSave() -> Bool {
+        var valid = true
+        if newActivityGoals.isEmpty {
+            goalsBlankOnSave = true
+            valid = false
+        } else {
+            goalsBlankOnSave = false
+        }
+        if newActivityName.isEmpty {
+            nameBlankOnSave = true
+            valid = false
+        } else {
+            nameBlankOnSave = false
+        }
+        if newActivityDesc.isEmpty {
+            descBlankOnSave = true
+            valid = false
+        } else {
+            descBlankOnSave = false
+        }
+        return valid
+    }
     
     var body: some View {
         ZStack {
             NavigationStack {
                 Form {
-                    Section("Activity Name") {
+                    Section {
                         TextField("Name", text: $newActivityName)
+                    } header: {
+                        Text("Activity Name")
+                    } footer: {
+                        if nameBlankOnSave {
+                            Text("Name is required.")
+                                .foregroundColor(Color.red)
+                        }
                     }
+                    .listRowBackground(nameBlankOnSave ? Color.red.opacity(0.25) : Color(UIColor.secondarySystemGroupedBackground))
                     
-                    Section("description") {
+                    Section {
                         TextEditor( text: $newActivityDesc)
                             .frame(minHeight: 150,
                                    maxHeight: .infinity,
                                    alignment: .center )
+                    } header: {
+                        Text("Description")
+                    } footer: {
+                        if descBlankOnSave {
+                            Text("Description is required.")
+                                .foregroundColor(Color.red)
+                        }
                     }
+                    .listRowBackground(descBlankOnSave ? Color.red.opacity(0.25) : Color(UIColor.secondarySystemGroupedBackground))
                     
                     Section("Image") {
                         HStack {
@@ -64,7 +107,7 @@ struct EditActivityView: View {
                         }
                     }
                     
-                    Section("Goals") {
+                    Section {
                         if showEditGoals {
                             Button("Close Goals") {
                                 showEditGoals.toggle()
@@ -75,7 +118,15 @@ struct EditActivityView: View {
                                 showEditGoals.toggle()
                             }
                         }
+                    } header: {
+                        Text("Goals")
+                    } footer: {
+                        if goalsBlankOnSave {
+                            Text("Must select at least one Goal.")
+                                .foregroundColor(Color.red)
+                        }
                     }
+                    .listRowBackground(goalsBlankOnSave ? Color.red.opacity(0.25) : Color(UIColor.secondarySystemGroupedBackground))
                     
                     Section("Duration") {
                         DurationPickerView(hours: $newActivityHours, minutes: $newActivityMinutes)
@@ -101,10 +152,11 @@ struct EditActivityView: View {
                 .toolbar {
                     ToolbarItem {
                         Button("Save") {
-                            isSaving = true
+                            if validateSave() {
+                                isSaving = true
+                            }
                         }
                         .padding()
-                        .disabled(newActivityName.isEmpty || newActivityDesc.isEmpty || newActivityGoals.isEmpty)
                     }
                     ToolbarItem(placement: .navigationBarLeading) {
                         Button("Back") {
