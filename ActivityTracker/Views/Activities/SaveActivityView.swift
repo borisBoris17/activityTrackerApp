@@ -21,6 +21,10 @@ struct SaveActivityView: View {
     
     @State private var nameBlankOnSave = false
     
+    @State private var isShowingImagePicker = false
+    @State private var capturedImage: UIImage?
+
+    
     func validateSave() -> Bool {
         var valid = true
         if name.isEmpty {
@@ -75,6 +79,24 @@ struct SaveActivityView: View {
                                     .frame(width: geometry.size.width * 0.15, height: geometry.size.width * 0.15)
                             }
                         }
+                        
+                        VStack {
+                            if let image = capturedImage {
+                                        Image(uiImage: image)
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(height: 300)
+                                    } else {
+                                        Text("No image selected")
+                                    }
+
+                                    Button("Take a Picture") {
+                                        isShowingImagePicker = true
+                                    }
+                                    .sheet(isPresented: $isShowingImagePicker) {
+                                        ImagePicker(selectedImage: $capturedImage)
+                                    }
+                                }
                     }
                 }
             }

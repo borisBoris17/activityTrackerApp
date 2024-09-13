@@ -29,6 +29,7 @@
 		E643DE2C2B7DC58B00ED46DA /* PersonButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E643DE2B2B7DC58B00ED46DA /* PersonButtonView.swift */; };
 		E643DE2E2B80631D00ED46DA /* PersonDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E643DE2D2B80631D00ED46DA /* PersonDetailView.swift */; };
 		E643DE302B80726200ED46DA /* AddGoalToPersonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E643DE2F2B80726200ED46DA /* AddGoalToPersonView.swift */; };
+		E65557E52C93ED30009EA8DA /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65557E42C93ED30009EA8DA /* ImagePicker.swift */; };
 		E66B4F582B98262A0054D7AA /* EditGoalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66B4F572B98262A0054D7AA /* EditGoalView.swift */; };
 		E66FF7B42A999DFA0048EB63 /* ActivityTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66FF7B32A999DFA0048EB63 /* ActivityTrackerApp.swift */; };
 		E66FF7B62A999DFA0048EB63 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66FF7B52A999DFA0048EB63 /* ContentView.swift */; };
@@ -114,6 +115,7 @@
 		E643DE2B2B7DC58B00ED46DA /* PersonButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonButtonView.swift; sourceTree = "<group>"; };
 		E643DE2D2B80631D00ED46DA /* PersonDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonDetailView.swift; sourceTree = "<group>"; };
 		E643DE2F2B80726200ED46DA /* AddGoalToPersonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddGoalToPersonView.swift; sourceTree = "<group>"; };
+		E65557E42C93ED30009EA8DA /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		E66B4F572B98262A0054D7AA /* EditGoalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditGoalView.swift; sourceTree = "<group>"; };
 		E66FF7B02A999DFA0048EB63 /* ActivityTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ActivityTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E66FF7B32A999DFA0048EB63 /* ActivityTrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityTrackerApp.swift; sourceTree = "<group>"; };
@@ -195,6 +197,7 @@
 			children = (
 				E643DE252B7B1CF300ED46DA /* FileManager+DocDirectory.swift */,
 				E603BBB42B9EA6490049C43C /* Utils.swift */,
+				E65557E42C93ED30009EA8DA /* ImagePicker.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -487,6 +490,7 @@
 				E643DE242B6B511900ED46DA /* ImagePickerView.swift in Sources */,
 				E6DB35D02A9DA9C2001575E2 /* Activity+CoreDataProperties.swift in Sources */,
 				E6F07B402BA93BA300C2B740 /* EditPersonView.swift in Sources */,
+				E65557E52C93ED30009EA8DA /* ImagePicker.swift in Sources */,
 				E6DB35D22A9DA9C2001575E2 /* Person+CoreDataProperties.swift in Sources */,
 				E643DE222B60BD4F00ED46DA /* SaveActivityView.swift in Sources */,
 			);
@@ -640,7 +644,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = ActivityTracker/ActivityTracker.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"ActivityTracker/Preview Content\"";
 				DEVELOPMENT_TEAM = YB46Q2GKPA;
 				ENABLE_PREVIEWS = YES;
@@ -660,7 +664,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.tucker-dev.ActivityTracker";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -677,7 +681,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = ActivityTracker/ActivityTracker.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"ActivityTracker/Preview Content\"";
 				DEVELOPMENT_TEAM = YB46Q2GKPA;
 				ENABLE_PREVIEWS = YES;
@@ -697,7 +701,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.tucker-dev.ActivityTracker";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
