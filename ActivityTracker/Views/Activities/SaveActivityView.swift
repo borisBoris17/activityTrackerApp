@@ -80,23 +80,26 @@ struct SaveActivityView: View {
                             }
                         }
                         
-                        VStack {
-                            if let image = capturedImage {
-                                        Image(uiImage: image)
-                                            .resizable()
-                                            .scaledToFit()
-                                            .frame(height: 300)
-                                    } else {
-                                        Text("No image selected")
-                                    }
-
-                                    Button("Take a Picture") {
-                                        isShowingImagePicker = true
-                                    }
-                                    .sheet(isPresented: $isShowingImagePicker) {
-                                        ImagePicker(selectedImage: $capturedImage)
-                                    }
-                                }
+                        HStack {
+                            Button("Capture Image") {
+                                isShowingImagePicker = true
+                            }
+                            .sheet(isPresented: $isShowingImagePicker) {
+                                ImagePicker(selectedImage: $capturedImage)
+                            }
+                            .onChange(of: capturedImage) {
+                                guard let capturedImage else { return }
+                                activityImage = Image(uiImage: capturedImage)
+                            }
+                            
+                            Spacer()
+                            
+                            if isShowingImagePicker {
+                                Spacer()
+                                
+                                ProgressView()
+                            }
+                        }
                     }
                 }
             }

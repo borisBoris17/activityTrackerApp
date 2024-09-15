@@ -94,72 +94,42 @@ struct EditActivityView: View {
                     
                     Section("Image") {
                         HStack {
-                            if capturedImage != nil {
-                                Button("Select Image") {
-                                    showRemoveCaputedImageAlert = true
-                                }
-                                .alert(isPresented: $showRemoveCaputedImageAlert) {
-                                    Alert(
-                                        title: Text("Remove captured Image?"),
-                                        message: Text("You can only save one image. Remove the captured image to selected a new one?"),
-                                        primaryButton: .destructive(Text("Delete")) {
-                                            capturedImage = nil
-                                        },
-                                        secondaryButton: .cancel())
-                                }
-                            } else {
-                                ImagePickerView(photoItem: $newActivityPhotoItem, selectedImageData: $newActivityImageData, imageSize: geometry.size.width * 0.15)
-                                    .onChange(of: newActivityImageData) {
-                                        if let activityImageData = newActivityImageData,
-                                           let uiImage = UIImage(data: activityImageData) {
-                                            newActivityImage = Image(uiImage: uiImage)
-                                        }
+                            ImagePickerView(photoItem: $newActivityPhotoItem, selectedImageData: $newActivityImageData, imageSize: geometry.size.width * 0.15)
+                                .onChange(of: newActivityImageData) {
+                                    if let activityImageData = newActivityImageData,
+                                       let uiImage = UIImage(data: activityImageData) {
+                                        newActivityImage = Image(uiImage: uiImage)
                                     }
-                                
-                                if newActivityPhotoItem == nil {
-                                    Spacer()
-                                    newActivityImage?
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(width: geometry.size.width * 0.15, height: geometry.size.width * 0.15)
                                 }
+                            
+                            if newActivityPhotoItem == nil {
+                                Spacer()
+                                newActivityImage?
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: geometry.size.width * 0.15, height: geometry.size.width * 0.15)
                             }
                         }
                         
                         HStack {
-                            if newActivityImage != nil {
-                                Button("Capture Image") {
-                                    showRemoveSelectedImageAlert = true
-                                }
-                                .alert(isPresented: $showRemoveSelectedImageAlert) {
-                                    Alert(
-                                        title: Text("Remove Selected Image?"),
-                                        message: Text("You can only save one image. Remove the selected image to capture a new one?"),
-                                        primaryButton: .destructive(Text("Delete")) {
-                                            newActivityImage = nil
-                                            newActivityImageData = nil
-                                        },
-                                        secondaryButton: .cancel())
-                                }
-                            } else {
-                                Button("Capture Image") {
-                                    isShowingImagePicker = true
-                                }
-                                .sheet(isPresented: $isShowingImagePicker) {
-                                    ImagePicker(selectedImage: $capturedImage)
-                                }
+                            Button("Capture Image") {
+                                isShowingImagePicker = true
                             }
+                            .sheet(isPresented: $isShowingImagePicker) {
+                                ImagePicker(selectedImage: $capturedImage)
+                            }
+                            .onChange(of: capturedImage) {
+                                guard let capturedImage else { return }
+                                newActivityImage = Image(uiImage: capturedImage)
+                            }
+                            
                             Spacer()
                             
-                            if let image = capturedImage {
-                                Image(uiImage: image)
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: geometry.size.width * 0.15, height: geometry.size.width * 0.15)
-                            } else {
-                                Text("No image selected")
+                            if isShowingImagePicker {
+                                Spacer()
+                                
+                                ProgressView()
                             }
-                            
                         }
                     }
                     
