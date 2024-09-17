@@ -10,7 +10,7 @@ import SwiftUI
 struct BlueButton: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .padding()
+            .padding(5)
             .background(.brand, in: Circle())
             .foregroundStyle(.white)
             .font(.largeTitle)
@@ -18,5 +18,7 @@ struct BlueButton: ButtonStyle {
             .labelStyle(.iconOnly)
             .padding()
             .shadow(color: .brandColorLight, radius: 5)
+            .scaleEffect(configuration.isPressed ? 0.95 : 1.0)
+            .animation(.spring(), value: configuration.isPressed)
     }
 }

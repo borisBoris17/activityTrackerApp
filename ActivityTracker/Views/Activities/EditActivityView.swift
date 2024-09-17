@@ -29,7 +29,6 @@ struct EditActivityView: View {
     
     @State private var goalsBlankOnSave = false
     @State private var nameBlankOnSave = false
-    @State private var descBlankOnSave = false
     
     @Environment(\.dismiss) var dismiss
     
@@ -51,12 +50,6 @@ struct EditActivityView: View {
             valid = false
         } else {
             nameBlankOnSave = false
-        }
-        if newActivityDesc.isEmpty {
-            descBlankOnSave = true
-            valid = false
-        } else {
-            descBlankOnSave = false
         }
         return valid
     }
@@ -84,13 +77,7 @@ struct EditActivityView: View {
                                    alignment: .center )
                     } header: {
                         Text("Description")
-                    } footer: {
-                        if descBlankOnSave {
-                            Text("Description is required.")
-                                .foregroundColor(Color.red)
-                        }
                     }
-                    .listRowBackground(descBlankOnSave ? Color.red.opacity(0.25) : Color(UIColor.secondarySystemGroupedBackground))
                     
                     Section("Image") {
                         HStack {

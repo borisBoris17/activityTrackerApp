@@ -28,8 +28,13 @@ struct ActivitiesView: View {
     @Binding var selection: Int
     
     @State private var viewModel = ViewModel()
+    @State private var activityImage: Image?
+    @State private var capturedImage: UIImage?
+    @State private var isLoadingCaptureImage = false
     
     @EnvironmentObject var refreshData: RefreshData
+    
+    var iconSize: CGFloat = 60
     
     var body: some View {
         NavigationStack(path: $path) {
@@ -38,36 +43,82 @@ struct ActivitiesView: View {
                     ScrollView {
                         
                         if viewModel.activityStatus != .ready {
-                            VStack {
-                                Text(viewModel.name)
-                                    .fontWeight(.bold)
+                            ZStack {
                                 
-                                Text("\(viewModel.timerString())")
-                                    .font(.system(size: 80).bold())
+                                activityImage?
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: geometry.size.width * 0.85)
+                                    .clipShape(RoundedRectangle(cornerRadius: 15))
                                 
-                                HStack {
-                                    if viewModel.activityStatus == .started {
-                                        Button() {
-                                            viewModel.pauseTimer()
-                                        } label: {
-                                            Label("Pause Timer", systemImage: "pause")
-                                        }
-                                        .buttonStyle(BlueButton())
-                                    } else if viewModel.activityStatus == .paused {
-                                        Button() {
-                                            viewModel.resumeTimer()
-                                        } label: {
-                                            Label("Resume Timer", systemImage: "play")
-                                        }
-                                        .buttonStyle(BlueButton())
+                                VStack {
+                                    VStack {
+                                        Text(viewModel.name)
+                                            .fontWeight(.bold)
+                                            .foregroundStyle(.brandText)
+                                        
+                                        Text("\(viewModel.timerString())")
+                                            .font(.system(size: 80).bold())
+                                            .foregroundStyle(.brandText)
                                     }
+                                    .frame(width: geometry.size.width * 0.75)
+                                    .background(
+                                        Rectangle()
+                                            .foregroundColor(.white)
+                                            .opacity(0.4)
+                                            .cornerRadius(15)
+                                    )
+                                    .padding(.top)
                                     
-                                    Button() {
-                                        viewModel.showCompleteActivityScreen = true
-                                    } label: {
-                                        Label("Save Activity", systemImage: "stop")
+                                    Spacer()
+                                    
+                                    HStack {
+                                        if viewModel.activityStatus != .started {
+                                            Button() {
+                                                viewModel.pauseTimer()
+                                            } label: {
+                                                Label("Pause Timer", systemImage: "pause")
+                                                    .frame(width: iconSize, height: iconSize)
+                                            }
+                                            .buttonStyle(BlueButton())
+                                        } else if viewModel.activityStatus == .paused {
+                                            Button() {
+                                                viewModel.resumeTimer()
+                                            } label: {
+                                                Label("Resume Timer", systemImage: "play")
+                                                    .frame(width: iconSize, height: iconSize)
+                                            }
+                                            .buttonStyle(BlueButton())
+                                        }
+                                        
+                                        Button() {
+                                            viewModel.showCompleteActivityScreen = true
+                                        } label: {
+                                            Label("Save Activity", systemImage: "stop")
+                                                .frame(width: iconSize, height: iconSize)
+                                        }
+                                        .buttonStyle(BlueButton())
+                                        
+                                        
+                                        if capturedImage != nil {
+                                            Button() {
+                                                capturedImage = nil
+                                                activityImage = nil
+                                                isLoadingCaptureImage = false
+                                            } label: {
+                                                Label("Remove Photo", systemImage: "trash")
+                                                    .frame(width: iconSize, height: iconSize)
+                                            }
+                                            .buttonStyle(BlueButton())
+                                        } else {
+                                            CaptureImageView(capturedImage: $capturedImage, activityImage: $activityImage, isLoading: $isLoadingCaptureImage) {
+                                                Label("Add Photo", systemImage: "camera")
+                                                    .frame(width: iconSize, height: iconSize)
+                                                    .opacity(isLoadingCaptureImage ? 0.5 : 1)
+                                            }
+                                            .buttonStyle(BlueButton())
+                                        }
                                     }
-                                    .buttonStyle(BlueButton())
                                 }
                             }
                             .padding(.top)
@@ -157,15 +208,12 @@ struct ActivitiesView: View {
                         })
                     }
                     .sheet(isPresented: $viewModel.showCompleteActivityScreen) {
-                        SaveActivityView(name: $viewModel.name, desc: $viewModel.desc, timer: $viewModel.timer, saveActivity: { activityImage in
-                            //                            if let activity = viewModel.currentActivty {
+                        SaveActivityView(name: $viewModel.name, desc: $viewModel.desc, timer: $viewModel.timer, activityImage: $activityImage, saveActivity: { activityImage in
                             viewModel.complete(with: activityImage, isManual: false)
-                            
                             
                             try? moc.save()
                             refreshData.goalRefreshId = UUID()
                             refreshData.activityRefreshId = UUID()
-                            //                            }
                         })
                     }
                     

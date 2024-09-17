@@ -30,6 +30,7 @@
 		E643DE2E2B80631D00ED46DA /* PersonDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E643DE2D2B80631D00ED46DA /* PersonDetailView.swift */; };
 		E643DE302B80726200ED46DA /* AddGoalToPersonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E643DE2F2B80726200ED46DA /* AddGoalToPersonView.swift */; };
 		E65557E52C93ED30009EA8DA /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65557E42C93ED30009EA8DA /* ImagePicker.swift */; };
+		E65557E92C9921F2009EA8DA /* CaptureImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65557E82C9921F2009EA8DA /* CaptureImageView.swift */; };
 		E66B4F582B98262A0054D7AA /* EditGoalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66B4F572B98262A0054D7AA /* EditGoalView.swift */; };
 		E66FF7B42A999DFA0048EB63 /* ActivityTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66FF7B32A999DFA0048EB63 /* ActivityTrackerApp.swift */; };
 		E66FF7B62A999DFA0048EB63 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66FF7B52A999DFA0048EB63 /* ContentView.swift */; };
@@ -116,6 +117,7 @@
 		E643DE2D2B80631D00ED46DA /* PersonDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonDetailView.swift; sourceTree = "<group>"; };
 		E643DE2F2B80726200ED46DA /* AddGoalToPersonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddGoalToPersonView.swift; sourceTree = "<group>"; };
 		E65557E42C93ED30009EA8DA /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
+		E65557E82C9921F2009EA8DA /* CaptureImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureImageView.swift; sourceTree = "<group>"; };
 		E66B4F572B98262A0054D7AA /* EditGoalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditGoalView.swift; sourceTree = "<group>"; };
 		E66FF7B02A999DFA0048EB63 /* ActivityTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ActivityTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E66FF7B32A999DFA0048EB63 /* ActivityTrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityTrackerApp.swift; sourceTree = "<group>"; };
@@ -335,6 +337,7 @@
 			children = (
 				E6DB35F22AA0DDC1001575E2 /* SeperatorView.swift */,
 				E643DE232B6B511900ED46DA /* ImagePickerView.swift */,
+				E65557E82C9921F2009EA8DA /* CaptureImageView.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -483,6 +486,7 @@
 				E603BBBC2BA13CEE0049C43C /* PersonDetailView-ViewModel.swift in Sources */,
 				E61814042AB16776003B9F1F /* ButtonStyles.swift in Sources */,
 				E643DE302B80726200ED46DA /* AddGoalToPersonView.swift in Sources */,
+				E65557E92C9921F2009EA8DA /* CaptureImageView.swift in Sources */,
 				E6DB35CE2A9DA9C2001575E2 /* Goal+CoreDataProperties.swift in Sources */,
 				E6DB35C62A9DA25C001575E2 /* ActivityTracker.xcdatamodeld in Sources */,
 				E643DE1E2B33F51800ED46DA /* HorizonalDateSelectView.swift in Sources */,

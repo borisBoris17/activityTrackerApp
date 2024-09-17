@@ -28,7 +28,6 @@ struct StartActivityView: View {
     @State private var activityImageData: Data?
     @State private var activityImage: Image?
     @State private var nameBlankOnSave = false
-    @State private var descBlankOnSave = false
     @State private var goalsBlankOnSave = false
     
     @FetchRequest(sortDescriptors: []) var people: FetchedResults<Person>
@@ -49,12 +48,6 @@ struct StartActivityView: View {
             valid = false
         } else {
             nameBlankOnSave = false
-        }
-        if desc.isEmpty {
-            descBlankOnSave = true
-            valid = false
-        } else {
-            descBlankOnSave = false
         }
         return valid
     }
@@ -84,13 +77,7 @@ struct StartActivityView: View {
                                    alignment: .center )
                     } header: {
                         Text("Description")
-                    } footer: {
-                        if descBlankOnSave {
-                            Text("Description is required.")
-                                .foregroundColor(Color.red)
-                        }
                     }
-                    .listRowBackground(descBlankOnSave ? Color.red.opacity(0.25) : Color(UIColor.secondarySystemGroupedBackground))
                     
                     Section {
                         GoalSelectionView(selectedGoals: $selectedGoals)

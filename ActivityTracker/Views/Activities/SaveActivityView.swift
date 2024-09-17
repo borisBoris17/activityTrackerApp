@@ -13,16 +13,16 @@ struct SaveActivityView: View {
     @Binding var name: String
     @Binding var desc: String
     @Binding var timer: Publishers.Autoconnect<Timer.TimerPublisher>
+    @Binding var activityImage: Image?
     var saveActivity: ( _ activityImage: Image?) -> Void
     @Environment(\.dismiss) var dismiss
     @State private var activityPhotoItem: PhotosPickerItem?
     @State private var activityImageData: Data?
-    @State private var activityImage: Image?
     
     @State private var nameBlankOnSave = false
     
-    @State private var isShowingImagePicker = false
     @State private var capturedImage: UIImage?
+    @State private var isLoadingCaptureImage = false
 
     
     func validateSave() -> Bool {
@@ -81,20 +81,13 @@ struct SaveActivityView: View {
                         }
                         
                         HStack {
-                            Button("Capture Image") {
-                                isShowingImagePicker = true
-                            }
-                            .sheet(isPresented: $isShowingImagePicker) {
-                                ImagePicker(selectedImage: $capturedImage)
-                            }
-                            .onChange(of: capturedImage) {
-                                guard let capturedImage else { return }
-                                activityImage = Image(uiImage: capturedImage)
+                            CaptureImageView(capturedImage: $capturedImage, activityImage: $activityImage, isLoading: $isLoadingCaptureImage) {
+                                Text("Capture Image")
                             }
                             
                             Spacer()
                             
-                            if isShowingImagePicker {
+                            if isLoadingCaptureImage {
                                 Spacer()
                                 
                                 ProgressView()
