@@ -195,7 +195,7 @@ struct ActivitiesView: View {
                         viewModel.updateTimer()
                     }
                     .sheet(isPresented: $viewModel.showNewActivitySheet) {
-                        StartActivityView(geometry: geometry, name: $viewModel.name, desc: $viewModel.desc, goals: $viewModel.selectedGoals, timer: $viewModel.timer, activityStatus: $viewModel.activityStatus, startTime: $viewModel.startTime, manualDurationHours: $viewModel.manualHours, manualDurationMinutes: $viewModel.manualMinutes, saveActivity: { activityImage, isManual in
+                        StartActivityView(geometry: geometry, name: $viewModel.name, desc: $viewModel.desc, goals: $viewModel.selectedGoals, timer: $viewModel.timer, activityStatus: $viewModel.activityStatus, startTime: $viewModel.startTime, manualDurationHours: $viewModel.manualHours, manualDurationMinutes: $viewModel.manualMinutes, manualDate: $viewModel.startDate, saveActivity: { activityImage, isManual in
                             
                             viewModel.create(activity: Activity(context: moc))
                             if isManual {

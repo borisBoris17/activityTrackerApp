@@ -20,6 +20,7 @@ struct EditActivityView: View {
     @Binding var newActivityImage: Image?
     @Binding var newActivityMinutes: Int
     @Binding var newActivityHours: Int
+    @Binding var newActivityStartDate: Date
     var deleteActivity: (_ activity: Activity) -> Void
     var saveActivity: () -> Void
     
@@ -140,6 +141,15 @@ struct EditActivityView: View {
                         }
                     }
                     .listRowBackground(goalsBlankOnSave ? Color.red.opacity(0.25) : Color(UIColor.secondarySystemGroupedBackground))
+                    
+                    Section("Date") {
+                        DatePicker(
+                            "Date of Activity",
+                            selection: $newActivityStartDate,
+                            in: ...Date.now,
+                            displayedComponents: [.date]
+                        )
+                    }
                     
                     Section("Duration") {
                         DurationPickerView(hours: $newActivityHours, minutes: $newActivityMinutes)

@@ -19,6 +19,7 @@ extension ActivityView {
         var updatedDescription = ""
         var hours = 0
         var minutes = 0
+        var startDate = Date.now
         
         var activityPhotoItem: PhotosPickerItem?
         var activityImageData: Data?
@@ -39,6 +40,7 @@ extension ActivityView {
             updatedDescription = activity.wrappedDesc
             hours = activity.durationHours
             minutes = activity.durationMinutes
+            startDate = Calendar.current.startOfDay(for: activity.wrappedStartDate)
             
             updatedGoals = Set<Goal>(activity.goalArray)
             showEditActivity.toggle()
@@ -88,6 +90,7 @@ extension ActivityView {
             activity.duration = Int32(newSeconds.rounded(.up))
             activity.name = updatedName
             activity.desc = updatedDescription
+            activity.startDate = Calendar.current.startOfDay(for: startDate)
             activity.goals = updatedGoals as NSSet
             let renderer = ImageRenderer(content: activityImage)
             if let uiImage = renderer.uiImage {

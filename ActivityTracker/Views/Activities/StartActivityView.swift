@@ -20,6 +20,7 @@ struct StartActivityView: View {
     @Binding var startTime: Date
     @Binding var manualDurationHours: Int
     @Binding var manualDurationMinutes: Int
+    @Binding var manualDate: Date
     var saveActivity: ( _ activityImage: Image?, _ isManual: Bool) -> Void
     
     @State private var selectedGoals = Set<Goal>()
@@ -116,6 +117,17 @@ struct StartActivityView: View {
                                         .frame(width: geometry.size.width * 0.15, height: geometry.size.width * 0.15)
                                 }
                             }
+                        }
+                        
+                        Section("Date") {
+                            // DatePicker where only a date in the past can be selected
+                            
+                            DatePicker(
+                                "Date of Activity",
+                                selection: $manualDate,
+                                in: ...Date.now,
+                                displayedComponents: [.date]
+                            )
                         }
                         
                         Section("Duration") {

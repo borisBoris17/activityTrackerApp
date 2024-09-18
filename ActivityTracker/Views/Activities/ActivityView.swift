@@ -136,7 +136,7 @@ struct ActivityView: View {
                 viewModel.activityImage = Utils.loadImage(from: imagePath)
             }
             .sheet(isPresented: $viewModel.showEditActivity) {
-                EditActivityView(activity: activity, geometry: geometry, newActivityName: $viewModel.updatedName, newActivityDesc: $viewModel.updatedDescription, newActivityGoals: $viewModel.updatedGoals, newActivityPhotoItem: $viewModel.activityPhotoItem, newActivityImageData: $viewModel.activityImageData, newActivityImage: $viewModel.activityImage, newActivityMinutes: $viewModel.minutes, newActivityHours: $viewModel.hours, deleteActivity: deleteActivity) {
+                EditActivityView(activity: activity, geometry: geometry, newActivityName: $viewModel.updatedName, newActivityDesc: $viewModel.updatedDescription, newActivityGoals: $viewModel.updatedGoals, newActivityPhotoItem: $viewModel.activityPhotoItem, newActivityImageData: $viewModel.activityImageData, newActivityImage: $viewModel.activityImage, newActivityMinutes: $viewModel.minutes, newActivityHours: $viewModel.hours, newActivityStartDate: $viewModel.startDate, deleteActivity: deleteActivity) {
                     viewModel.edit(for: activity)
                     try? moc.save()
                     refreshData.goalRefreshId = UUID()

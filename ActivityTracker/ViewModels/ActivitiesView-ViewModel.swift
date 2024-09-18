@@ -31,6 +31,7 @@ extension ActivitiesView {
         var selectedGoals: [Goal] = []
         var manualHours = 0
         var manualMinutes = 0
+        var startDate = Date.now
         var day = Date.now
         
         var currentActivty: Activity? = nil
@@ -69,9 +70,6 @@ extension ActivitiesView {
             totalSeconds = pausedSeconds + Int(Date().timeIntervalSince(startTime))
             if totalSeconds % 60 == 0 {                
                 updateDuration(activity: currentActivty!, isManual: false)
-//                if activityWidget != nil {
-//                    updateActivityWidget()
-//                }
                 try? moc.save()
             }
         }
@@ -144,12 +142,12 @@ extension ActivitiesView {
             activity.name = name
             activity.desc = desc
             activity.goals = NSSet(array: selectedGoals)
-            activity.startDate = Calendar.current.startOfDay(for: Date.now)
+            activity.startDate = Calendar.current.startOfDay(for: startDate)
             currentActivty = activity
         }
         
         func updateDuration(activity: Activity, isManual: Bool) {
-            var previousActivityDuration = activity.duration
+            let previousActivityDuration = activity.duration
             var durationInSeconds = totalSeconds
             if isManual {
                 let newSecondsFromHour = manualHours * minuteLength * hourLength
@@ -196,10 +194,10 @@ extension ActivitiesView {
             desc = ""
             manualHours = 0
             manualMinutes = 0
+            startDate = Date.now
             currentActivty = nil
             timer.upstream.connect().cancel()
             stopActivityWidget()
-//            activityWidget = nil 
         }
     }
 }
