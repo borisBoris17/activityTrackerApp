@@ -31,6 +31,10 @@ struct StartActivityView: View {
     @State private var nameBlankOnSave = false
     @State private var goalsBlankOnSave = false
     
+    @State private var isShowingImagePicker = false
+    @State private var capturedImage: UIImage?
+    @State private var isLoadingCaptureImage = false
+    
     @FetchRequest(sortDescriptors: []) var people: FetchedResults<Person>
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Goal.startDate, ascending: false), NSSortDescriptor(keyPath: \Goal.name, ascending: true)]) var allGoals: FetchedResults<Goal>
     
@@ -115,6 +119,27 @@ struct StartActivityView: View {
                                         .resizable()
                                         .scaledToFit()
                                         .frame(width: geometry.size.width * 0.15, height: geometry.size.width * 0.15)
+                                }
+                            }
+                            
+                            HStack {
+                                Button("Capture Image") {
+                                    isShowingImagePicker = true
+                                }
+                                .sheet(isPresented: $isShowingImagePicker) {
+                                    ImagePicker(selectedImage: $capturedImage)
+                                }
+                                .onChange(of: capturedImage) {
+                                    guard let capturedImage else { return }
+                                    activityImage = Image(uiImage: capturedImage)
+                                }
+                                
+                                Spacer()
+                                
+                                if isShowingImagePicker {
+                                    Spacer()
+                                    
+                                    ProgressView()
                                 }
                             }
                         }
