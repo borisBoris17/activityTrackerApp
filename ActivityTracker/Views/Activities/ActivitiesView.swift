@@ -214,6 +214,9 @@ struct ActivitiesView: View {
                             try? moc.save()
                             refreshData.goalRefreshId = UUID()
                             refreshData.activityRefreshId = UUID()
+                            capturedImage = nil
+                            self.activityImage = nil
+                            isLoadingCaptureImage = false
                         })
                     }
                     
