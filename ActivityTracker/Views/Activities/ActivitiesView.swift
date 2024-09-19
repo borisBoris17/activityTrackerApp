@@ -48,7 +48,7 @@ struct ActivitiesView: View {
                                 activityImage?
                                     .resizable()
                                     .scaledToFit()
-                                    .frame(width: geometry.size.width * 0.85)
+                                    .frame(width: geometry.size.width * 0.95)
                                     .clipShape(RoundedRectangle(cornerRadius: 15))
                                 
                                 VStack {
@@ -56,12 +56,13 @@ struct ActivitiesView: View {
                                         Text(viewModel.name)
                                             .fontWeight(.bold)
                                             .foregroundStyle(.brandText)
-                                        
-                                        Text("\(viewModel.timerString())")
-                                            .font(.system(size: 80).bold())
-                                            .foregroundStyle(.brandText)
+                                        VStack(alignment:.leading) {
+                                            Text("\(viewModel.timerString())")
+                                                .font(.system(size: 75).bold())
+                                                .foregroundStyle(.brandText)
+                                        }
                                     }
-                                    .frame(width: geometry.size.width * 0.75)
+                                    .frame(width: geometry.size.width * 0.85)
                                     .background(
                                         Rectangle()
                                             .foregroundColor(.white)
@@ -73,7 +74,7 @@ struct ActivitiesView: View {
                                     Spacer()
                                     
                                     HStack {
-                                        if viewModel.activityStatus != .started {
+                                        if viewModel.activityStatus == .started {
                                             Button() {
                                                 viewModel.pauseTimer()
                                             } label: {
@@ -195,7 +196,7 @@ struct ActivitiesView: View {
                         viewModel.updateTimer()
                     }
                     .sheet(isPresented: $viewModel.showNewActivitySheet) {
-                        StartActivityView(geometry: geometry, name: $viewModel.name, desc: $viewModel.desc, goals: $viewModel.selectedGoals, timer: $viewModel.timer, activityStatus: $viewModel.activityStatus, startTime: $viewModel.startTime, manualDurationHours: $viewModel.manualHours, manualDurationMinutes: $viewModel.manualMinutes, manualDate: $viewModel.startDate, saveActivity: { activityImage, isManual in
+                        StartActivityView(geometry: geometry, name: $viewModel.name, desc: $viewModel.desc, goals: $viewModel.selectedGoals, timer: $viewModel.timer, activityStatus: $viewModel.activityStatus, startTime: $viewModel.startTime, manualDurationHours: $viewModel.manualHours, manualDurationMinutes: $viewModel.manualMinutes, startTimeHours: $viewModel.startTimeHours, startTimeMinutes: $viewModel.startTimeMinutes, totalSeconds: $viewModel.totalSeconds, manualDate: $viewModel.startDate, saveActivity: { activityImage, isManual in
                             
                             viewModel.create(activity: Activity(context: moc))
                             if isManual {
@@ -257,6 +258,9 @@ struct ActivitiesView: View {
             }
             .navigationDestination(for: Activity.self) { activity in
                 ActivityView(activity: activity, path: $path)
+            }
+            .onAppear() {
+                viewModel.selectedDay = Date()
             }
         }
     }

@@ -31,6 +31,8 @@ extension ActivitiesView {
         var selectedGoals: [Goal] = []
         var manualHours = 0
         var manualMinutes = 0
+        var startTimeHours = 0
+        var startTimeMinutes = 0
         var startDate = Date.now
         var day = Date.now
         
@@ -194,6 +196,8 @@ extension ActivitiesView {
             desc = ""
             manualHours = 0
             manualMinutes = 0
+            startTimeHours = 0
+            startTimeMinutes = 0
             startDate = Date.now
             currentActivty = nil
             timer.upstream.connect().cancel()

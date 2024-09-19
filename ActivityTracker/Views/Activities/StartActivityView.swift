@@ -20,6 +20,9 @@ struct StartActivityView: View {
     @Binding var startTime: Date
     @Binding var manualDurationHours: Int
     @Binding var manualDurationMinutes: Int
+    @Binding var startTimeHours: Int
+    @Binding var startTimeMinutes: Int
+    @Binding var totalSeconds: Int
     @Binding var manualDate: Date
     var saveActivity: ( _ activityImage: Image?, _ isManual: Bool) -> Void
     
@@ -95,6 +98,14 @@ struct StartActivityView: View {
                         }
                     }
                     .listRowBackground(goalsBlankOnSave ? Color.red.opacity(0.25) : Color(UIColor.secondarySystemGroupedBackground))
+                    
+                    Section() {
+                        DurationPickerView(hours: $startTimeHours, minutes: $startTimeMinutes)
+                    } header : {
+                        Text("Starting Time")
+                    } footer : {
+                        Text ("Enter how long ago the activity started.")
+                    }
                     
                     Section {
                         withAnimation {
@@ -174,6 +185,15 @@ struct StartActivityView: View {
                                 saveActivity(activityImage, false)
                                 activityStatus = .started
                                 startTime = Date()
+                                totalSeconds = 0
+                                if (startTimeHours > 0) {
+                                    totalSeconds += Int(startTimeHours) * 60 * 60
+                                    startTime = startTime.addingTimeInterval(-Double(startTimeHours) * 60 * 60)
+                                }
+                                if (startTimeMinutes > 0) {
+                                    totalSeconds += Int(startTimeMinutes) * 60
+                                    startTime = startTime.addingTimeInterval(-Double(startTimeMinutes) * 60)
+                                }
                                 timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
                             }
                             dismiss()
