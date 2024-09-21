@@ -31,6 +31,8 @@
 		E643DE302B80726200ED46DA /* AddGoalToPersonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E643DE2F2B80726200ED46DA /* AddGoalToPersonView.swift */; };
 		E65557E52C93ED30009EA8DA /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65557E42C93ED30009EA8DA /* ImagePicker.swift */; };
 		E65557E92C9921F2009EA8DA /* CaptureImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65557E82C9921F2009EA8DA /* CaptureImageView.swift */; };
+		E65557ED2C9E6EEE009EA8DA /* GoalActivitySummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65557EC2C9E6EEE009EA8DA /* GoalActivitySummary.swift */; };
+		E65557EF2C9E781F009EA8DA /* GoalPeriodSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65557EE2C9E781F009EA8DA /* GoalPeriodSummaryView.swift */; };
 		E66B4F582B98262A0054D7AA /* EditGoalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66B4F572B98262A0054D7AA /* EditGoalView.swift */; };
 		E66FF7B42A999DFA0048EB63 /* ActivityTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66FF7B32A999DFA0048EB63 /* ActivityTrackerApp.swift */; };
 		E66FF7B62A999DFA0048EB63 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66FF7B52A999DFA0048EB63 /* ContentView.swift */; };
@@ -118,6 +120,8 @@
 		E643DE2F2B80726200ED46DA /* AddGoalToPersonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddGoalToPersonView.swift; sourceTree = "<group>"; };
 		E65557E42C93ED30009EA8DA /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		E65557E82C9921F2009EA8DA /* CaptureImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureImageView.swift; sourceTree = "<group>"; };
+		E65557EC2C9E6EEE009EA8DA /* GoalActivitySummary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalActivitySummary.swift; sourceTree = "<group>"; };
+		E65557EE2C9E781F009EA8DA /* GoalPeriodSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalPeriodSummaryView.swift; sourceTree = "<group>"; };
 		E66B4F572B98262A0054D7AA /* EditGoalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditGoalView.swift; sourceTree = "<group>"; };
 		E66FF7B02A999DFA0048EB63 /* ActivityTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ActivityTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E66FF7B32A999DFA0048EB63 /* ActivityTrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityTrackerApp.swift; sourceTree = "<group>"; };
@@ -200,6 +204,7 @@
 				E643DE252B7B1CF300ED46DA /* FileManager+DocDirectory.swift */,
 				E603BBB42B9EA6490049C43C /* Utils.swift */,
 				E65557E42C93ED30009EA8DA /* ImagePicker.swift */,
+				E65557EC2C9E6EEE009EA8DA /* GoalActivitySummary.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -283,6 +288,7 @@
 				E6F07B3D2BA925A300C2B740 /* EditActivityView.swift */,
 				E643DE212B60BD4F00ED46DA /* SaveActivityView.swift */,
 				E67080F12BBFAC310056EC09 /* DurationPickerView.swift */,
+				E65557EE2C9E781F009EA8DA /* GoalPeriodSummaryView.swift */,
 			);
 			path = Activities;
 			sourceTree = "<group>";
@@ -484,6 +490,7 @@
 				E6DB35C32A99B087001575E2 /* AddGoalView.swift in Sources */,
 				E66B4F582B98262A0054D7AA /* EditGoalView.swift in Sources */,
 				E603BBBC2BA13CEE0049C43C /* PersonDetailView-ViewModel.swift in Sources */,
+				E65557ED2C9E6EEE009EA8DA /* GoalActivitySummary.swift in Sources */,
 				E61814042AB16776003B9F1F /* ButtonStyles.swift in Sources */,
 				E643DE302B80726200ED46DA /* AddGoalToPersonView.swift in Sources */,
 				E65557E92C9921F2009EA8DA /* CaptureImageView.swift in Sources */,
@@ -497,6 +504,7 @@
 				E65557E52C93ED30009EA8DA /* ImagePicker.swift in Sources */,
 				E6DB35D22A9DA9C2001575E2 /* Person+CoreDataProperties.swift in Sources */,
 				E643DE222B60BD4F00ED46DA /* SaveActivityView.swift in Sources */,
+				E65557EF2C9E781F009EA8DA /* GoalPeriodSummaryView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

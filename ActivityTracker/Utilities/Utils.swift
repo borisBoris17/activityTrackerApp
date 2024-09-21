@@ -16,7 +16,7 @@ enum Utils {
             let uiImage = UIImage(data: foundActivityImageData)
             return Image(uiImage: uiImage ?? UIImage(systemName: "photo")!)
         } catch {
-            print("Error reading file: \(error)")
+//            print("Error reading file: \(error)")
             return nil
         }
     }
