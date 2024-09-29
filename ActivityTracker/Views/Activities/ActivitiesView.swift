@@ -93,6 +93,7 @@ struct ActivitiesView: View {
                                         }
                                         
                                         Button() {
+                                            viewModel.pauseTimer()
                                             viewModel.showCompleteActivityScreen = true
                                         } label: {
                                             Label("Save Activity", systemImage: "stop")
@@ -208,7 +209,11 @@ struct ActivitiesView: View {
                             refreshData.activityRefreshId = UUID()
                         })
                     }
-                    .sheet(isPresented: $viewModel.showCompleteActivityScreen) {
+                    .sheet(isPresented: $viewModel.showCompleteActivityScreen, onDismiss: {
+                        if viewModel.activityStatus != .ready {
+                            viewModel.resumeTimer()
+                        }
+                    }) {
                         SaveActivityView(name: $viewModel.name, desc: $viewModel.desc, timer: $viewModel.timer, activityImage: $activityImage, saveActivity: { activityImage in
                             viewModel.complete(with: activityImage, isManual: false)
                             

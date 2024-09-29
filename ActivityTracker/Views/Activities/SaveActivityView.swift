@@ -23,7 +23,6 @@ struct SaveActivityView: View {
     
     @State private var capturedImage: UIImage?
     @State private var isLoadingCaptureImage = false
-
     
     func validateSave() -> Bool {
         var valid = true
@@ -31,7 +30,7 @@ struct SaveActivityView: View {
             nameBlankOnSave = true
             valid = false
         } else {
-            nameBlankOnSave = true
+            nameBlankOnSave = false
             valid = true
         }
         return valid
@@ -99,16 +98,19 @@ struct SaveActivityView: View {
             .navigationTitle("Save Activity")
             .toolbar {
                 ToolbarItem {
-                    Button("Save") {
-                        if validateSave() {
-                            saveActivity(activityImage)
+                    HStack {
+                        Button("Dismiss") {
                             dismiss()
+                        }
+                        Button("Save") {
+                            if validateSave() {
+                                saveActivity(activityImage)
+                                dismiss()
+                            }
                         }
                     }
                     .padding()
                 }
-            }.onAppear {
-                timer.upstream.connect().cancel()
             }
         }
     }
