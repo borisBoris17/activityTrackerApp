@@ -33,6 +33,7 @@ struct ActivitiesView: View {
     @State private var isLoadingCaptureImage = false
     
     @EnvironmentObject var refreshData: RefreshData
+    @Environment(\.scenePhase) var scenePhase
     
     var iconSize: CGFloat = 60
     
@@ -253,6 +254,14 @@ struct ActivitiesView: View {
                                 viewModel.activityFilter = .last30
                             }
                         }
+                    }
+                }
+            }
+            .onChange(of: scenePhase) { _, newPhase in
+                if newPhase == .active {
+                    if (viewModel.currentActivty != nil) {
+                        viewModel.updateDuration(activity: viewModel.currentActivty!, isManual: false)
+                        try? moc.save()
                     }
                 }
             }

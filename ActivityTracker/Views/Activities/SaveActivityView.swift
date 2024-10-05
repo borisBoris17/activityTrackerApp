@@ -31,7 +31,6 @@ struct SaveActivityView: View {
             valid = false
         } else {
             nameBlankOnSave = false
-            valid = true
         }
         return valid
     }
