@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CoreData
 import Combine
 import _PhotosUI_SwiftUI
 
@@ -42,6 +43,10 @@ struct StartActivityView: View {
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Goal.startDate, ascending: false), NSSortDescriptor(keyPath: \Goal.name, ascending: true)]) var allGoals: FetchedResults<Goal>
     
     @Environment(\.dismiss) var dismiss
+    @Environment(\.managedObjectContext) private var viewContext
+    
+    @State private var filteredNames: [String] = []
+    @State private var suggestionSelected: Bool = false
     
     func validateSave() -> Bool {
         var valid = true
@@ -60,6 +65,27 @@ struct StartActivityView: View {
         return valid
     }
     
+    private func fetchSuggestions(for query: String) {
+        if query.isEmpty {
+            filteredNames = []
+            return
+        }
+        
+        let request: NSFetchRequest<NSDictionary> = NSFetchRequest(entityName: "Activity")
+        request.resultType = .dictionaryResultType
+        request.propertiesToFetch = ["name"]
+        request.returnsDistinctResults = true
+        request.predicate = NSPredicate(format: "name BEGINSWITH[cd] %@", query)
+        
+        do {
+            let results = try viewContext.fetch(request)
+            filteredNames = results.compactMap { $0["name"] as? String }
+                                .filter { $0.lowercased() != query.lowercased() }
+        } catch {
+            print("Failed to fetch suggestions: \(error)")
+        }
+    }
+    
     var body: some View {
         
         NavigationStack {
@@ -68,6 +94,21 @@ struct StartActivityView: View {
                     Section {
                         TextField("Name", text: $name)
                             .labelsHidden()
+                            .onChange(of: name) {
+                                if !suggestionSelected {
+                                    fetchSuggestions(for: name)
+                                }
+                                suggestionSelected = false
+                            }
+                        if !filteredNames.isEmpty {
+                                List(filteredNames, id: \.self) { filteredName in
+                                    Text(filteredName).onTapGesture {
+                                        name = filteredName
+                                        filteredNames = []
+                                        suggestionSelected = true
+                                    }
+                                }
+                            }
                     } header: {
                         Text("Activity Name")
                     } footer: {
