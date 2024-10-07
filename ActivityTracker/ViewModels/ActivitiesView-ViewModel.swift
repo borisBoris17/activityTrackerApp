@@ -141,8 +141,8 @@ extension ActivitiesView {
         
         @MainActor func create(activity: Activity) {
             activity.id = UUID()
-            activity.name = name
-            activity.desc = desc
+            activity.name = name.trimmingCharacters(in: .whitespacesAndNewlines)
+            activity.desc = desc.trimmingCharacters(in: .whitespacesAndNewlines)
             activity.goals = NSSet(array: selectedGoals)
             activity.startDate = Calendar.current.startOfDay(for: startDate)
             currentActivty = activity

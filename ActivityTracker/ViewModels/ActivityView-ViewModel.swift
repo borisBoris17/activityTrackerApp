@@ -88,8 +88,8 @@ extension ActivityView {
             }
             
             activity.duration = Int32(newSeconds.rounded(.up))
-            activity.name = updatedName
-            activity.desc = updatedDescription
+            activity.name = updatedName.trimmingCharacters(in: .whitespacesAndNewlines)
+            activity.desc = updatedDescription.trimmingCharacters(in: .whitespacesAndNewlines)
             activity.startDate = Calendar.current.startOfDay(for: startDate)
             activity.goals = updatedGoals as NSSet
             let renderer = ImageRenderer(content: activityImage)

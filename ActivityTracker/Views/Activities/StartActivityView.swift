@@ -9,6 +9,7 @@ import SwiftUI
 import CoreData
 import Combine
 import _PhotosUI_SwiftUI
+import WrappingHStack
 
 struct StartActivityView: View {
     var geometry: GeometryProxy
@@ -75,12 +76,14 @@ struct StartActivityView: View {
         request.resultType = .dictionaryResultType
         request.propertiesToFetch = ["name"]
         request.returnsDistinctResults = true
-        request.predicate = NSPredicate(format: "name BEGINSWITH[cd] %@", query)
+        request.fetchLimit = 5
+        request.sortDescriptors = [NSSortDescriptor(key: "startDate", ascending: false)]
+        request.predicate = NSPredicate(format: "name CONTAINS[cd] %@", query)
         
         do {
             let results = try viewContext.fetch(request)
             filteredNames = results.compactMap { $0["name"] as? String }
-                                .filter { $0.lowercased() != query.lowercased() }
+                .filter { $0.lowercased() != query.lowercased() }
         } catch {
             print("Failed to fetch suggestions: \(error)")
         }
@@ -92,21 +95,36 @@ struct StartActivityView: View {
             VStack {
                 Form {
                     Section {
-                        TextField("Name", text: $name)
-                            .labelsHidden()
-                            .onChange(of: name) {
-                                if !suggestionSelected {
-                                    fetchSuggestions(for: name)
-                                }
-                                suggestionSelected = false
-                            }
-                        if !filteredNames.isEmpty {
-                                List(filteredNames, id: \.self) { filteredName in
-                                    Text(filteredName).onTapGesture {
-                                        name = filteredName
-                                        filteredNames = []
-                                        suggestionSelected = true
+                            TextField("Name", text: $name)
+                                .labelsHidden()
+                                .onChange(of: name) {
+                                    if !suggestionSelected {
+                                        withAnimation(.easeInOut) {
+                                            fetchSuggestions(for: name)
+                                        }
                                     }
+                                    suggestionSelected = false
+                                }
+                            if !filteredNames.isEmpty {
+                                WrappingHStack(alignment: .leading) {
+                                    
+                                    ForEach(filteredNames, id: \.self) { filteredName in
+                                        
+                                        Button() {
+                                            name = filteredName
+                                            suggestionSelected = true
+                                            filteredNames = []
+                                        } label: {
+                                            Text(filteredName)
+                                                .padding(.horizontal, 12)
+                                                .padding(.vertical, 8)
+                                                .background(.brand.opacity(0.5))
+                                                .foregroundColor(.white)
+                                                .cornerRadius(8)
+                                        }
+                                        .buttonStyle(BorderlessButtonStyle())
+                                    }
+                                    .padding(.top, 5)
                                 }
                             }
                     } header: {

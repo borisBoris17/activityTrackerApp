@@ -33,6 +33,7 @@
 		E65557E92C9921F2009EA8DA /* CaptureImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65557E82C9921F2009EA8DA /* CaptureImageView.swift */; };
 		E65557ED2C9E6EEE009EA8DA /* GoalActivitySummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65557EC2C9E6EEE009EA8DA /* GoalActivitySummary.swift */; };
 		E65557EF2C9E781F009EA8DA /* GoalPeriodSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65557EE2C9E781F009EA8DA /* GoalPeriodSummaryView.swift */; };
+		E65557F42CB2AC22009EA8DA /* WrappingHStack in Frameworks */ = {isa = PBXBuildFile; productRef = E65557F32CB2AC22009EA8DA /* WrappingHStack */; };
 		E66B4F582B98262A0054D7AA /* EditGoalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66B4F572B98262A0054D7AA /* EditGoalView.swift */; };
 		E66FF7B42A999DFA0048EB63 /* ActivityTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66FF7B32A999DFA0048EB63 /* ActivityTrackerApp.swift */; };
 		E66FF7B62A999DFA0048EB63 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66FF7B52A999DFA0048EB63 /* ContentView.swift */; };
@@ -167,6 +168,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E65557F42CB2AC22009EA8DA /* WrappingHStack in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -367,6 +369,7 @@
 			);
 			name = ActivityTracker;
 			packageProductDependencies = (
+				E65557F32CB2AC22009EA8DA /* WrappingHStack */,
 			);
 			productName = ActivityTracker;
 			productReference = E66FF7B02A999DFA0048EB63 /* ActivityTracker.app */;
@@ -417,6 +420,7 @@
 			);
 			mainGroup = E66FF7A72A999DFA0048EB63;
 			packageReferences = (
+				E65557F22CB2AAD2009EA8DA /* XCRemoteSwiftPackageReference "WrappingHStack" */,
 			);
 			productRefGroup = E66FF7B12A999DFA0048EB63 /* Products */;
 			projectDirPath = "";
@@ -814,6 +818,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		E65557F22CB2AAD2009EA8DA /* XCRemoteSwiftPackageReference "WrappingHStack" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ksemianov/WrappingHStack";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.2.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		E65557F32CB2AC22009EA8DA /* WrappingHStack */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E65557F22CB2AAD2009EA8DA /* XCRemoteSwiftPackageReference "WrappingHStack" */;
+			productName = WrappingHStack;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		E6DB35C42A9DA25C001575E2 /* ActivityTracker.xcdatamodeld */ = {
